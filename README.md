@@ -1,1 +1,1 @@
-# MLOPS-project-Distributed-Inference-with-KubeRay-and-Spark
+# MLOPS-project-Distributed-ML-with-KubeRay
