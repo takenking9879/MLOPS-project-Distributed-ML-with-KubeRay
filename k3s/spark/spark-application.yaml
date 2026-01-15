@@ -1,0 +1,56 @@
+apiVersion: spark.apache.org/v1
+kind: SparkApplication
+metadata:
+  name: spark-gitsync-app
+  namespace: spark
+spec:
+  type: Python
+  mode: cluster
+  image: takenking9879/inference-server:latest
+  mainApplicationFile: local:///app/repo/k3s/spark/main.py  # Ruta dentro del emptyDir que git-sync llena
+  runtimeVersions:
+    sparkVersion: "4.0.1"
+    python: "3"
+
+  restartPolicy:
+    type: Never
+
+  volumes:
+    - name: app-files
+      emptyDir: {}
+
+  driver:
+    cores: 1
+    memory: "2g"
+    serviceAccount: spark
+    volumeMounts:
+      - name: app-files
+        mountPath: /app
+    initContainers:
+      - name: git-sync
+        image: registry.k8s.io/git-sync/git-sync:v4.1.0
+        env:
+          - name: GITSYNC_REPO
+            value: "https://github.com/takenking9879/MLOPS-project-Credit-Card-Fraud-Detection-v2"
+          - name: GIT_SYNC_BRANCH
+            value: "main"
+          - name: GIT_SYNC_ROOT
+            value: "/git"
+          - name: GIT_SYNC_DEST
+            value: "repo"
+          - name: GIT_SYNC_WAIT
+            value: "30"
+          - name: GITSYNC_ONE_TIME
+            value: "true"   # solo clona una vez
+        volumeMounts:
+          - name: app-files
+            mountPath: /app
+
+  executor:
+    cores: 1
+    memory: "2g"
+    instances: 2
+    volumeMounts:
+      - name: app-files
+        mountPath: /app
+  

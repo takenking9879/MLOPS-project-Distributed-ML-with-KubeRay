@@ -1,0 +1,76 @@
+activar iptables y pasar a legacy
+
+sudo apt update
+sudo apt install -y iptables iptables-persistent
+
+# instalar k3d
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+# crear nodos
+k3d cluster create mycluster \
+  --servers 1 \
+  --agents 2 \
+  --port "8080:80@loadbalancer" \
+  --k3s-arg "--disable=traefik@server:0" \
+  --k3s-node-label "node-role.kubernetes.io/worker=worker@agent:0,1"
+
+#añadir workers
+k3d node create mycluster-agent-2 --cluster mycluster --role agent
+kubectl label node k3d-mycluster-agent-2 node-role.kubernetes.io/worker=worker
+
+
+
+#Create namespaces
+kubectl create namespace operators
+kubectl create namespace spark
+kubectl create namespace kafka
+
+
+#helm repos
+# Install Spark-operator
+helm repo add spark-kubernetes-operator https://apache.github.io/spark-kubernetes-operator/
+helm install my-spark-kubernetes-operator spark-kubernetes-operator/spark-kubernetes-operator --version 1.4.0 -n spark
+
+# Install both CRDs and KubeRay operator v1.5.1.
+helm repo add kuberay https://ray-project.github.io/kuberay-helm/
+helm install kuberay-operator kuberay/kuberay-operator --version 1.5.1 -n ray
+
+#install kafka operator
+helm install my-strimzi-kafka-operator strimzi/strimzi-kafka-operator --version 0.49.1 -n kafka
+
+
+#levantar kafka cluster y topic
+kubectl apply -f k3s/kafka/kafka-cluster.yaml #Podria cambiar
+kubectl apply -f k3s/kafka/kafka-topics.yaml
+kubectl apply -f k3s/kafka/kafka-user.yaml
+
+#checar topics
+kubectl get kafkatopics -o wide -w -n kafka
+kubectl delete KafkaTopic topic-traffic -n kafka
+
+#checar usuarios
+kubectl get kafkausers -o wide -w -n kafka
+kubectl get kafkausers ml-platform -o yaml -n strimzi-access-operator
+
+#Access Operator
+kubectl create -f k3s/kafka/./install/access-operator
+
+#Create Access
+kubectl apply -f k3s/kafka/kafka-access.yaml -n strimzi-access-operator
+kubectl get kafkaaccess my-kafka-access -o yaml -n strimzi-access-operator
+
+kubectl get secret my-kafka-access -o yaml -n strimzi-access-operator
+#Importante: Pasar de 64 a normal y checar kafka UI
+
+
+# Generar y Correr el producer
+#Generar imagen
+docker build -t k3s-kafka-producer ./producer
+
+#Correr imagen
+docker run -d \
+  --name producer \
+  --env-file .env \
+  --cpus="2" \
+  --memory="1g" \
+  k3s-kafka-producer 

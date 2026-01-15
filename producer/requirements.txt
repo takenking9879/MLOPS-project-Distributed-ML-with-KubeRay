@@ -1,0 +1,7 @@
+#tensorflow[and-cuda]==2.20.0
+pandas==2.3.3
+numpy==2.3.3
+jsonschema==4.26.0
+confluent-kafka==2.13.0
+python-dotenv==1.2.1
+PyYAML==6.0.3

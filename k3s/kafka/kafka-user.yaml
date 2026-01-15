@@ -1,0 +1,39 @@
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaUser
+metadata:
+  name: ml-platform
+  labels:
+    strimzi.io/cluster: my-kafka-cluster
+  namespace: kafka
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      # Example consumer Acls for topic topic-traffic using consumer group my-group
+      - resource:
+          type: topic
+          name: topic-traffic
+          patternType: literal
+        operations:
+          - Describe
+          - Read
+        host: "*"
+      - resource:
+          type: group
+          name: my-group
+          patternType: literal
+        operations:
+          - Read
+        host: "*"
+      # Example Producer Acls for topic my-topic
+      - resource:
+          type: topic
+          name: topic-traffic
+          patternType: literal
+        operations:
+          - Create
+          - Describe
+          - Write
+        host: "*"

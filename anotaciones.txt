@@ -1,0 +1,5 @@
+message: 'org.apache.kafka.common.errors.InvalidReplicationFactorException: Unable
+      to replicate the partition 2 time(s): The target replication factor of 2 cannot
+      be reached because only 1 broker(s) are registered.'
+
+Me tuve que pelear con TLS y scram-sha-512
