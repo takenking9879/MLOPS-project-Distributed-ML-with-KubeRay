@@ -6,11 +6,17 @@ metadata:
 spec:
   type: Python
   mode: cluster
-  image: takenking9879/inference-server:latest
+  image: spark-preprocessing:latest
   mainApplicationFile: local:///app/repo/k3s/spark/main.py  # Ruta dentro del emptyDir que git-sync llena
   runtimeVersions:
     sparkVersion: "4.0.1"
     python: "3"
+
+  sparkConf:
+    spark.hadoop.fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
+    spark.hadoop.fs.s3a.aws.credentials.provider: com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+    spark.hadoop.fs.s3a.path.style.access: "true"
+    spark.hadoop.fs.s3a.connection.ssl.enabled: "false"
 
   restartPolicy:
     type: Never
@@ -23,6 +29,9 @@ spec:
     cores: 1
     memory: "2g"
     serviceAccount: spark
+    envFrom:
+      - secretRef:
+          name: env-secret
     volumeMounts:
       - name: app-files
         mountPath: /app
@@ -31,7 +40,7 @@ spec:
         image: registry.k8s.io/git-sync/git-sync:v4.1.0
         env:
           - name: GITSYNC_REPO
-            value: "https://github.com/takenking9879/MLOPS-project-Credit-Card-Fraud-Detection-v2"
+            value: "https://github.com/takenking9879/Kubernetes-MLOPS-platform"
           - name: GIT_SYNC_BRANCH
             value: "main"
           - name: GIT_SYNC_ROOT
@@ -50,6 +59,9 @@ spec:
     cores: 1
     memory: "2g"
     instances: 2
+    envFrom:
+      - secretRef:
+          name: env-secret
     volumeMounts:
       - name: app-files
         mountPath: /app

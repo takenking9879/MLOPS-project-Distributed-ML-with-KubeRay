@@ -291,7 +291,7 @@ class SyntheticTrafficGenerator:
             label = int(attack_id)
 
         return {
-            "timestamp": row["timestamp"].isoformat(),
+            "timestamp": row["timestamp"].isoformat(), #quitarlo y en producer para que el de kafka sea el que se queda
             "event_id": str(uuid.uuid4()),
             "properties": {
                 "src_port": int(row["src_port"]),
@@ -459,6 +459,7 @@ class SyntheticTrafficGenerator:
         return out
 
 def main():
+    
     pass
 
 

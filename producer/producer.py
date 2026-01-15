@@ -56,7 +56,7 @@ SCHEMA = {
 }
 
 class KafkaProducer:
-    def __init__(self, seed: int = 42, start_ts: Optional[datetime]=None):
+    def __init__(self, seed: int = 42, start_ts: Optional[datetime]=None, epsilon_seconds: int=100):
         self.bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
         self.kafka_username = os.getenv('KAFKA_USERNAME')
         self.kafka_password = os.getenv('KAFKA_PASSWORD')
@@ -67,7 +67,7 @@ class KafkaProducer:
         self.topic = os.getenv('KAFKA_TOPIC', 'topic-traffic')
         self.running = False
         self.rng = np.random.RandomState(seed)
-        self.generator = SyntheticTrafficGenerator(start_ts= start_ts, epsilon_seconds= 100, rng=self.rng)
+        self.generator = SyntheticTrafficGenerator(start_ts=start_ts, epsilon_seconds=epsilon_seconds, rng=self.rng)
 
         # confluent kafka config
         self.producer_config = {
@@ -176,5 +176,5 @@ class KafkaProducer:
             logger.info('Producer stopped')
 
 if __name__ == "__main__":
-    producer = KafkaProducer()
+    producer = KafkaProducer(start_ts="2026-01-12 18:00:00")
     producer.run_continuous_production(trend='normal')

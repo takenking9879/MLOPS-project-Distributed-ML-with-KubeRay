@@ -1,0 +1,26 @@
+kafka:
+  output_topic: "fraud_predictions"
+  security_protocol: 'SASL_PLAINTEXT'
+  sasl_mechanism: 'SCRAM-SHA-512'
+
+model:
+  test_size: 0.2
+  seed: 42
+  params:
+    n_estimators: 300
+    learning_rate: 0.05
+    max_depth: 5
+    subsample: 0.8
+    colsample_bytree: 0.8
+    scale_pos_weight: 1
+    tree_method: "hist"
+  path: "../../models/fraud_detection_model.pkl"
+
+spark:
+  app_name: "spark-preprocessing"
+  bucket: "k8s-mlops-platform-bucket" # dummy bucket name
+  read_batch_size: 512  # Max MB read into memory per batch
+  write_batch_size: 100000  # Max lines written to S3 per batch
+  pipeline:
+    module: "preprocessing.preprocessing_001"
+

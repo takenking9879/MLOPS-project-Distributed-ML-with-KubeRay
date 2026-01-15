@@ -1,0 +1,7 @@
+boto3==1.42.28
+pyspark==4.0.1
+pyarrow==22.0.0
+PyYAML==6.0.3
+python-dotenv==1.2.1
+numpy==2.3.3
+pandas==2.3.3
