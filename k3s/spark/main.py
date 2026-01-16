@@ -4,6 +4,7 @@ import os
 from pyspark.sql import SparkSession
 import importlib
 from pyspark.sql.types import StructType, StructField, LongType, DoubleType, StringType
+import json
 
 class SparkPreprocessing(BaseUtils):
     def __init__(self, schema: StructType,  params_path: str, data_dir: str, output_dir: str, artifacts_dir: str):
@@ -126,24 +127,51 @@ class SparkPreprocessing(BaseUtils):
             s3a_path = self._to_s3a_path(self.artifacts_dir)
             model_path = os.path.join(s3a_path, 'pipeline_model')
             
-            self.scaler.write().overwrite().save(model_path)
+            with open("/tmp/pipeline_model.json", "w") as f:
+                json.dump(self.scaler, f)
+
+            self.s3.upload_file(
+                "/tmp/pipeline_model.json",
+                Bucket="k8s-mlops-platform-bucket",
+                Key="v1/artifacts/pipeline_model.json"
+            )
             self.logger.info(f'PipelineModel saved to {model_path}')
         except Exception as e:
             self.logger.error('Failed saving model to S3', exc_info=True)
             raise
 
     def load_scaler_artifact(self):
-        """Carga el PipelineModel desde S3A."""
+        """Carga el pipeline primero desde local; si no existe, lo baja de S3."""
         try:
-            s3a_path = self._to_s3a_path(self.artifacts_dir)
-            model_path = os.path.join(s3a_path, 'pipeline_model')
-            
-            from pyspark.ml import PipelineModel
-            self.scaler = PipelineModel.load(model_path)
-            self.logger.info(f'PipelineModel loaded from {model_path}')
+            local_path = "/tmp/pipeline_model.json"
+
+            # 1️⃣ Si existe en local, úsalo
+            if os.path.exists(local_path):
+                self.logger.info("Loading pipeline artifact from local cache")
+                with open(local_path, "r") as f:
+                    self.scaler = json.load(f)
+                return self.scaler
+
+            # 2️⃣ Si no existe, descargar desde S3
+            self.logger.info("Local pipeline not found. Downloading from S3")
+
+            if self.s3 is None:
+                self._check_minio_connection()
+
+            self.s3.download_file(
+                "k8s-mlops-platform-bucket",
+                "v1/artifacts/pipeline_model.json",
+                local_path
+            )
+
+            with open(local_path, "r") as f:
+                self.scaler = json.load(f)
+
+            self.logger.info("Pipeline artifact downloaded from S3 and loaded")
             return self.scaler
+
         except Exception as e:
-            self.logger.error('Failed loading model from S3', exc_info=True)
+            self.logger.error("Failed loading pipeline artifact", exc_info=True)
             raise
     
     def write_data(self, df, output_path: str):
