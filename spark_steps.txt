@@ -1,0 +1,23 @@
+# add repo
+helm repo add spark-kubernetes-operator https://apache.github.io/spark-kubernetes-operator/
+
+#Create namespace
+kubectl create namespace spark
+
+#install operator
+helm install my-spark-kubernetes-operator spark-kubernetes-operator/spark-kubernetes-operator --version 1.4.0 -n spark -f k3s/spark/values.yaml
+
+# Añadir secrets
+kubectl create secret generic env-secret \
+  --from-env-file=.env \
+  -n spark
+
+# Crear imagen
+docker build -t k3s-spark-cluster ./k3s/spark/
+# Crear pod
+kubectl apply -f k3s/spark/spark-application.yaml
+
+kubectl delete sparkapp spark-app -n spark
+
+# checar yaml
+kubectl get sparkapp spark-app -o yaml -n spark
