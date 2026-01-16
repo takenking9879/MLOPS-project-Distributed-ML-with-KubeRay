@@ -3,7 +3,7 @@ import boto3
 import os
 from pyspark.sql import SparkSession
 import importlib
-from pyspark.sql.types import StructType, StructField, LongType, IntegerType, DoubleType, StringType
+from pyspark.sql.types import StructType, StructField, LongType, DoubleType, StringType
 
 class SparkPreprocessing(BaseUtils):
     def __init__(self, schema: StructType,  params_path: str, data_dir: str, output_dir: str, artifacts_dir: str):
@@ -168,14 +168,14 @@ class SparkPreprocessing(BaseUtils):
 def main(): 
 
     schema = StructType([
-        StructField("src_port", IntegerType(), True),
-        StructField("dst_port", IntegerType(), True),
+        StructField("src_port", LongType(), True),
+        StructField("dst_port", LongType(), True),
         StructField("protocol", StringType(), True),
-        StructField("packet_count", IntegerType(), True),
+        StructField("packet_count", LongType(), True),
         StructField("conn_state", StringType(), True),
         StructField("bytes_transferred", DoubleType(), True),
-        StructField("timestamp", LongType(), True),  # <- convertir TIMESTAMP(NANOS) a Long
-        StructField("attack", IntegerType(), True)
+        StructField("timestamp", LongType(), True),
+        StructField("attack", LongType(), True)
     ])
 
 
