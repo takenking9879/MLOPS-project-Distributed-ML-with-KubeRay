@@ -3,15 +3,17 @@ import boto3
 import os
 from pyspark.sql import SparkSession
 import importlib
+from pyspark.sql.types import StructType, StructField, LongType, IntegerType, DoubleType, StringType
 
 class SparkPreprocessing(BaseUtils):
-    def __init__(self, params_path: str, data_dir: str, output_dir: str, artifacts_dir: str):
+    def __init__(self, schema: StructType,  params_path: str, data_dir: str, output_dir: str, artifacts_dir: str):
         logger = create_logger('SparkPreprocessing', 'spark_preprocessing.log')
         super().__init__(logger, params_path)
         self.params = self.load_params()['spark']
         self.data_dir = data_dir
         self.output_dir = output_dir
         self.artifacts_dir = artifacts_dir
+        self.schema = schema
         self.spark = self._create_spark_session()
         self.scaler = None
         self.s3 = None
@@ -74,9 +76,10 @@ class SparkPreprocessing(BaseUtils):
 
     def load_data(self, file_path: str):
         try:
+
             spark = self.spark
             self.logger.info(f"Loading data from {file_path}")
-            df = spark.read.parquet(file_path)
+            df = spark.read.schema(self.schema).parquet(file_path)
             self.logger.info(
                 f"Data loaded successfully | partitions: {df.rdd.getNumPartitions()}"
             )
@@ -162,13 +165,26 @@ class SparkPreprocessing(BaseUtils):
             raise
 
 
-def main():
+def main(): 
+
+    schema = StructType([
+        StructField("src_port", IntegerType(), True),
+        StructField("dst_port", IntegerType(), True),
+        StructField("protocol", StringType(), True),
+        StructField("packet_count", IntegerType(), True),
+        StructField("conn_state", StringType(), True),
+        StructField("bytes_transferred", DoubleType(), True),
+        StructField("timestamp", LongType(), True),  # <- convertir TIMESTAMP(NANOS) a Long
+        StructField("attack", IntegerType(), True)
+    ])
+
 
     data_dir = "s3a://k8s-mlops-platform-bucket/v1/raw/" #Para Spark
     output_dir = "s3a://k8s-mlops-platform-bucket/v1/processed/" #Para Spark
     artifacts_dir = "s3a://k8s-mlops-platform-bucket/v1/artifacts/"
 
     preprocessing = SparkPreprocessing(
+        schema=schema,
         params_path="/app/repo/k3s/params.yaml",
         data_dir=data_dir,
         output_dir=output_dir,

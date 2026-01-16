@@ -1,68 +1,128 @@
 apiVersion: spark.apache.org/v1
 kind: SparkApplication
 metadata:
-  name: spark-gitsync-app
+  name: spark-app
   namespace: spark
 spec:
-  type: Python
-  mode: cluster
-  image: spark-preprocessing:latest
-  mainApplicationFile: local:///app/repo/k3s/spark/main.py  # Ruta dentro del emptyDir que git-sync llena
+  pyFiles: "local:///app/repo/k3s/spark/main.py"
+  # For Python apps the operator will use the provided file; do not use top-level "image" field
+
   runtimeVersions:
     sparkVersion: "4.0.1"
-    python: "3"
+  applicationTolerations:
+    instanceConfig:
+      initExecutors: 2
+      minExecutors: 2
+      maxExecutors: 4
 
+  # Spark confs (S3A + Kubernetes image reference via spark.kubernetes.container.image)
   sparkConf:
+    spark.kubernetes.container.image: k3s-spark-cluster:latest
+    spark.speculation.interval: "30"
+    spark.kubernetes.authenticate.driver.serviceAccountName: "spark"
+
+    # S3A configurations
     spark.hadoop.fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
     spark.hadoop.fs.s3a.aws.credentials.provider: com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+    spark.hadoop.fs.s3a.endpoint: s3.us-east-2.amazonaws.com
+    spark.hadoop.fs.s3a.aws.region: us-east-2
+    spark.hadoop.fs.s3a.fast.upload: "true"
+    #spark.hadoop.fs.s3a.multipart.size: "104857600"
+    spark.hadoop.fs.s3a.connection.maximum: "100"
     spark.hadoop.fs.s3a.path.style.access: "true"
-    spark.hadoop.fs.s3a.connection.ssl.enabled: "false"
+    #spark.hadoop.fs.s3a.multipart.purge.age: "86400"
+    #spark.hadoop.fs.s3a.threads.keepalivetime: "60"
+    #spark.hadoop.fs.s3a.connection.establish.timeout: "5000"
 
-  restartPolicy:
-    type: Never
 
-  volumes:
-    - name: app-files
-      emptyDir: {}
+  # shared volumes for git-sync checkout
+  driverSpec:
 
-  driver:
-    cores: 1
-    memory: "2g"
-    serviceAccount: spark
-    envFrom:
-      - secretRef:
-          name: env-secret
-    volumeMounts:
-      - name: app-files
-        mountPath: /app
-    initContainers:
-      - name: git-sync
-        image: registry.k8s.io/git-sync/git-sync:v4.1.0
-        env:
-          - name: GITSYNC_REPO
-            value: "https://github.com/takenking9879/Kubernetes-MLOPS-platform"
-          - name: GIT_SYNC_BRANCH
-            value: "main"
-          - name: GIT_SYNC_ROOT
-            value: "/git"
-          - name: GIT_SYNC_DEST
-            value: "repo"
-          - name: GIT_SYNC_WAIT
-            value: "30"
-          - name: GITSYNC_ONE_TIME
-            value: "true"   # solo clona una vez
-        volumeMounts:
+    podTemplateSpec:
+      spec:
+        containers:
+          - name: spark-kubernetes-driver
+            image: k3s-spark-cluster:latest
+            #command: ["sh", "-c"]
+            #args: ["echo 'DEBUG MODE'; sleep infinity"]
+            volumeMounts:
+              - name: app-files
+                mountPath: /app
+            envFrom:
+              - secretRef:
+                  name: env-secret
+        initContainers:
+          - name: git-sync
+            image: registry.k8s.io/git-sync/git-sync:v4.1.0
+
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                cpu: 200m
+                memory: 256Mi
+
+            env:
+              - name: GITSYNC_REPO
+                value: "https://github.com/takenking9879/Kubernetes-MLOPS-platform"
+              - name: GIT_SYNC_BRANCH
+                value: "main"
+              - name: GIT_SYNC_ROOT
+                value: "/git"
+              - name: GIT_SYNC_DEST
+                value: "repo"
+              - name: GIT_SYNC_WAIT
+                value: "30"
+              - name: GITSYNC_ONE_TIME
+                value: "true"
+            volumeMounts:
+              - name: app-files
+                mountPath: /git
+        volumes:
           - name: app-files
-            mountPath: /app
+            emptyDir: {}
 
-  executor:
-    cores: 1
-    memory: "2g"
-    instances: 2
-    envFrom:
-      - secretRef:
-          name: env-secret
-    volumeMounts:
-      - name: app-files
-        mountPath: /app
-  
+  executorSpec:
+    podTemplateSpec:
+      spec:
+        containers:
+          - name: spark-kubernetes-executor
+            image: k3s-spark-cluster:latest
+            volumeMounts:
+              - name: app-files
+                mountPath: /app
+            envFrom:
+              - secretRef:
+                  name: env-secret
+        initContainers:
+          - name: git-sync
+            image: registry.k8s.io/git-sync/git-sync:v4.1.0
+
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                cpu: 200m
+                memory: 256Mi
+
+            env:
+              - name: GITSYNC_REPO
+                value: "https://github.com/takenking9879/Kubernetes-MLOPS-platform"
+              - name: GIT_SYNC_BRANCH
+                value: "main"
+              - name: GIT_SYNC_ROOT
+                value: "/git"
+              - name: GIT_SYNC_DEST
+                value: "repo"
+              - name: GIT_SYNC_WAIT
+                value: "30"
+              - name: GITSYNC_ONE_TIME
+                value: "true"
+            volumeMounts:
+              - name: app-files
+                mountPath: /git
+        volumes:
+          - name: app-files
+            emptyDir: {}
