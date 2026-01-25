@@ -142,7 +142,7 @@ spec:
             image: rayproject/ray:2.52.0
             resources:
               limits:
-                cpu: "3" # Siempre dejarlo un cpu más alto que CPUS_PER_WORKER y requests
+                cpu: "4" # Siempre dejarlo un cpu más alto que CPUS_PER_WORKER y requests
                 memory: "4Gi"
               requests:
                 cpu: "3" # Siempre dejarlo un cpu más alto que CPUS_PER_WORKER

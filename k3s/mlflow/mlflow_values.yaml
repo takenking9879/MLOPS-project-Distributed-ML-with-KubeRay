@@ -1,0 +1,21 @@
+backendStore:
+  databaseMigration: true
+  postgres:
+    enabled: true
+    host: postgres-postgresql
+    port: 5432
+    database: mlflow
+    user: postgres
+    password: postgres
+
+artifactRoot:
+  s3:
+    enabled: true
+    bucket: ${S3_BUCKET_NAME}
+
+extraEnvVars:
+  MLFLOW_S3_IGNORE_TLS: "true"
+  MLFLOW_SERVER_ALLOWED_HOSTS: "my-mlflow,localhost:*"
+
+extraSecretNamesForEnvFrom:
+  - env-secret

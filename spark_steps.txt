@@ -4,13 +4,14 @@ helm repo add spark-kubernetes-operator https://apache.github.io/spark-kubernete
 #Create namespace
 kubectl create namespace spark
 
-#install operator
-helm install my-spark-kubernetes-operator spark-kubernetes-operator/spark-kubernetes-operator --version 1.4.0 -n spark -f k3s/spark/values.yaml
-
 # Añadir secrets
 kubectl create secret generic env-secret \
   --from-env-file=.env \
   -n spark
+
+#install operator
+helm install my-spark-kubernetes-operator spark-kubernetes-operator/spark-kubernetes-operator --version 1.4.0 -n spark -f k3s/spark/values.yaml
+
 
 # Crear imagen
 docker build -t k3s-spark-cluster ./k3s/spark/
