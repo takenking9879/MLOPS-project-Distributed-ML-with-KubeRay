@@ -11,7 +11,7 @@ spec:
 
   runtimeEnvYAML: |
     env_vars:
-      NUM_WORKERS: "3"
+      NUM_WORKERS: "2"
       CPUS_PER_WORKER: "3"
 
   rayClusterSpec:
@@ -27,7 +27,7 @@ spec:
     ########################
     headGroupSpec:
       rayStartParams:
-        num-cpus: "0"
+        num-cpus: "1"
       template:
         spec:
           containers:
@@ -53,6 +53,11 @@ spec:
               envFrom:
                 - secretRef:
                     name: env-secret
+              env:
+                - name: RAY_enable_infeasible_task_early_exit
+                  value: "true"
+                - name: RAY_DEFAULT_OBJECT_STORE_MEMORY_PROPORTION
+                  value: "0.6"
 
           initContainers:
             - name: git-sync
@@ -89,9 +94,9 @@ spec:
     # WORKERS
     ########################
     workerGroupSpecs:
-      - replicas: 3
-        minReplicas: 3
-        maxReplicas: 4
+      - replicas: 2
+        minReplicas: 2
+        maxReplicas: 3
         groupName: small-group
         rayStartParams: {}
 
@@ -126,6 +131,9 @@ spec:
                 envFrom:
                   - secretRef:
                       name: env-secret
+                env:
+                  - name: RAY_enable_infeasible_task_early_exit
+                    value: "true"
 
             initContainers:
               - name: git-sync

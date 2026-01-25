@@ -67,14 +67,17 @@ def tune_model(
         reduction_factor=PYTORCH_TUNE_SETTINGS["reduction_factor"],
     )
 
-    # --- Dynamic CPU allocation ---
-    scheduler = ResourceChangingScheduler(base_scheduler=asha)
+    # --- Dynamic CPU allocation (optional) ---
+    # ResourceChangingScheduler can request larger resource bundles over time.
+    # In small clusters this may produce "infeasible resource requests" warnings.
+    enable_rcs = os.getenv("ENABLE_RESOURCE_CHANGING_SCHEDULER", "false").lower() in ("1", "true", "yes")
+    scheduler = ResourceChangingScheduler(base_scheduler=asha) if enable_rcs else asha
 
     # Use tune.with_resources to allow Tune to adjust per-trial resources
     from ray.tune.execution.placement_groups import PlacementGroupFactory
 
     # PlacementGroupFactory must include bundles for the trial + each Train worker.
-    bundles = [{"CPU": 1, "GPU": 0}] + [{"CPU": cpus_per_worker, "GPU": 0}] * num_workers
+    bundles = [{"CPU": 1}] + [{"CPU": cpus_per_worker}] * num_workers
     trainable = tune.with_resources(trainer, resources=PlacementGroupFactory(bundles))
 
     callbacks = []

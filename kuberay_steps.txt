@@ -34,5 +34,7 @@ kubectl port-forward kuberay-dashboard 3000:3000
 
 #Crear pod
 kubectl apply -f k3s/kuberay/kuberay-job.yaml
+# Show it in dashboard
+kubectl label rayjob kuberay-job app.kubernetes.io/managed-by=kuberay-apiserver -n ray
 
 kubectl delete rayjob kuberay-job -n ray

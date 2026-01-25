@@ -15,7 +15,7 @@ artifactRoot:
 
 extraEnvVars:
   MLFLOW_S3_IGNORE_TLS: "true"
-  MLFLOW_SERVER_ALLOWED_HOSTS: "my-mlflow,localhost:*"
+  MLFLOW_SERVER_ALLOWED_HOSTS: "my-mlflow,my-mlflow.ray,my-mlflow.ray.svc,my-mlflow.ray.svc.cluster.local,localhost:*"
 
 extraSecretNamesForEnvFrom:
   - env-secret
