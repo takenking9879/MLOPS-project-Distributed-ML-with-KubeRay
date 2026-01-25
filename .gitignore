@@ -210,3 +210,6 @@ __marimo__/
 data/
 .vscode/
 notebooks/out/
+
+# Zone identifier files
+*:Zone.Identifier

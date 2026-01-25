@@ -1,5 +1,5 @@
-ray==2.52.0[data,train,tune,serve,default] #pip install -U "ray[data,train,tune,serve,default]"
-xgboost==3.1.3
+#ray==2.52.0[data,train,tune,serve,default] #pip install -U "ray[data,train,tune,serve,default]"
+xgboost-cpu==3.1.3
 pyarrow==22.0.0
 python-dotenv==1.2.1
 numpy==2.3.3

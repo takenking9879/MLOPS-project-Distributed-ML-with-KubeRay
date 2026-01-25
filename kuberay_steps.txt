@@ -4,14 +4,27 @@ helm repo add kuberay https://ray-project.github.io/kuberay-helm/
 #Create namespace
 kubectl create namespace ray
 
-#install operator
-helm install kuberay-operator kuberay/kuberay-operator --version 1.5.1 -n ray
-
 #Añadir secrets
 kubectl create secret generic env-secret \
   --from-env-file=.env \
   -n ray
 
+##### mlflow
+# Instalar postgreSQL
+helm install postgres bitnami/postgresql -n ray -f k3s/mlflow/postgres_values.yaml
+# Instalar mlflow
+helm install my-mlflow community-charts/mlflow -n ray -f k3s/mlflow/mlflow_values.yaml
+#debugging
+kubectl port-forward -n ray my-mlflow-5944d7c678-qsdjf 8080:5000
+
+kubectl delete secret my-mlflow-flask-server-secret-key -n mlops-fraud
+####
+
+#install operator
+helm install kuberay-operator kuberay/kuberay-operator --version 1.5.1 -n ray
+
+#Crear imagen
+docker build -t ray-cluster:2.52.0 ./k3s/kuberay/
 #Crear pod
 kubectl apply -f k3s/kuberay/kuberay-job.yaml
 

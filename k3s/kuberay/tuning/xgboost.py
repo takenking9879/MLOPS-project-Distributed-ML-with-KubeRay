@@ -143,7 +143,7 @@ def tune_model(
         trainable,
         param_space=param_space,
         tune_config=tune.TuneConfig(
-            num_samples=10,
+            num_samples=8,
             scheduler=scheduler,
             metric="validation-mlogloss",
             mode="min",

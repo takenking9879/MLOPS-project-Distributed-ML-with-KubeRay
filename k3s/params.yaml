@@ -12,7 +12,7 @@ kuberay:
     framework: "xgboost"
     seed: 42
     mlflow_tracking_uri: "http://mlflow.mlflow.svc.cluster.local:5000"
-    mlflow_experiment_name: "kuberay-ids"
+    mlflow_experiment_name: "kuberay-attack-detection"
     path: "../../models/fraud_detection_model.pkl"
     
 

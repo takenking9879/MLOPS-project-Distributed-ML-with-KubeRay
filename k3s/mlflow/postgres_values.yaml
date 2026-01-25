@@ -1,0 +1,10 @@
+# Bitnami PostgreSQL values (prod/EKS)
+# NOTE: This is used for the standalone `postgres` release deployed by GitHub Actions.
+
+auth:
+  postgresPassword: postgres
+  database: mlflow
+
+primary:
+  persistence:
+    size: 10Gi
