@@ -5,8 +5,8 @@ kafka:
 
 kuberay:
   model:
-    tune: false
-    sample_fraction_for_tuning: 0.1 # Realiza un muestreo estratificado para acelerar el tuning
+    tune: true
+    sample_fraction_for_tuning: 0.2 # Realiza un muestreo estratificado para acelerar el tuning
     target: "attack"
     num_classes: 6
     framework: "xgboost"
