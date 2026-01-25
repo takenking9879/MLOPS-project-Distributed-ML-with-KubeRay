@@ -13,17 +13,6 @@ spec:
   ttlSecondsAfterFinished: 20
 
   runtimeEnvYAML: |
-    pip:
-      - xgboost==3.1.3
-      - pyarrow==22.0.0
-      - python-dotenv==1.2.1
-      - numpy==2.3.3
-      - pandas==2.3.3
-      - scikit-learn==1.8.0
-      - torch==2.9.1
-      - mlflow==3.6.0
-      - PyYAML==6.0.3
-      - boto3==1.42.28
     env_vars:
       # Workers de Ray Train por *trial*.
       # Usado tanto para entrenamiento (modules/) como para tuning (tuning/).
@@ -61,7 +50,7 @@ spec:
         spec:
           containers:
           - name: ray-head
-            image: rayproject/ray:2.52.0
+            image: ray-cluster:2.52.0
             ports:
             - containerPort: 6379
               name: gcs-server
@@ -139,7 +128,7 @@ spec:
                     topologyKey: "kubernetes.io/hostname"
           containers:
           - name: ray-worker
-            image: rayproject/ray:2.52.0
+            image: ray-cluster:2.52.0
             resources:
               limits:
                 cpu: "4" # Siempre dejarlo un cpu más alto que CPUS_PER_WORKER y requests

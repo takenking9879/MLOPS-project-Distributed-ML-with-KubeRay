@@ -25,6 +25,13 @@ helm install kuberay-operator kuberay/kuberay-operator --version 1.5.1 -n ray
 
 #Crear imagen
 docker build -t ray-cluster:2.52.0 ./k3s/kuberay/
+
+#Dashboard
+helm install kuberay-apiserver kuberay/kuberay-apiserver --version v1.5.1 --set security= --set cors.allowOrigin='*'
+kubectl port-forward svc/kuberay-apiserver-service 31888:8888
+kubectl run kuberay-dashboard --image=quay.io/kuberay/dashboard:v1.5.1
+kubectl port-forward kuberay-dashboard 3000:3000
+
 #Crear pod
 kubectl apply -f k3s/kuberay/kuberay-job.yaml
 

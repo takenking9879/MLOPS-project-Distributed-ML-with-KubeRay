@@ -11,3 +11,8 @@ RUN uv pip install \
     --system \
     --no-cache \
     -r /tmp/requirements.txt
+
+# Limpiar cachés temporales
+#RUN rm -rf /root/.cache \
+#           /tmp/* \
+#           /var/tmp/*

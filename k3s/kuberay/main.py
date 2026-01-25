@@ -7,6 +7,7 @@ import pickle
 import tempfile
 from urllib.parse import urlparse
 from typing import Dict, Any
+import mlflow
 
 class KubeRayTraining(BaseUtils):
     def __init__(self, params_path: str, data_dir: str, output_dir: str):
@@ -87,8 +88,6 @@ class KubeRayTraining(BaseUtils):
             return
 
         try:
-            import mlflow
-
             mlflow.set_tracking_uri(tracking_uri)
             mlflow.set_experiment(experiment_name)
 
