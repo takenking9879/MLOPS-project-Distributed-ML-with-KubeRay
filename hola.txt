@@ -1,140 +1,252 @@
-2026-01-26 16:15:03.711 | 2026-01-26 14:15:03,711	INFO cli.py:41 -- Job submission server address: http://kuberay-job-f2xjd-head-svc.ray.svc.cluster.local:8265
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,041	SUCC cli.py:65 -- ----------------------------------------------
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	SUCC cli.py:66 -- Job 'kuberay-job-snvtj' submitted successfully
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	SUCC cli.py:67 -- ----------------------------------------------
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:291 -- Next steps
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:292 -- Query the logs of the job:
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:294 -- ray job logs kuberay-job-snvtj
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:296 -- Query the status of the job:
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:298 -- ray job status kuberay-job-snvtj
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:300 -- Request the job to be stopped:
-2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:302 -- ray job stop kuberay-job-snvtj
-2026-01-26 16:15:05.664 | 2026-01-26 14:15:05,664	INFO cli.py:41 -- Job submission server address: http://kuberay-job-f2xjd-head-svc.ray.svc.cluster.local:8265
-2026-01-26 16:15:07.682 | 2026-01-26 14:15:03,778	INFO job_manager.py:568 -- Runtime env is setting up.
-2026-01-26 16:15:07.682 | Running entrypoint for job kuberay-job-snvtj: python3 /home/ray/app/repo/k3s/kuberay/main.py
-2026-01-26 16:15:10.686 | 2026-01-26 14:15:09,019 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
-2026-01-26 16:15:11.688 | 2026-01-26 14:15:10,337 - KubeRayTraining - INFO - [RAY CLUSTER RESOURCES]
-2026-01-26 16:15:11.688 |             ────────────────────────────────
-2026-01-26 16:15:11.688 |             CPU           : 0.0 / 18.0
-2026-01-26 16:15:11.688 |             Memory        : 0B / 13.00GiB
-2026-01-26 16:15:11.688 |             Object Store  : 0B / 8.23GiB
-2026-01-26 16:15:11.688 |             ────────────────────────────────
-2026-01-26 16:15:12.688 | 2026-01-26 14:15:10,778 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
-2026-01-26 16:15:12.688 | 2026-01-26 14:15:11,950	INFO worker.py:1696 -- Using address 10.1.5.81:6379 set in the environment variable RAY_ADDRESS
-2026-01-26 16:15:12.688 | 2026-01-26 14:15:11,954	INFO worker.py:1837 -- Connecting to existing Ray cluster at address: 10.1.5.81:6379...
-2026-01-26 16:15:12.688 | 2026-01-26 14:15:11,974	INFO worker.py:2014 -- Connected to Ray cluster. View the dashboard at http://10.1.5.81:8265 
-2026-01-26 16:15:12.688 | 
-2026-01-26 16:15:12.688 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:14.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:14.690 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.66s/ file]
-2026-01-26 16:15:14.690 | 2026-01-26 14:15:13,676	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.660.
-2026-01-26 16:15:14.690 | 2026-01-26 14:15:13,676	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
-2026-01-26 16:15:16.693 | 2026-01-26 14:15:14,790 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/train.
-2026-01-26 16:15:16.693 | 
-2026-01-26 16:15:16.693 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:15:17.695 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.78s/ file]
-2026-01-26 16:15:17.695 | 2026-01-26 14:15:17,334	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.783.
-2026-01-26 16:15:17.695 | 2026-01-26 14:15:17,334	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
-2026-01-26 16:15:18.696 | 2026-01-26 14:15:17,341 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/val.
-2026-01-26 16:15:18.696 | 2026-01-26 14:15:17,341 - KubeRayTraining - INFO - Starting training using framework: xgboost
-2026-01-26 16:15:23.704 | (TrainController pid=1365) Attempting to start training worker group of size 2 with the following resources: [{'CPU': 8}] * 2
-2026-01-26 16:15:26.709 | (TrainController pid=1365) Started training worker group of size 2: 
-2026-01-26 16:15:26.709 | (TrainController pid=1365) - (ip=10.1.5.80, pid=501) world_rank=0, local_rank=0, node_rank=0
-2026-01-26 16:15:26.709 | (TrainController pid=1365) - (ip=10.1.5.79, pid=439) world_rank=1, local_rank=0, node_rank=1
-2026-01-26 16:15:26.709 | (RayTrainWorker pid=501, ip=10.1.5.80) [14:15:25] Task [xgboost.ray-rank=00000000]:a2f6bb314a414e2078d1696602000000 got rank 0
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537) Registered dataset logger for dataset train_2_0
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537) Starting execution of Dataset train_2_0. Full logs are in /tmp/ray/session_2026-01-26_14-14-31_065233_1/logs/ray-data
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537) Execution plan of Dataset train_2_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
-2026-01-26 16:15:26.709 | (raylet) WARNING: 4 PYTHON worker processes have been started on node: 8651d074a30080db1646d8a30f6967f802e7e9aeeb9bb4f4d1a60909 with address: 10.1.5.81. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)  ✔️  Dataset train_2_0 execution finished in 1.14 seconds 10… 2k/…   1.78 k row… 
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │ Active/total resources: Active & requested resources: 0/2 CPU, 29.4KiB/4.1G…
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │                                                                             
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 2k/2k [ 0:00:… , 1.80 k row/s ]
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   ├─   split(2, equal=True) 100% ━━━━━━━━━━ 2k/2k [ 0:00:01 , 1.79 k row/s ]    
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │    0.0 CPU, 29.4KiB object store; Tasks: 0: [0/33 objects local]; Queued bl…
-2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)                                                                                 ✔️  Dataset train_2_0 execution finished in 1.14 seconds
-2026-01-26 16:15:26.709 | (RayTrainWorker pid=501, ip=10.1.5.80)  ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds 10… 1k/… [  ? rows/s 
-2026-01-26 16:15:27.710 | (RayTrainWorker pid=501, ip=10.1.5.80)   │ Active/total resources: Active & requested resources: 0/2 CPU, 0.0B/4.1GiB …
-2026-01-26 16:15:27.710 | (RayTrainWorker pid=501, ip=10.1.5.80) Exiting prefetcher's background thread
-2026-01-26 16:15:30.716 | (SplitCoordinator pid=1594)  ✔️  Dataset val_4_0 execution finished in 1.85 seconds 10… 3k/… [  1.64 k row/s 
-2026-01-26 16:15:30.716 | (RayTrainWorker pid=501, ip=10.1.5.80)  ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds 10… 1.50k/…   ? row… 
-2026-01-26 16:15:30.716 | (RayTrainWorker pid=439, ip=10.1.5.79) Reporting training result 1: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': 0.20996513929466407, 'validation-merror': 0.00466666666666667}, validation_spec=None)
-2026-01-26 16:15:30.716 | (RayTrainWorker pid=439, ip=10.1.5.79) Reporting training result 3: TrainingReport(checkpoint=None, metrics={}, validation_spec=None)
-2026-01-26 16:15:33.860 | (RayTrainWorker pid=501, ip=10.1.5.80) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_14-15-29.288289)
-2026-01-26 16:15:33.860 | (RayTrainWorker pid=501, ip=10.1.5.80) Reporting training result 3: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_14-15-29.288289), metrics={}, validation_spec=None)
-2026-01-26 16:15:33.860 | (RayTrainWorker pid=439, ip=10.1.5.79) [14:15:25] Task [xgboost.ray-rank=00000001]:165ccb4e42aab6de99f84f8a02000000 got rank 1
-2026-01-26 16:15:33.861 | (RayTrainWorker pid=439, ip=10.1.5.79) Registered dataset logger for dataset dataset_9_0 [repeated 5x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
-2026-01-26 16:15:33.861 | (SplitCoordinator pid=1594) Starting execution of Dataset val_4_0. Full logs are in /tmp/ray/session_2026-01-26_14-14-31_065233_1/logs/ray-data
-2026-01-26 16:15:33.861 | (SplitCoordinator pid=1594) Execution plan of Dataset val_4_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
-2026-01-26 16:15:33.861 | (RayTrainWorker pid=439, ip=10.1.5.79) [xgboost] Worker train_time_sec=2.63
-2026-01-26 16:15:38.870 | 2026-01-26 14:15:37,248	INFO logging.py:397 -- Registered dataset logger for dataset dataset_10_0
-2026-01-26 16:15:38.870 | 2026-01-26 14:15:37,260	INFO streaming_executor.py:174 -- Starting execution of Dataset dataset_10_0. Full logs are in /tmp/ray/session_2026-01-26_14-14-31_065233_1/logs/ray-data
-2026-01-26 16:15:38.870 | 2026-01-26 14:15:37,260	INFO streaming_executor.py:175 -- Execution plan of Dataset dataset_10_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> TaskPoolMapOperator[MapBatches(predict_and_cm_batch)]
-2026-01-26 16:15:43.921 | (autoscaler +37s) Tip: use `ray status` to view detailed cluster status. To disable these messages, set RAY_SCHEDULER_EVENTS=0.
-2026-01-26 16:15:43.922 | (autoscaler +37s) No available node types can fulfill cluster constraint: {'CPU': 1.0}*22. Add suitable node types to this cluster to resolve this issue.
-2026-01-26 16:15:45.927 |  ✔️  Dataset dataset_10_0 execution finished in 8.17 seconds 10… 36/…   4.42 ro… 
-2026-01-26 16:15:45.927 |   │ Active/total resources: Active & requested resources: 0/18 CPU, 1.5KiB/4.1G…
-2026-01-26 16:15:45.927 |   │                                                                             
-2026-01-26 16:15:45.927 |   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 3k/3k [ 0:00:… , 796.37 row/s ]
-2026-01-26 16:15:45.927 |   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
-2026-01-26 16:15:45.927 |   ├─   MapBatches(predict_and_cm_batch) 100% ━━━━━ 36/36 [ 0:00:… , 4.42 row/s ]
-2026-01-26 16:15:45.927 |   │    0.0 CPU, 1.5KiB object store; Tasks: 0; Queued blocks: 0;                
-2026-01-26 16:15:45.927 |                                                                                 2026-01-26 14:15:45,465	INFO progress_manager.py:347 -- ✔️  Dataset dataset_10_0 execution finished in 8.17 seconds
-2026-01-26 16:15:45.927 | 2026-01-26 14:15:45,467	INFO util.py:257 -- Exiting prefetcher's background thread
-2026-01-26 16:15:45.927 | 2026-01-26 14:15:45,470 - KubeRayTraining - INFO - Training completed successfully.
-2026-01-26 16:15:46.926 | 2026-01-26 14:15:45,470 - KubeRayTraining - INFO - Exportando modelo final de xgboost a S3...
-2026-01-26 16:15:47.927 | 2026-01-26 14:15:46,480 - KubeRayTraining - INFO - Modelo guardado exitosamente en: s3://k8s-mlops-platform-bucket/v1/models/model_xgboost.pkl
-2026-01-26 16:15:47.927 | 2026-01-26 14:15:46,480 - KubeRayTraining - INFO - xgboost multiclass metrics time = 9.04 s
-2026-01-26 16:15:47.927 | 🏃 View run xgboost_final_xgboost at: http://my-mlflow/#/experiments/1/runs/524ee2f96d654774a85222028ab3240b
-2026-01-26 16:15:47.927 | 🧪 View experiment at: http://my-mlflow/#/experiments/1
-2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   │ Active/total resources: Active & requested resources: 0/2 CPU, 79.9KiB/4.1G…
-2026-01-26 16:15:47.927 | (RayTrainWorker pid=439, ip=10.1.5.79)   │                                                                              [repeated 5x across cluster]
-2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 3k/3k [ 0:00:… , 1.65 k row/s ]
-2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
-2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   ├─   split(2, equal=True) 100% ━━━━━━━━━━ 3k/3k [ 0:00:01 , 1.65 k row/s ]    
-2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   │    0.0 CPU, 79.9KiB object store; Tasks: 0: [0/33 objects local]; Queued bl…
-2026-01-26 16:15:47.927 | (RayTrainWorker pid=439, ip=10.1.5.79)                                                                                 ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds [repeated 5x across cluster]
-2026-01-26 16:15:47.927 | (RayTrainWorker pid=439, ip=10.1.5.79)  ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds 10… 1k/… [  ? rows/s 
-2026-01-26 16:15:48.928 | (RayTrainWorker pid=439, ip=10.1.5.79)   │ Active/total resources: Active & requested resources: 0/2 CPU, 0.0B/4.1GiB … [repeated 3x across cluster]
-2026-01-26 16:15:48.928 | (RayTrainWorker pid=439, ip=10.1.5.79) Exiting prefetcher's background thread [repeated 3x across cluster]
-2026-01-26 16:15:48.928 | (RayTrainWorker pid=439, ip=10.1.5.79)  ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds 10… 1.50k/…   ? row… 
-2026-01-26 16:15:48.928 | (RayTrainWorker pid=501, ip=10.1.5.80) Reporting training result 2: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': 0.05672776946425438, 'validation-merror': 0.004}, validation_spec=None) [repeated 3x across cluster]
-2026-01-26 16:15:48.928 | (RayTrainWorker pid=501, ip=10.1.5.80) [xgboost] Worker train_time_sec=2.63
-2026-01-26 16:15:51.945 | 2026-01-26 14:15:51,945	SUCC cli.py:65 -- ---------------------------------
-2026-01-26 16:15:51.945 | 2026-01-26 14:15:51,945	SUCC cli.py:66 -- Job 'kuberay-job-snvtj' succeeded
-2026-01-26 16:15:51.945 | 2026-01-26 14:15:51,945	SUCC cli.py:67 -- ---------------------------------
+2026-01-26 16:24:23.633 | 2026-01-26 14:24:23,632	INFO cli.py:41 -- Job submission server address: http://kuberay-job-cmk9w-head-svc.ray.svc.cluster.local:8265
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	SUCC cli.py:65 -- ----------------------------------------------
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	SUCC cli.py:66 -- Job 'kuberay-job-62mxf' submitted successfully
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	SUCC cli.py:67 -- ----------------------------------------------
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:291 -- Next steps
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:292 -- Query the logs of the job:
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:294 -- ray job logs kuberay-job-62mxf
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:296 -- Query the status of the job:
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:298 -- ray job status kuberay-job-62mxf
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:300 -- Request the job to be stopped:
+2026-01-26 16:24:23.987 | 2026-01-26 14:24:23,987	INFO cli.py:302 -- ray job stop kuberay-job-62mxf
+2026-01-26 16:24:25.585 | 2026-01-26 14:24:25,585	INFO cli.py:41 -- Job submission server address: http://kuberay-job-cmk9w-head-svc.ray.svc.cluster.local:8265
+2026-01-26 16:24:27.603 | 2026-01-26 14:24:23,711	INFO job_manager.py:568 -- Runtime env is setting up.
+2026-01-26 16:24:27.603 | Running entrypoint for job kuberay-job-62mxf: python3 /home/ray/app/repo/k3s/kuberay/main.py
+2026-01-26 16:24:30.609 | 2026-01-26 14:24:28,908 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
+2026-01-26 16:24:31.611 | 2026-01-26 14:24:30,245 - KubeRayTraining - INFO - [RAY CLUSTER RESOURCES]
+2026-01-26 16:24:31.611 |             ────────────────────────────────
+2026-01-26 16:24:31.611 |             CPU           : 0.0 / 18.0
+2026-01-26 16:24:31.611 |             Memory        : 0B / 13.00GiB
+2026-01-26 16:24:31.611 |             Object Store  : 0B / 8.23GiB
+2026-01-26 16:24:31.611 |             ────────────────────────────────
+2026-01-26 16:24:31.611 | 2026-01-26 14:24:30,605 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
+2026-01-26 16:24:35.766 | 2026-01-26 14:24:34,629	INFO worker.py:1696 -- Using address 10.1.5.84:6379 set in the environment variable RAY_ADDRESS
+2026-01-26 16:24:35.766 | 2026-01-26 14:24:34,633	INFO worker.py:1837 -- Connecting to existing Ray cluster at address: 10.1.5.84:6379...
+2026-01-26 16:24:35.766 | 2026-01-26 14:24:34,649	INFO worker.py:2014 -- Connected to Ray cluster. View the dashboard at http://10.1.5.84:8265 
+2026-01-26 16:24:35.766 | 
+2026-01-26 16:24:35.766 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:35.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:35.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:35.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:35.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:35.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:36.766 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.93s/ file]
+2026-01-26 16:24:37.767 | 2026-01-26 14:24:36,621	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.660.
+2026-01-26 16:24:37.767 | 2026-01-26 14:24:36,623	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
+2026-01-26 16:24:39.772 | 2026-01-26 14:24:37,788 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/train.
+2026-01-26 16:24:39.772 | 
+2026-01-26 16:24:39.772 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:39.772 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:24:40.774 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.88s/ file]
+2026-01-26 16:24:41.774 | 2026-01-26 14:24:40,560	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.783.
+2026-01-26 16:24:41.774 | 2026-01-26 14:24:40,561	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
+2026-01-26 16:24:41.774 | 2026-01-26 14:24:40,566 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/val.
+2026-01-26 16:24:41.774 | 2026-01-26 14:24:40,566 - KubeRayTraining - INFO - Starting training using framework: pytorch
+2026-01-26 16:24:46.782 | (TrainController pid=1369) Attempting to start training worker group of size 2 with the following resources: [{'CPU': 8}] * 2
+2026-01-26 16:24:51.790 | (RayTrainWorker pid=510, ip=10.1.5.85) Setting up process group for: env:// [rank=0, world_size=2]
+2026-01-26 16:24:51.790 | (RayTrainWorker pid=510, ip=10.1.5.85) [Gloo] Rank 0 is connected to 1 peer ranks. Expected number of connected peer ranks is : 1
+2026-01-26 16:24:51.790 | (RayTrainWorker pid=510, ip=10.1.5.85) Moving model to device: cpu
+2026-01-26 16:24:51.790 | (RayTrainWorker pid=510, ip=10.1.5.85) Wrapping provided model in DistributedDataParallel.
+2026-01-26 16:24:51.790 | (TrainController pid=1369) Started training worker group of size 2: 
+2026-01-26 16:24:51.790 | (TrainController pid=1369) - (ip=10.1.5.85, pid=510) world_rank=0, local_rank=0, node_rank=0
+2026-01-26 16:24:51.790 | (TrainController pid=1369) - (ip=10.1.5.83, pid=438) world_rank=1, local_rank=0, node_rank=1
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85) [pytorch_utils] Worker using 8 CPU thread(s) | torch.get_num_threads()=8
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85) Error in training function:
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85) Traceback (most recent call last):
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85)   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/helpers/pytorch_utils.py", line 119, in train_func
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85)     start_time = time.perf_counter()
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85)                  ^^^^^^^^^^^^^^^^^
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85) AttributeError: 'builtin_function_or_method' object has no attribute 'perf_counter'
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=510, ip=10.1.5.85) 
+2026-01-26 16:24:53.794 | (RayTrainWorker pid=438, ip=10.1.5.83) 
+2026-01-26 16:24:53.794 | (TrainController pid=1369) [FailurePolicy] RAISE
+2026-01-26 16:24:53.794 | (TrainController pid=1369)   Source: worker group
+2026-01-26 16:24:53.794 | (TrainController pid=1369)   Error count: 1 (max allowed: 0)
+2026-01-26 16:24:53.794 | (TrainController pid=1369) 
+2026-01-26 16:24:53.794 | (TrainController pid=1369) ray.train.WorkerGroupError: Training failed due to worker errors:
+2026-01-26 16:24:53.794 | (TrainController pid=1369) [Rank 0,1 Error Snippet]:
+2026-01-26 16:24:53.794 | (TrainController pid=1369) 
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) [2026-01-26 14:24:53,630 E 1560 1560] logging.cc:125: Stack trace: 
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560)  /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x169e06a) [0x7ef175b6506a] ray::operator<<()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x169eb1c) [0x7ef175b65b1c] ray::RayLog::operator<< <>()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x16a10d8) [0x7ef175b680d8] ray::TerminateHandler()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/bin/../lib/libstdc++.so.6(+0xbb747) [0x7ef174390747] __cxxabiv1::__terminate()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/bin/../lib/libstdc++.so.6(_ZSt10unexpectedv+0) [0x7ef17438a0e3] std::unexpected()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0xb5a832) [0x7ef175021832]
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x93864a) [0x7ef174dff64a] std::_Sp_counted_base<>::_M_release()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x9efa49) [0x7ef174eb6a49] std::_Sp_counted_ptr_inplace<>::_M_dispose()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x93864a) [0x7ef174dff64a] std::_Sp_counted_base<>::_M_release()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(_ZN3ray4core10CoreWorkerD1Ev+0x32b) [0x7ef174eebaeb] ray::core::CoreWorker::~CoreWorker()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x93864a) [0x7ef174dff64a] std::_Sp_counted_base<>::_M_release()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(_ZN3ray4core21CoreWorkerProcessImpl26RunWorkerTaskExecutionLoopEv+0xdc) [0x7ef174f0b53c] ray::core::CoreWorkerProcessImpl::RunWorkerTaskExecutionLoop()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(_ZN3ray4core17CoreWorkerProcess20RunTaskExecutionLoopEv+0x1d) [0x7ef174f0b6bd] ray::core::CoreWorkerProcess::RunTaskExecutionLoop()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x87c731) [0x7ef174d43731] __pyx_pw_3ray_7_raylet_10CoreWorker_5run_task_loop()
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(PyObject_Vectorcall+0x2c) [0x58e852bb05ec] PyObject_Vectorcall
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(_PyEval_EvalFrameDefault+0x6e9) [0x58e852ba3d19] _PyEval_EvalFrameDefault
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(+0x29ac5d) [0x58e852c5ac5d] _PyEval_Vector
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(PyEval_EvalCode+0x9f) [0x58e852c5a39f] PyEval_EvalCode
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(+0x2b830a) [0x58e852c7830a] run_eval_code_obj
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(+0x2b3f93) [0x58e852c73f93] run_mod
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(+0x2c9530) [0x58e852c89530] pyrun_file
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(_PyRun_SimpleFileObject+0x1bc) [0x58e852c88ebc] _PyRun_SimpleFileObject
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(_PyRun_AnyFileObject+0x44) [0x58e852c88c54] _PyRun_AnyFileObject
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(Py_RunMain+0x383) [0x58e852c83223] Py_RunMain
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(Py_BytesMain+0x37) [0x58e852c4a617] Py_BytesMain
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x7ef1768cfd90]
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x7ef1768cfe40] __libc_start_main
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) ray::SplitCoordinator(+0x28a4ca) [0x58e852c4a4ca]
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) 
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) *** SIGABRT received at time=1769466293 on cpu 22 ***
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) PC: @     0x7ef17693c9fc  (unknown)  pthread_kill
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560)     @     0x7ef1768e8520  (unknown)  (unknown)
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) [2026-01-26 14:24:53,630 E 1560 1560] logging.cc:474: *** SIGABRT received at time=1769466293 on cpu 22 ***
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) [2026-01-26 14:24:53,630 E 1560 1560] logging.cc:474: PC: @     0x7ef17693c9fc  (unknown)  pthread_kill
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) [2026-01-26 14:24:53,630 E 1560 1560] logging.cc:474:     @     0x7ef1768e8520  (unknown)  (unknown)
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) Fatal Python error: Aborted
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) 
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) Stack (most recent call first):
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 1047 in main_loop
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/workers/default_worker.py", line 322 in <module>
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) 
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1560) Extension modules: psutil._psutil_linux, msgpack._cmsgpack, google._upb._message, _brotli, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, yaml._yaml, uvloop.loop, ray._raylet, numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pyarrow.lib, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.properties, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pyarrow._compute, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, pyarrow._fs, pyarrow._azurefs, pyarrow._hdfs, pyarrow._gcsfs, pyarrow._s3fs, pyarrow._parquet, pyarrow._json, pyarrow._acero, pyarrow._csv, pyarrow._substrait, pyarrow._dataset, pyarrow._parquet_encryption, pyarrow._dataset_parquet_encryption, pyarrow._dataset_parquet (total: 77)
+2026-01-26 16:24:53.794 | (SplitCoordinator pid=1616) /home/ray/anaconda3/bin/../lib/libstdc++.so.6(+0xbb747) [0x73b683623747] __cxxabiv1::__terminate()
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0xb5a832) [0x73b6842b4832]
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x87c731) [0x73b683fd6731] __pyx_pw_3ray_7_raylet_10CoreWorker_5run_task_loop()
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x73b685b62d90]
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) ray::SplitCoordinator(+0x28a4ca) [0x570e21dac4ca]
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) 
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) 
+2026-01-26 16:24:54.794 | (SplitCoordinator pid=1616) 
+2026-01-26 16:24:54.794 | 2026-01-26 14:24:54,034 - KubeRayTraining - ERROR - Training job failed: Training failed due to worker errors:
+2026-01-26 16:24:54.794 | [Rank 0,1 Error Snippet]:
+2026-01-26 16:24:54.794 | Traceback (most recent call last):
+2026-01-26 16:24:54.794 |   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/helpers/pytorch_utils.py", line 119, in train_func
+2026-01-26 16:24:54.794 |     start_time = time.perf_counter()
+2026-01-26 16:24:54.794 |                  ^^^^^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 | AttributeError: 'builtin_function_or_method' object has no attribute 'perf_counter'
+2026-01-26 16:24:54.795 | Traceback (most recent call last):
+2026-01-26 16:24:54.795 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 231, in train
+2026-01-26 16:24:54.795 |     train_out = module.train(**train_kwargs)
+2026-01-26 16:24:54.795 |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 |   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/modules/pytorch.py", line 50, in train
+2026-01-26 16:24:54.795 |     result = trainer.fit()
+2026-01-26 16:24:54.795 |              ^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/api/data_parallel_trainer.py", line 185, in fit
+2026-01-26 16:24:54.795 |     raise result.error
+2026-01-26 16:24:54.795 | ray.train.WorkerGroupError: Training failed due to worker errors:
+2026-01-26 16:24:54.795 | [Rank 0,1 Error Snippet]:
+2026-01-26 16:24:54.795 | Traceback (most recent call last):
+2026-01-26 16:24:54.795 |   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/helpers/pytorch_utils.py", line 119, in train_func
+2026-01-26 16:24:54.795 |     start_time = time.perf_counter()
+2026-01-26 16:24:54.795 |                  ^^^^^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 | AttributeError: 'builtin_function_or_method' object has no attribute 'perf_counter'
+2026-01-26 16:24:54.795 | 
+2026-01-26 16:24:54.795 | Traceback (most recent call last):
+2026-01-26 16:24:54.795 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 284, in <module>
+2026-01-26 16:24:54.795 |     main()
+2026-01-26 16:24:54.795 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 281, in main
+2026-01-26 16:24:54.795 |     model.train()
+2026-01-26 16:24:54.795 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 231, in train
+2026-01-26 16:24:54.795 |     train_out = module.train(**train_kwargs)
+2026-01-26 16:24:54.795 |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 |   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/modules/pytorch.py", line 50, in train
+2026-01-26 16:24:54.795 |     result = trainer.fit()
+2026-01-26 16:24:54.795 |              ^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/api/data_parallel_trainer.py", line 185, in fit
+2026-01-26 16:24:54.795 |     raise result.error
+2026-01-26 16:24:54.795 | ray.train.WorkerGroupError: Training failed due to worker errors:
+2026-01-26 16:24:54.795 | [Rank 0,1 Error Snippet]:
+2026-01-26 16:24:54.795 | Traceback (most recent call last):
+2026-01-26 16:24:54.795 |   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/helpers/pytorch_utils.py", line 119, in train_func
+2026-01-26 16:24:54.795 |     start_time = time.perf_counter()
+2026-01-26 16:24:54.795 |                  ^^^^^^^^^^^^^^^^^
+2026-01-26 16:24:54.795 | AttributeError: 'builtin_function_or_method' object has no attribute 'perf_counter'
+2026-01-26 16:24:54.795 | 
+2026-01-26 16:24:54.795 | (RayTrainWorker pid=438, ip=10.1.5.83) [Gloo] Rank 1 is connected to 1 peer ranks. Expected number of connected peer ranks is : 1
+2026-01-26 16:24:54.795 | (RayTrainWorker pid=438, ip=10.1.5.83) Moving model to device: cpu
+2026-01-26 16:24:54.795 | (RayTrainWorker pid=438, ip=10.1.5.83) Wrapping provided model in DistributedDataParallel.
+2026-01-26 16:24:54.795 | (RayTrainWorker pid=438, ip=10.1.5.83) Error in training function:
+2026-01-26 16:24:54.795 | (TrainController pid=1369) Traceback (most recent call last): [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
+2026-01-26 16:24:54.795 | (TrainController pid=1369)   File "/home/ray/app/.worktrees/974fc40346db03abb6001c4760cd9ba728ac7a9a/k3s/kuberay/helpers/pytorch_utils.py", line 119, in train_func [repeated 2x across cluster]
+2026-01-26 16:24:54.795 | (TrainController pid=1369)     start_time = time.perf_counter() [repeated 2x across cluster]
+2026-01-26 16:24:54.795 | (TrainController pid=1369)                  ^^^^^^^^^^^^^^^^^ [repeated 2x across cluster]
+2026-01-26 16:24:54.795 | (TrainController pid=1369) AttributeError: 'builtin_function_or_method' object has no attribute 'perf_counter' [repeated 2x across cluster]
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:125: Stack trace: 
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616)  /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x169e06a) [0x73b684df806a] ray::operator<<()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x169eb1c) [0x73b684df8b1c] ray::RayLog::operator<< <>()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x16a10d8) [0x73b684dfb0d8] ray::TerminateHandler()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/bin/../lib/libstdc++.so.6(_ZSt10unexpectedv+0) [0x73b68361d0e3] std::unexpected()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x93864a) [0x73b68409264a] std::_Sp_counted_base<>::_M_release() [repeated 3x across cluster]
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(+0x9efa49) [0x73b684149a49] std::_Sp_counted_ptr_inplace<>::_M_dispose()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(_ZN3ray4core10CoreWorkerD1Ev+0x32b) [0x73b68417eaeb] ray::core::CoreWorker::~CoreWorker()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(_ZN3ray4core21CoreWorkerProcessImpl26RunWorkerTaskExecutionLoopEv+0xdc) [0x73b68419e53c] ray::core::CoreWorkerProcessImpl::RunWorkerTaskExecutionLoop()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /home/ray/anaconda3/lib/python3.11/site-packages/ray/_raylet.so(_ZN3ray4core17CoreWorkerProcess20RunTaskExecutionLoopEv+0x1d) [0x73b68419e6bd] ray::core::CoreWorkerProcess::RunTaskExecutionLoop()
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(PyObject_Vectorcall+0x2c) [0x570e21d125ec] PyObject_Vectorcall
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(_PyEval_EvalFrameDefault+0x6e9) [0x570e21d05d19] _PyEval_EvalFrameDefault
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(+0x29ac5d) [0x570e21dbcc5d] _PyEval_Vector
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(PyEval_EvalCode+0x9f) [0x570e21dbc39f] PyEval_EvalCode
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(+0x2b830a) [0x570e21dda30a] run_eval_code_obj
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(+0x2b3f93) [0x570e21dd5f93] run_mod
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(+0x2c9530) [0x570e21deb530] pyrun_file
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(_PyRun_SimpleFileObject+0x1bc) [0x570e21deaebc] _PyRun_SimpleFileObject
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(_PyRun_AnyFileObject+0x44) [0x570e21deac54] _PyRun_AnyFileObject
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(Py_RunMain+0x383) [0x570e21de5223] Py_RunMain
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) ray::SplitCoordinator(Py_BytesMain+0x37) [0x570e21dac617] Py_BytesMain
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x73b685b62e40] __libc_start_main
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) *** SIGABRT received at time=1769466293 on cpu 8 ***
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) PC: @     0x73b685bcf9fc  (unknown)  pthread_kill
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616)     @     0x73b685b7b520  (unknown)  (unknown)
+2026-01-26 16:24:54.795 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:474: *** SIGABRT received at time=1769466293 on cpu 8 ***
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:474: PC: @     0x73b685bcf9fc  (unknown)  pthread_kill
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:474:     @     0x73b685b7b520  (unknown)  (unknown)
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616) Fatal Python error: Aborted
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616) Stack (most recent call first):
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 1047 in main_loop
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/workers/default_worker.py", line 322 in <module>
+2026-01-26 16:24:55.796 | (SplitCoordinator pid=1616) Extension modules: psutil._psutil_linux, msgpack._cmsgpack, google._upb._message, _brotli, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, yaml._yaml, uvloop.loop, ray._raylet, numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pyarrow.lib, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.properties, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pyarrow._compute, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, pyarrow._fs, pyarrow._azurefs, pyarrow._hdfs, pyarrow._gcsfs, pyarrow._s3fs, pyarrow._parquet, pyarrow._json, pyarrow._acero, pyarrow._csv, pyarrow._substrait, pyarrow._dataset, pyarrow._parquet_encryption, pyarrow._dataset_parquet_encryption, pyarrow._dataset_parquet (total: 77)
+2026-01-26 16:25:00.813 | 2026-01-26 14:25:00,813	ERR cli.py:73 -- ------------------------------
+2026-01-26 16:25:00.813 | 2026-01-26 14:25:00,813	ERR cli.py:74 -- Job 'kuberay-job-62mxf' failed
+2026-01-26 16:25:00.813 | 2026-01-26 14:25:00,813	ERR cli.py:75 -- ------------------------------
+2026-01-26 16:25:00.813 | 2026-01-26 14:25:00,813	INFO cli.py:88 -- Status message: Job entrypoint command failed with exit code 1, last available logs (truncated to 20,000 chars):
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) PC: @     0x73b685bcf9fc  (unknown)  pthread_kill
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616)     @     0x73b685b7b520  (unknown)  (unknown)
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:474: *** SIGABRT received at time=1769466293 on cpu 8 ***
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:474: PC: @     0x73b685bcf9fc  (unknown)  pthread_kill
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) [2026-01-26 14:24:53,630 E 1616 1616] logging.cc:474:     @     0x73b685b7b520  (unknown)  (unknown)
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) Fatal Python error: Aborted
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) Stack (most recent call first):
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 1047 in main_loop
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/workers/default_worker.py", line 322 in <module>
+2026-01-26 16:25:00.813 | (SplitCoordinator pid=1616) Extension modules: psutil._psutil_linux, msgpack._cmsgpack, google._upb._message, _brotli, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, yaml._yaml, uvloop.loop, ray._raylet, numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pyarrow.lib, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.properties, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pyarrow._compute, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, pyarrow._fs, pyarrow._azurefs, pyarrow._hdfs, pyarrow._gcsfs, pyarrow._s3fs, pyarrow._parquet, pyarrow._json, pyarrow._acero, pyarrow._csv, pyarrow._substrait, pyarrow._dataset, pyarrow._parquet_encryption, pyarrow._dataset_parquet_encryption, pyarrow._dataset_parquet (total: 77)
+2026-01-26 16:25:00.813 | 
