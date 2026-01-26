@@ -9,7 +9,7 @@ import ray
 from ray import tune
 from ray.train.torch import TorchTrainer
 from ray.train import ScalingConfig
-from ray.air import RunConfig
+from ray.tune import RunConfig
 from ray.tune.schedulers import ASHAScheduler, ResourceChangingScheduler
 from torch import nn
 from typing import Dict
@@ -45,19 +45,20 @@ def tune_model(
         use_gpu=torch.cuda.is_available(),
     )
 
-    trainer = TorchTrainer(
-        train_loop_per_worker=train_func,
-        scaling_config=scaling_config,
-        datasets={"train": train_dataset, "val": val_dataset},
-    )
-
     # --- Hyperparameter search space (cheap tuning) ---
-    param_space = {
+    train_loop_config = {
         "target": target,
         "pytorch_params": SEARCH_SPACE_PYTORCH_PARAMS,
         "input_dim": 14,  # Ajustado a las columnas de preprocessing_001.py (3 cat + 11 num)
         "num_classes": int(num_classes),
     }
+
+    trainer = TorchTrainer(
+        train_loop_per_worker=train_func,
+        train_loop_config=train_loop_config,
+        scaling_config=scaling_config,
+        datasets={"train": train_dataset, "val": val_dataset},
+    )
 
     # --- Early stopping scheduler ---
     asha = ASHAScheduler(
@@ -75,9 +76,14 @@ def tune_model(
     scheduler = ResourceChangingScheduler(base_scheduler=asha) if enable_rcs else asha
 
     # NOTE:
-    # `tune.with_resources()` does not support Ray Train `TorchTrainer` (it's not a Tune
-    # Trainable/function trainable). Use `ScalingConfig` to control resources.
-    trainable = trainer
+    # Ray Tune requires the trainable to be serializable (picklable). Use
+    # `trainer.as_trainable()` to avoid pickling the Trainer instance itself.
+    if not hasattr(trainer, "as_trainable"):
+        raise TypeError(
+            "Ray Train Trainer is not serializable for Tune in this Ray version. "
+            "Expected `trainer.as_trainable()` to exist."
+        )
+    trainable = trainer.as_trainable()
 
     callbacks = []
     if mlflow_tracking_uri and mlflow_experiment_name:
@@ -92,7 +98,6 @@ def tune_model(
 
     tuner = tune.Tuner(
         trainable,
-        param_space=param_space,
         tune_config=tune.TuneConfig(
             num_samples=5,
             scheduler=scheduler,

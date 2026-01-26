@@ -11,7 +11,7 @@ import ray
 import ray.train
 from ray import tune
 from ray.train import ScalingConfig
-from ray.air import RunConfig
+from ray.tune import RunConfig
 from ray.train.xgboost import RayTrainReportCallback, XGBoostTrainer
 from ray.air.integrations.mlflow import MLflowLoggerCallback
 from ray.tune.schedulers import ASHAScheduler, ResourceChangingScheduler
@@ -97,20 +97,23 @@ def tune_model(
         resources_per_worker={"CPU": cpus_per_worker},
     )
 
-    trainer = XGBoostTrainer(
-        train_loop_per_worker=train_func,
-        scaling_config=scaling_config,
-        datasets={"train": train_dataset, "val": val_dataset},
-    )
-
     # --- Search space (cheap tuning) ---
-    param_space = {
+    train_loop_config = {
         "target": target,
         "num_classes": int(num_classes),
         # Used by train_func to set xgboost nthread consistently with allocated CPUs.
         "cpus_per_worker": cpus_per_worker,
-        "xgboost_params": SEARCH_SPACE_XGBOOST_PARAMS
+        "xgboost_params": SEARCH_SPACE_XGBOOST_PARAMS,
+        # Keep ASHA's max_t consistent with the actual training loop.
+        "num_boost_round": int(XGBOOST_TUNE_SETTINGS["num_boost_round"]),
     }
+
+    trainer = XGBoostTrainer(
+        train_loop_per_worker=train_func,
+        train_loop_config=train_loop_config,
+        scaling_config=scaling_config,
+        datasets={"train": train_dataset, "val": val_dataset},
+    )
 
     # --- Early stopping ---
     asha = ASHAScheduler(
@@ -128,12 +131,15 @@ def tune_model(
     scheduler = ResourceChangingScheduler(base_scheduler=asha) if enable_rcs else asha
 
     # IMPORTANT:
-    # `tune.with_resources()` only supports function trainables or classes inheriting from
-    # `tune.Trainable`. Ray Train's `XGBoostTrainer` is not one of those, so wrapping it
-    # raises the ValueError you saw.
-    #
-    # Resource control for Ray Train + Tune should be done via `ScalingConfig`.
-    trainable = trainer
+    # Ray Tune requires the trainable to be serializable (picklable).
+    # In recent Ray versions, Trainer instances may contain non-picklable objects
+    # (e.g., internal locks). Use `trainer.as_trainable()` to get a Tune Trainable.
+    if not hasattr(trainer, "as_trainable"):
+        raise TypeError(
+            "Ray Train Trainer is not serializable for Tune in this Ray version. "
+            "Expected `trainer.as_trainable()` to exist."
+        )
+    trainable = trainer.as_trainable()
 
     callbacks = []
     if mlflow_tracking_uri and mlflow_experiment_name:
@@ -148,7 +154,6 @@ def tune_model(
 
     tuner = tune.Tuner(
         trainable,
-        param_space=param_space,
         tune_config=tune.TuneConfig(
             num_samples=8,
             scheduler=scheduler,
