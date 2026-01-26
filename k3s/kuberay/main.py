@@ -158,6 +158,18 @@ class KubeRayTraining(BaseUtils):
                 sample_frac = self.params.get('sample_fraction_for_tuning')
                 if sample_frac and sample_frac < 1.0:
                     tune_ds = self._stratified_sample(train_ds, self.params['target'], sample_frac)
+                    # Ray Tune will attempt to serialize (ray.put) parameters passed into the
+                    # trainable. Some Dataset lineages (notably groupby/map_groups) can be
+                    # non-serializable due to internal locks. Materializing converts the lineage
+                    # into concrete blocks and avoids pickling failures.
+                    try:
+                        tune_ds = tune_ds.materialize()
+                    except Exception as e:
+                        self.logger.warning(
+                            "Could not materialize tune dataset; falling back to full train dataset. Error: %s",
+                            str(e),
+                        )
+                        tune_ds = train_ds
                 
                 tuner = importlib.import_module('tuning.'+ framework)
                 best_config = tuner.tune_model(
@@ -236,7 +248,7 @@ class KubeRayTraining(BaseUtils):
 
             return result
         except Exception as e:
-            self.logger.error(f'Failed to connect to Ray cluster: {str(e)}', exc_info=True)
+            self.logger.error(f'Training job failed: {str(e)}', exc_info=True)
             raise
 
 def main():
