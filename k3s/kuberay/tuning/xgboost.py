@@ -172,11 +172,11 @@ def tune_model(
         result = trainer.fit()
         metrics = getattr(result, "metrics", None) or {}
         tune.report(
-            **{
+            {
                 k: float(v)
                 for k, v in metrics.items()
                 if isinstance(v, numbers.Real) and not isinstance(v, bool)
-            },
+            }
         )
 
     # Make Tune account for the full CPU budget per trial.

@@ -120,11 +120,11 @@ def tune_model(
         result = trainer.fit()
         metrics = getattr(result, "metrics", None) or {}
         tune.report(
-            **{
+            {
                 k: float(v)
                 for k, v in metrics.items()
                 if isinstance(v, numbers.Real) and not isinstance(v, bool)
-            },
+            }
         )
 
     cpus_per_trial = int(os.getenv("CPUS_PER_TRIAL", str(num_workers * cpus_per_worker)))
