@@ -49,8 +49,6 @@ def train_func(config: Dict):
             RayTrainReportCallback(
                 metrics=["validation-mlogloss", "validation-merror"],
                 frequency=1,
-                checkpoint_frequency=1,
-                checkpoint_filename=CHECKPOINT_FILENAME,
             ),
         ],
     )
