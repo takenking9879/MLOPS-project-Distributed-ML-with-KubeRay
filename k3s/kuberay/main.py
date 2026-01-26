@@ -1,6 +1,7 @@
 from utils import BaseUtils, create_logger
 import boto3
 import ray
+import re
 import os
 import importlib
 import pickle
@@ -122,7 +123,7 @@ class KubeRayTraining(BaseUtils):
                 # Log metrics (NO artifacts)
                 for k, v in metrics.items():
                     mlflow.log_metric(k, float(v))
-                    
+
         except Exception as e:
             self.logger.error(f"Error al loggear en MLflow: {str(e)}", exc_info=True)
 
@@ -150,9 +151,24 @@ class KubeRayTraining(BaseUtils):
             status = subprocess.run(
                 ["ray", "status"], capture_output=True, text=True, check=False
             )
-            self.logger.info("Ray status:\n%s", status.stdout.strip())
-            if status.stderr:
-                self.logger.warning("Ray status stderr:\n%s", status.stderr.strip())
+            stdout = status.stdout
+            cpu = re.search(r"([\d.]+)/([\d.]+) CPU", stdout)
+            mem = re.search(r"([\dA-Za-z.]+)/([\dA-Za-z.]+) memory", stdout)
+            obj = re.search(r"([\dA-Za-z.]+)/([\dA-Za-z.]+) object_store_memory", stdout)
+            cpu_used, cpu_total = cpu.groups() if cpu else ("?", "?")
+            mem_used, mem_total = mem.groups() if mem else ("?", "?")
+            obj_used, obj_total = obj.groups() if obj else ("?", "?")
+
+            pretty_log = f"""
+            [RAY CLUSTER RESOURCES]
+            ────────────────────────────────
+            CPU           : {cpu_used} / {cpu_total}
+            Memory        : {mem_used} / {mem_total}
+            Object Store  : {obj_used} / {obj_total}
+            ────────────────────────────────
+            """.strip()
+
+            self.logger.info(pretty_log)
             self._check_minio_connection()
             module = importlib.import_module(f"{'modules.' + self.params.get('framework', 'xgboost')}")
 
@@ -250,6 +266,10 @@ class KubeRayTraining(BaseUtils):
             raise
 
 def main():
+    ctx = ray.data.DataContext.get_current()
+    ctx.enable_rich_progress_bars = True
+    ctx.use_ray_tqdm = False
+
     data_dir = "s3://k8s-mlops-platform-bucket/v1/processed/" #Para kuberay
     output_dir = "s3://k8s-mlops-platform-bucket/v1/models" #Para el modelo
 
