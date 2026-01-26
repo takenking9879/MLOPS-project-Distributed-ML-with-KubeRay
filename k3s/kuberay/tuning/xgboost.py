@@ -149,11 +149,24 @@ def tune_model(
             "xgboost_params": trial_config["xgboost_params"],
         }
 
+        # Ray Train may emit checkpoints via RayTrainReportCallback. In a multi-pod
+        # Ray cluster, the default local filesystem path is not shared across pods.
+        # Ensure Train uses a shared storage URI (S3/MinIO) so checkpoint/reporting
+        # doesn't fail with "cluster storage" errors.
+        try:
+            trial_id = tune.get_context().get_trial_id()
+        except Exception:
+            trial_id = str(os.getpid())
+
         trainer = XGBoostTrainer(
             train_loop_per_worker=train_func,
             train_loop_config=train_loop_config,
             scaling_config=scaling_config,
             datasets={"train": train_dataset, "val": val_dataset},
+            run_config=ray.train.RunConfig(
+                storage_path=storage_path,
+                name=f"{name}_train_{trial_id}",
+            ),
         )
         result = trainer.fit()
         metrics = getattr(result, "metrics", None) or {}
