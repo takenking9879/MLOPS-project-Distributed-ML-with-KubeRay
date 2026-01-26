@@ -8,7 +8,8 @@ import torch
 import ray
 from ray import tune
 from ray.train.torch import TorchTrainer
-from ray.train import ScalingConfig, RunConfig
+from ray.train import ScalingConfig
+from ray.air import RunConfig
 from ray.tune.schedulers import ASHAScheduler, ResourceChangingScheduler
 from torch import nn
 from typing import Dict
@@ -35,8 +36,8 @@ def tune_model(
     config: dict con 'max_epochs' para ASHA
     """
 
-    num_workers = int(os.getenv("NUM_WORKERS", 2))
-    cpus_per_worker = int(os.getenv("CPUS_PER_WORKER", 1))
+    num_workers = int(os.getenv("NUM_WORKERS_TUNE", os.getenv("NUM_WORKERS", 2)))
+    cpus_per_worker = int(os.getenv("CPUS_PER_WORKER_TUNE", os.getenv("CPUS_PER_WORKER", 1)))
 
     scaling_config = ScalingConfig(
         num_workers=num_workers,
@@ -73,12 +74,10 @@ def tune_model(
     enable_rcs = os.getenv("ENABLE_RESOURCE_CHANGING_SCHEDULER", "false").lower() in ("1", "true", "yes")
     scheduler = ResourceChangingScheduler(base_scheduler=asha) if enable_rcs else asha
 
-    # Use tune.with_resources to allow Tune to adjust per-trial resources
-    from ray.tune.execution.placement_groups import PlacementGroupFactory
-
-    # PlacementGroupFactory must include bundles for the trial + each Train worker.
-    bundles = [{"CPU": 1}] + [{"CPU": cpus_per_worker}] * num_workers
-    trainable = tune.with_resources(trainer, resources=PlacementGroupFactory(bundles))
+    # NOTE:
+    # `tune.with_resources()` does not support Ray Train `TorchTrainer` (it's not a Tune
+    # Trainable/function trainable). Use `ScalingConfig` to control resources.
+    trainable = trainer
 
     callbacks = []
     if mlflow_tracking_uri and mlflow_experiment_name:
@@ -99,6 +98,7 @@ def tune_model(
             scheduler=scheduler,
             metric="val_loss",
             mode="min",
+            max_concurrent_trials=int(os.getenv("MAX_CONCURRENT_TRIALS", "1")),
         ),
         run_config=RunConfig(storage_path=storage_path, name=name, callbacks=callbacks),
     )

@@ -10,11 +10,11 @@ import xgboost
 import ray
 import ray.train
 from ray import tune
-from ray.train import ScalingConfig, RunConfig
+from ray.train import ScalingConfig
+from ray.air import RunConfig
 from ray.train.xgboost import RayTrainReportCallback, XGBoostTrainer
 from ray.air.integrations.mlflow import MLflowLoggerCallback
 from ray.tune.schedulers import ASHAScheduler, ResourceChangingScheduler
-from ray.tune.execution.placement_groups import PlacementGroupFactory
 from ray.tune.integration.xgboost import TuneReportCheckpointCallback
 
 from schemas.xgboost_params import SEARCH_SPACE_XGBOOST_PARAMS, XGBOOST_TUNE_SETTINGS
@@ -38,7 +38,7 @@ def train_func(config: Dict):
     # IMPORTANT:
     # In Ray Train integration, the train loop runs on Train workers.
     # We keep `nthread` consistent with the CPU allocated per worker bundle.
-    params["nthread"] = int(os.getenv("CPUS_PER_WORKER", "1"))
+    params["nthread"] = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
     params["num_class"] = num_classes
 
     xgb_model = None
@@ -86,8 +86,11 @@ def tune_model(
     mlflow_experiment_name: str | None = None,
 ):
 
-    num_workers = int(os.getenv("NUM_WORKERS", 2))
-    cpus_per_worker = int(os.getenv("CPUS_PER_WORKER", 1))
+    # Two-stage idea:
+    # - Use a cheaper resource config for tuning (fewer workers / CPUs)
+    # - Use a larger resource config for the final distributed training
+    num_workers = int(os.getenv("NUM_WORKERS_TUNE", os.getenv("NUM_WORKERS", 2)))
+    cpus_per_worker = int(os.getenv("CPUS_PER_WORKER_TUNE", os.getenv("CPUS_PER_WORKER", 1)))
 
     scaling_config = ScalingConfig(
         num_workers=num_workers,
@@ -104,6 +107,8 @@ def tune_model(
     param_space = {
         "target": target,
         "num_classes": int(num_classes),
+        # Used by train_func to set xgboost nthread consistently with allocated CPUs.
+        "cpus_per_worker": cpus_per_worker,
         "xgboost_params": SEARCH_SPACE_XGBOOST_PARAMS
     }
 
@@ -122,12 +127,13 @@ def tune_model(
     enable_rcs = os.getenv("ENABLE_RESOURCE_CHANGING_SCHEDULER", "false").lower() in ("1", "true", "yes")
     scheduler = ResourceChangingScheduler(base_scheduler=asha) if enable_rcs else asha
 
-    # Use tune.with_resources with PlacementGroupFactory.
-    # Rule of thumb: bundles must be enough for the trainer + ALL Train workers.
-    # - head bundle: resources for the trial "driver" (this Trainable)
-    # - worker bundles: resources for each Ray Train worker
-    bundles = [{"CPU": 1}] + [{"CPU": cpus_per_worker}] * num_workers
-    trainable = tune.with_resources(trainer, resources=PlacementGroupFactory(bundles))
+    # IMPORTANT:
+    # `tune.with_resources()` only supports function trainables or classes inheriting from
+    # `tune.Trainable`. Ray Train's `XGBoostTrainer` is not one of those, so wrapping it
+    # raises the ValueError you saw.
+    #
+    # Resource control for Ray Train + Tune should be done via `ScalingConfig`.
+    trainable = trainer
 
     callbacks = []
     if mlflow_tracking_uri and mlflow_experiment_name:
@@ -148,6 +154,7 @@ def tune_model(
             scheduler=scheduler,
             metric="validation-mlogloss",
             mode="min",
+            max_concurrent_trials=int(os.getenv("MAX_CONCURRENT_TRIALS", "1")),
         ),
         run_config=RunConfig(
             storage_path=storage_path,

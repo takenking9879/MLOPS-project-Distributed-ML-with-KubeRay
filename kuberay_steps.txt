@@ -27,7 +27,7 @@ helm install kuberay-operator kuberay/kuberay-operator --version 1.5.1 -n ray
 docker build -t ray-cluster:2.52.0 ./k3s/kuberay/
 
 #Dashboard
-kubectl port-forward kuberay-job-vwp8p-head-dm9lx 8265:8265 -n ray
+kubectl port-forward kuberay-job-qzzl2-head-crjrh 8265:8265 -n ray
 
 #Crear pod
 kubectl apply -f k3s/kuberay/kuberay-job.yaml
