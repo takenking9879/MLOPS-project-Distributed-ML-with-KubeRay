@@ -79,7 +79,7 @@ def xgb_multiclass_metrics_on_val(
             X = df.drop(columns=[target])
 
             # Load model from bytes inside the worker
-            tmp = tempfile.NamedTemporaryFile(delete=False)
+            tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".ubj")
             try:
                 tmp.write(model_bytes)
                 tmp.close()

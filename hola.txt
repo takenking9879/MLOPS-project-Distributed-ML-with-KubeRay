@@ -1,388 +1,399 @@
-2026-01-26 13:23:06.479 | 2026-01-26 11:23:06,479	INFO cli.py:41 -- Job submission server address: http://kuberay-job-tng85-head-svc.ray.svc.cluster.local:8265
-2026-01-26 13:23:06.811 | 2026-01-26 11:23:06,811	SUCC cli.py:65 -- ----------------------------------------------
-2026-01-26 13:23:06.811 | 2026-01-26 11:23:06,811	SUCC cli.py:66 -- Job 'kuberay-job-jvczw' submitted successfully
-2026-01-26 13:23:06.811 | 2026-01-26 11:23:06,811	SUCC cli.py:67 -- ----------------------------------------------
-2026-01-26 13:23:06.811 | 2026-01-26 11:23:06,811	INFO cli.py:291 -- Next steps
-2026-01-26 13:23:06.811 | 2026-01-26 11:23:06,811	INFO cli.py:292 -- Query the logs of the job:
-2026-01-26 13:23:06.812 | 2026-01-26 11:23:06,811	INFO cli.py:294 -- ray job logs kuberay-job-jvczw
-2026-01-26 13:23:06.812 | 2026-01-26 11:23:06,811	INFO cli.py:296 -- Query the status of the job:
-2026-01-26 13:23:06.812 | 2026-01-26 11:23:06,812	INFO cli.py:298 -- ray job status kuberay-job-jvczw
-2026-01-26 13:23:06.812 | 2026-01-26 11:23:06,812	INFO cli.py:300 -- Request the job to be stopped:
-2026-01-26 13:23:06.812 | 2026-01-26 11:23:06,812	INFO cli.py:302 -- ray job stop kuberay-job-jvczw
-2026-01-26 13:23:08.412 | 2026-01-26 11:23:08,411	INFO cli.py:41 -- Job submission server address: http://kuberay-job-tng85-head-svc.ray.svc.cluster.local:8265
-2026-01-26 13:23:10.429 | 2026-01-26 11:23:06,537	INFO job_manager.py:568 -- Runtime env is setting up.
-2026-01-26 13:23:10.429 | Running entrypoint for job kuberay-job-jvczw: python3 /home/ray/app/repo/k3s/kuberay/main.py
-2026-01-26 13:23:11.431 | 2026-01-26 11:23:09,951 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
-2026-01-26 13:23:11.431 | 2026-01-26 11:23:11,243 - KubeRayTraining - INFO - Ray status:
-2026-01-26 13:23:11.431 | ======== Autoscaler status: 2026-01-26 11:23:11.069703 ========
-2026-01-26 13:23:11.431 | Node status
-2026-01-26 13:23:11.431 | ---------------------------------------------------------------
-2026-01-26 13:23:11.431 | Active:
-2026-01-26 13:23:11.431 |  1 headgroup
-2026-01-26 13:23:11.431 | Idle:
-2026-01-26 13:23:11.431 |  2 small-group
-2026-01-26 13:23:11.431 | Pending:
-2026-01-26 13:23:11.431 |  (no pending nodes)
-2026-01-26 13:23:11.431 | Recent failures:
-2026-01-26 13:23:11.431 |  (no failures)
-2026-01-26 13:23:11.431 | 
-2026-01-26 13:23:11.431 | Resources
-2026-01-26 13:23:11.431 | ---------------------------------------------------------------
-2026-01-26 13:23:11.431 | Total Usage:
-2026-01-26 13:23:11.431 |  0.0/18.0 CPU
-2026-01-26 13:23:11.431 |  0B/13.00GiB memory
-2026-01-26 13:23:11.431 |  0B/8.23GiB object_store_memory
-2026-01-26 13:23:11.431 | 
-2026-01-26 13:23:12.432 | From request_resources:
-2026-01-26 13:23:12.432 |  (none)
-2026-01-26 13:23:12.432 | Pending Demands:
-2026-01-26 13:23:12.432 |  (no resource demands)
-2026-01-26 13:23:13.434 | 2026-01-26 11:23:11,631 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
-2026-01-26 13:23:16.438 | 2026-01-26 11:23:14,368	INFO worker.py:1696 -- Using address 10.1.5.17:6379 set in the environment variable RAY_ADDRESS
-2026-01-26 13:23:16.438 | 2026-01-26 11:23:14,370	INFO worker.py:1837 -- Connecting to existing Ray cluster at address: 10.1.5.17:6379...
-2026-01-26 13:23:16.438 | 2026-01-26 11:23:14,384	INFO worker.py:2014 -- Connected to Ray cluster. View the dashboard at http://10.1.5.17:8265 
-2026-01-26 13:23:16.438 | /home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py:2062: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
-2026-01-26 13:23:16.438 |   warnings.warn(
-2026-01-26 13:23:16.438 | 
-2026-01-26 13:23:16.438 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 13:23:17.439 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 13:23:17.439 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.57s/ file]
-2026-01-26 13:23:17.439 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.57s/ file]
-2026-01-26 13:23:17.439 |                                                                                  
-2026-01-26 13:23:17.439 | 
-2026-01-26 13:23:17.439 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.57s/ file]
-2026-01-26 13:23:17.439 | 2026-01-26 11:23:15,991	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.660.
-2026-01-26 13:23:17.439 | 2026-01-26 11:23:15,992	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
-2026-01-26 13:23:18.440 | 2026-01-26 11:23:17,101 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/train.
-2026-01-26 13:23:19.441 | 
-2026-01-26 13:23:20.441 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 13:23:20.441 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 13:23:20.441 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.79s/ file]
-2026-01-26 13:23:20.441 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.79s/ file]
-2026-01-26 13:23:20.441 |                                                                                  
-2026-01-26 13:23:20.441 | 
-2026-01-26 13:23:20.441 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.79s/ file]
-2026-01-26 13:23:20.441 | 2026-01-26 11:23:19,592	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.783.
-2026-01-26 13:23:20.441 | 2026-01-26 11:23:19,592	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
-2026-01-26 13:23:20.441 | 2026-01-26 11:23:19,597 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/val.
-2026-01-26 13:23:20.441 | 2026-01-26 11:23:19,597 - KubeRayTraining - INFO - Starting training using framework: xgboost
-2026-01-26 13:23:25.449 | (TrainController pid=1363) A run snapshot was found in storage folder at: 'k8s-mlops-platform-bucket/v1/models/xgboost'
-2026-01-26 13:23:25.449 | (TrainController pid=1363) This snapshot contains a list of checkpoints reported via `ray.train.report` and will be loaded. This allows the latest checkpoint found in the snapshot to be accessible within your training function via `ray.train.get_checkpoint`.
-2026-01-26 13:23:25.449 | (TrainController pid=1363) If you meant to start a brand new training job without any information about previous checkpoints found in this directory, please configure a new, unique `RunConfig(name)` or delete the existing folder at 'k8s-mlops-platform-bucket/v1/models/xgboost'.
-2026-01-26 13:23:25.449 | (TrainController pid=1363) Attempting to start training worker group of size 2 with the following resources: [{'CPU': 8}] * 2
-2026-01-26 13:23:29.457 | (RayTrainWorker pid=439, ip=10.1.5.15) [11:23:27] Task [xgboost.ray-rank=00000000]:a8c33eb2d73408eae6a8dfe902000000 got rank 0
-2026-01-26 13:23:29.457 | (RayTrainWorker pid=439, ip=10.1.5.15) [xgboost] Worker using nthread=8 | OMP_NUM_THREADS=8
-2026-01-26 13:23:29.457 | (TrainController pid=1363) Started training worker group of size 2: 
-2026-01-26 13:23:29.457 | (TrainController pid=1363) - (ip=10.1.5.15, pid=439) world_rank=0, local_rank=0, node_rank=0
-2026-01-26 13:23:29.457 | (TrainController pid=1363) - (ip=10.1.5.16, pid=500) world_rank=1, local_rank=0, node_rank=1
-2026-01-26 13:23:29.457 | (SplitCoordinator pid=1534) Registered dataset logger for dataset train_2_0
-2026-01-26 13:23:29.457 | (SplitCoordinator pid=1534) Starting execution of Dataset train_2_0. Full logs are in /tmp/ray/session_2026-01-26_11-22-32_963101_1/logs/ray-data
-2026-01-26 13:23:29.457 | (SplitCoordinator pid=1534) Execution plan of Dataset train_2_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
-2026-01-26 13:23:29.457 | (SplitCoordinator pid=1534) [dataset]: A new progress UI is available. To enable, set `ray.data.DataContext.get_current().enable_rich_progress_bars = True` and `ray.data.DataContext.get_current().use_ray_tqdm = False`.
-2026-01-26 13:23:29.457 | 
-2026-01-26 13:23:29.457 | (pid=1534) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:29.457 | 
-2026-01-26 13:23:29.457 | (pid=1534) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:29.457 | 
-2026-01-26 13:23:29.457 | 
-2026-01-26 13:23:29.457 | (pid=1534) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:29.457 | 
-2026-01-26 13:23:29.457 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:29.457 | 
-2026-01-26 13:23:29.457 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 |                                                                                                                                        
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                         
-2026-01-26 13:23:31.739 | (raylet) WARNING: 4 PYTHON worker processes have been started on node: a0196b2ab4b1bdd6fd502eb3dcc7b538839ee3cffcd57c2e94e77499 with address: 10.1.5.17. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 |                                                                                                                                        
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                         
-2026-01-26 13:23:31.739 | (SplitCoordinator pid=1534) ✔️  Dataset train_2_0 execution finished in 1.87 seconds
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 1.87 seconds: : 0.00 row [00:01, ? row/s]                                       
-2026-01-26 13:23:31.739 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 1.87 seconds:   0%|          | 0.00/2.00k [00:01<?, ? row/s]
-2026-01-26 13:23:31.739 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 1.87 seconds: 100%|██████████| 2.00k/2.00k [00:01<00:00, 1.10k row/s]
-2026-01-26 13:23:31.739 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 1.87 seconds: 100%|██████████| 2.00k/2.00k [00:01<00:00, 1.10k row/s]
-2026-01-26 13:23:31.739 |                                                                                                                             
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                         
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 1.87 seconds: 100%|██████████| 2.00k/2.00k [00:01<00:00, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]    
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 2.00k row [00:01, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 2.00k row [00:01, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                         
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 2.00k row [00:01, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 35.3KiB object store; [0/33 objects local]: : 0.00 row [00:01, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 35.3KiB object store; [0/33 objects local]:   0%|          | 0.00/2.00k [00:01<?, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 35.3KiB object store; [0/33 objects local]: 100%|██████████| 2.00k/2.00k [00:01<00:00, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 35.3KiB object store; [0/33 objects local]: 100%|██████████| 2.00k/2.00k [00:01<00:00, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                                                                                                         
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 35.3KiB object store; [0/33 objects local]: 100%|██████████| 2.00k/2.00k [00:01<00:00, 1.10k row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 |                                                             
-2026-01-26 13:23:31.739 | (RayTrainWorker pid=439, ip=10.1.5.15) 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=500, ip=10.1.5.16) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 |                                                             
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                             
-2026-01-26 13:23:31.739 | (RayTrainWorker pid=500, ip=10.1.5.16) 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=500, ip=10.1.5.16) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=500, ip=10.1.5.16) ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=500, ip=10.1.5.16) ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 4.70M row/s]
-2026-01-26 13:23:31.739 |                                                             
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 |                                                                                                                     
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=500, ip=10.1.5.16) ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 3.12M row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 |                                                             
-2026-01-26 13:23:31.739 | (RayTrainWorker pid=500, ip=10.1.5.16) 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 |                                                             
-2026-01-26 13:23:31.739 | (RayTrainWorker pid=500, ip=10.1.5.16) Exiting prefetcher's background thread
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 9.85k row/s]
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 9.85k row/s]
-2026-01-26 13:23:31.739 |                                                                                                                     
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 9.84k row/s]
-2026-01-26 13:23:31.739 | (RayTrainWorker pid=439, ip=10.1.5.15) 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1592) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1592) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1592) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:31.739 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.741 | (pid=1592) Running Dataset: val_4_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.741 | (pid=1592) Running Dataset: val_4_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | (pid=1592) Running Dataset: val_4_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | (pid=1592) ✔️  Dataset val_4_0 execution finished in 1.15 seconds: : 0.00 row [00:02, ? row/s]                                       
-2026-01-26 13:23:32.741 | (pid=1592) ✔️  Dataset val_4_0 execution finished in 1.15 seconds:   0%|          | 0.00/3.00k [00:02<?, ? row/s]
-2026-01-26 13:23:32.741 | (pid=1592) ✔️  Dataset val_4_0 execution finished in 1.15 seconds: 100%|██████████| 3.00k/3.00k [00:02<00:00, 1.25k row/s]
-2026-01-26 13:23:32.741 | (pid=1592) ✔️  Dataset val_4_0 execution finished in 1.15 seconds: 100%|██████████| 3.00k/3.00k [00:02<00:00, 1.25k row/s]
-2026-01-26 13:23:32.741 |                                                                                                                           
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 |                                                                                                                                                                
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 |                                                                                                                                                                         
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) ✔️  Dataset val_4_0 execution finished in 1.15 seconds: 100%|██████████| 3.00k/3.00k [00:02<00:00, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:02, ? row/s]    
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 3.00k row [00:02, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 3.00k row [00:02, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 |                                                                                                                                                                 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 |                                                                                                                                                                         
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 3.00k row [00:02, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 53.2KiB object store; [0/33 objects local]: : 0.00 row [00:02, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 53.2KiB object store; [0/33 objects local]:   0%|          | 0.00/3.00k [00:02<?, ? row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 53.2KiB object store; [0/33 objects local]: 100%|██████████| 3.00k/3.00k [00:02<00:00, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 53.2KiB object store; [0/33 objects local]: 100%|██████████| 3.00k/3.00k [00:02<00:00, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 |                                                                                                                                                                                                         
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=1592) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 53.2KiB object store; [0/33 objects local]: 100%|██████████| 3.00k/3.00k [00:02<00:00, 1.25k row/s]
-2026-01-26 13:23:32.741 | 
-2026-01-26 13:23:32.741 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.741 |                                                             
-2026-01-26 13:23:32.741 | (RayTrainWorker pid=439, ip=10.1.5.15) 
-2026-01-26 13:23:32.742 | 
-2026-01-26 13:23:32.742 | (pid=439, ip=10.1.5.15) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.742 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.742 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 8.06M row/s]
-2026-01-26 13:23:32.742 |                                                                                                                     
-2026-01-26 13:23:32.742 | 
-2026-01-26 13:23:32.742 | (pid=439, ip=10.1.5.15) ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 5.41M row/s]
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=439, ip=10.1.5.15) 
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=439, ip=10.1.5.15) [11:23:32] WARNING: /workspace/src/learner.cc:790: 
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=439, ip=10.1.5.15) Parameters: { "num_boost_round" } are not used.
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=439, ip=10.1.5.15) 
-2026-01-26 13:23:32.742 | 
-2026-01-26 13:23:32.742 | (pid=500, ip=10.1.5.16) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.742 |                                                             
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=500, ip=10.1.5.16) 
-2026-01-26 13:23:32.742 | 
-2026-01-26 13:23:32.742 | (pid=500, ip=10.1.5.16) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.742 | (pid=500, ip=10.1.5.16) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-26 13:23:32.742 | (pid=500, ip=10.1.5.16) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 9.07M row/s]
-2026-01-26 13:23:32.742 |                                                                                                                     
-2026-01-26 13:23:32.742 | 
-2026-01-26 13:23:32.742 | (pid=500, ip=10.1.5.16) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 6.06M row/s]
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=500, ip=10.1.5.16) 
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=500, ip=10.1.5.16) 
-2026-01-26 13:23:32.742 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 1: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.7551389080882073), 'validation-merror': np.float64(0.00833333333333333)}, validation_spec=None)
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-32.241344)
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 1: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-32.241344), metrics={'validation-mlogloss': np.float64(0.7551389080882073), 'validation-merror': np.float64(0.00833333333333333)}, validation_spec=None)
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=500, ip=10.1.5.16) [11:23:27] Task [xgboost.ray-rank=00000001]:8427f2973eb55d32439d247d02000000 got rank 1
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=500, ip=10.1.5.16) Registered dataset logger for dataset dataset_9_0 [repeated 5x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
-2026-01-26 13:23:34.744 | (SplitCoordinator pid=1592) Starting execution of Dataset val_4_0. Full logs are in /tmp/ray/session_2026-01-26_11-22-32_963101_1/logs/ray-data
-2026-01-26 13:23:34.744 | (SplitCoordinator pid=1592) Execution plan of Dataset val_4_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
-2026-01-26 13:23:34.744 | (SplitCoordinator pid=1592) [dataset]: A new progress UI is available. To enable, set `ray.data.DataContext.get_current().enable_rich_progress_bars = True` and `ray.data.DataContext.get_current().use_ray_tqdm = False`. [repeated 3x across cluster]
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 2: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.5315327040950457), 'validation-merror': np.float64(0.006)}, validation_spec=None)
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-33.583957)
-2026-01-26 13:23:34.744 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 2: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-33.583957), metrics={'validation-mlogloss': np.float64(0.5315327040950457), 'validation-merror': np.float64(0.006)}, validation_spec=None)
-2026-01-26 13:23:35.745 | (RayTrainWorker pid=500, ip=10.1.5.16) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds [repeated 5x across cluster]
-2026-01-26 13:23:36.748 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 3: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.3841657247742017), 'validation-merror': np.float64(0.006)}, validation_spec=None)
-2026-01-26 13:23:36.748 | (RayTrainWorker pid=500, ip=10.1.5.16) Exiting prefetcher's background thread [repeated 3x across cluster]
-2026-01-26 13:23:37.750 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-34.906562)
-2026-01-26 13:23:37.750 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 3: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-34.906562), metrics={'validation-mlogloss': np.float64(0.3841657247742017), 'validation-merror': np.float64(0.006)}, validation_spec=None)
-2026-01-26 13:23:38.750 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 4: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.2827360161244869), 'validation-merror': np.float64(0.00533333333333333)}, validation_spec=None)
-2026-01-26 13:23:38.750 | (RayTrainWorker pid=500, ip=10.1.5.16) [11:23:32] WARNING: /workspace/src/learner.cc:790: 
-2026-01-26 13:23:38.750 | (RayTrainWorker pid=500, ip=10.1.5.16) Parameters: { "num_boost_round" } are not used.
-2026-01-26 13:23:39.751 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-37.394551)
-2026-01-26 13:23:39.751 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 4: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-37.394551), metrics={'validation-mlogloss': np.float64(0.2827360161244869), 'validation-merror': np.float64(0.00533333333333333)}, validation_spec=None)
-2026-01-26 13:23:42.757 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 5: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.20996513929466407), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:42.758 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-39.861494)
-2026-01-26 13:23:42.758 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 5: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-39.861494), metrics={'validation-mlogloss': np.float64(0.20996513929466407), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:43.758 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 6: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.15795218300819397), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:44.759 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-42.330472)
-2026-01-26 13:23:44.759 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 6: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-42.330472), metrics={'validation-mlogloss': np.float64(0.15795218300819397), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:47.763 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 7: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.12013501411428054), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:47.763 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-44.789541)
-2026-01-26 13:23:47.763 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 7: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-44.789541), metrics={'validation-mlogloss': np.float64(0.12013501411428054), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:48.764 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 8: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.09248730969429016), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:49.765 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-47.251971)
-2026-01-26 13:23:49.765 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 8: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-47.251971), metrics={'validation-mlogloss': np.float64(0.09248730969429016), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None)
-2026-01-26 13:23:52.770 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 9: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.07189561847349007), 'validation-merror': np.float64(0.004)}, validation_spec=None)
-2026-01-26 13:23:52.770 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-49.731807)
-2026-01-26 13:23:52.770 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 9: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-49.731807), metrics={'validation-mlogloss': np.float64(0.07189561847349007), 'validation-merror': np.float64(0.004)}, validation_spec=None)
-2026-01-26 13:23:53.771 | (RayTrainWorker pid=500, ip=10.1.5.16) Reporting training result 10: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.05672776946425438), 'validation-merror': np.float64(0.004)}, validation_spec=None)
-2026-01-26 13:23:54.771 | (RayTrainWorker pid=439, ip=10.1.5.15) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-52.183701)
-2026-01-26 13:23:54.771 | (RayTrainWorker pid=439, ip=10.1.5.15) Reporting training result 10: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-23-52.183701), metrics={'validation-mlogloss': np.float64(0.05672776946425438), 'validation-merror': np.float64(0.004)}, validation_spec=None)
-2026-01-26 13:24:03.062 | [xgboost] distributed train_time_sec=39.08
-2026-01-26 13:24:03.062 | Error calculando métricas multiclass de XGBoost: 'Checkpoint' object has no attribute 'get_model'
-2026-01-26 13:24:03.062 | Traceback (most recent call last):
-2026-01-26 13:24:03.062 |   File "/home/ray/app/.worktrees/cc491984de582ce3d0a3db25caddb73802399c97/k3s/kuberay/helpers/metrics_utils.py", line 71, in xgb_multiclass_metrics_on_val
-2026-01-26 13:24:03.062 |     booster = booster_checkpoint.get_model()
-2026-01-26 13:24:03.062 |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-26 13:24:03.062 | AttributeError: 'Checkpoint' object has no attribute 'get_model'
-2026-01-26 13:24:03.062 | 2026-01-26 11:23:59,966 - KubeRayTraining - INFO - Training completed successfully.
-2026-01-26 13:24:03.062 | 2026-01-26 11:23:59,966 - KubeRayTraining - INFO - Exportando modelo final de xgboost a S3...
-2026-01-26 13:24:04.062 | 2026-01-26 11:24:00,973 - KubeRayTraining - INFO - Modelo guardado exitosamente en: s3://k8s-mlops-platform-bucket/v1/models/model_xgboost.pkl
-2026-01-26 13:24:04.062 | 2026-01-26 11:24:00,973 - KubeRayTraining - INFO - xgboost training time (distributed) = 39.08 s
-2026-01-26 13:24:04.062 | 🏃 View run xgboost_final_xgboost at: http://my-mlflow/#/experiments/1/runs/cbcec374674a4e5296fa17c9a1f5a972
-2026-01-26 13:24:04.062 | 🧪 View experiment at: http://my-mlflow/#/experiments/1
-2026-01-26 13:24:07.082 | 2026-01-26 11:24:07,081	SUCC cli.py:65 -- ---------------------------------
-2026-01-26 13:24:07.082 | 2026-01-26 11:24:07,081	SUCC cli.py:66 -- Job 'kuberay-job-jvczw' succeeded
-2026-01-26 13:24:07.082 | 2026-01-26 11:24:07,082	SUCC cli.py:67 -- ---------------------------------
+2026-01-26 13:56:17.443 | 2026-01-26 11:56:15,581 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
+2026-01-26 13:56:17.443 | 2026-01-26 11:56:16,977 - KubeRayTraining - INFO - Ray status:
+2026-01-26 13:56:17.443 | Resources
+2026-01-26 13:56:17.443 | ---------------------------------------------------------------
+2026-01-26 13:56:17.443 | Total Usage:
+2026-01-26 13:56:17.443 |  0.0/18.0 CPU
+2026-01-26 13:56:17.443 |  0B/13.00GiB memory
+2026-01-26 13:56:17.443 |  0B/8.23GiB object_store_memory
+2026-01-26 13:56:17.443 | 
+2026-01-26 13:56:18.443 | From request_resources:
+2026-01-26 13:56:18.443 |  (none)
+2026-01-26 13:56:18.443 | Pending Demands:
+2026-01-26 13:56:18.443 |  (no resource demands)
+2026-01-26 13:56:18.443 | 2026-01-26 11:56:17,306 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
+2026-01-26 13:56:19.445 | 2026-01-26 11:56:18,349	INFO worker.py:1696 -- Using address 10.1.5.25:6379 set in the environment variable RAY_ADDRESS
+2026-01-26 13:56:19.445 | 2026-01-26 11:56:18,351	INFO worker.py:1837 -- Connecting to existing Ray cluster at address: 10.1.5.25:6379...
+2026-01-26 13:56:19.445 | 2026-01-26 11:56:18,365	INFO worker.py:2014 -- Connected to Ray cluster. View the dashboard at http://10.1.5.25:8265 
+2026-01-26 13:56:19.445 | /home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py:2062: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+2026-01-26 13:56:19.445 |   warnings.warn(
+2026-01-26 13:56:19.445 | 
+2026-01-26 13:56:20.445 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 13:56:21.446 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 13:56:21.446 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.68s/ file]
+2026-01-26 13:56:21.446 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.68s/ file]
+2026-01-26 13:56:21.446 |                                                                                  
+2026-01-26 13:56:21.446 | 
+2026-01-26 13:56:21.446 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.68s/ file]
+2026-01-26 13:56:21.446 | 2026-01-26 11:56:20,082	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.660.
+2026-01-26 13:56:21.446 | 2026-01-26 11:56:20,082	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
+2026-01-26 13:56:23.764 | 2026-01-26 11:56:21,164 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/train.
+2026-01-26 13:56:24.765 | 
+2026-01-26 13:56:24.765 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 13:56:25.765 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 13:56:25.766 | Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
+2026-01-26 13:56:25.766 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:03<00:00, 3.03s/ file]
+2026-01-26 13:56:25.766 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:03<00:00, 3.03s/ file]
+2026-01-26 13:56:25.766 |                                                                                  
+2026-01-26 13:56:25.766 | 
+2026-01-26 13:56:25.766 | Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:03<00:00, 3.03s/ file]
+2026-01-26 13:56:25.766 | 2026-01-26 11:56:24,902	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.783.
+2026-01-26 13:56:25.766 | 2026-01-26 11:56:24,902	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
+2026-01-26 13:56:25.766 | 2026-01-26 11:56:24,912 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/val.
+2026-01-26 13:56:25.766 | 2026-01-26 11:56:24,912 - KubeRayTraining - INFO - Starting training using framework: xgboost
+2026-01-26 13:56:30.773 | (TrainController pid=1364) Attempting to start training worker group of size 2 with the following resources: [{'CPU': 8}] * 2
+2026-01-26 13:56:32.777 | (TrainController pid=1364) Started training worker group of size 2: 
+2026-01-26 13:56:32.777 | (TrainController pid=1364) - (ip=10.1.5.24, pid=440) world_rank=0, local_rank=0, node_rank=0
+2026-01-26 13:56:32.777 | (TrainController pid=1364) - (ip=10.1.5.23, pid=500) world_rank=1, local_rank=0, node_rank=1
+2026-01-26 13:56:32.777 | (RayTrainWorker pid=500, ip=10.1.5.23) [11:56:32] Task [xgboost.ray-rank=00000001]:9a159d34822cdcd4a1d5196702000000 got rank 1
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 |                                                                        
+2026-01-26 13:56:32.777 | (SplitCoordinator pid=1534) Starting execution of Dataset train_2_0. Full logs are in /tmp/ray/session_2026-01-26_11-55-37_577426_1/logs/ray-data
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 |                                                
+2026-01-26 13:56:32.777 |                                                               
+2026-01-26 13:56:32.777 | (SplitCoordinator pid=1534) Execution plan of Dataset train_2_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 |                                                
+2026-01-26 13:56:32.777 |                                                               
+2026-01-26 13:56:32.777 | (SplitCoordinator pid=1534) [dataset]: A new progress UI is available. To enable, set `ray.data.DataContext.get_current().enable_rich_progress_bars = True` and `ray.data.DataContext.get_current().use_ray_tqdm = False`.
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:32.777 | (pid=1534) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:32.777 |                                                
+2026-01-26 13:56:32.777 |                                                               
+2026-01-26 13:56:32.777 | (RayTrainWorker pid=440, ip=10.1.5.24) [xgboost] Worker using nthread=8 | OMP_NUM_THREADS=8
+2026-01-26 13:56:32.777 | 
+2026-01-26 13:56:33.777 | (pid=1534) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | (pid=1534) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | (pid=1534) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:33.777 | 
+2026-01-26 13:56:34.778 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:34.778 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:34.778 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:34.778 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 0.00 row [00:02, ? row/s] 
+2026-01-26 13:56:34.778 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:34.778 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 0.00 row [00:02, ? row/s] 
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 0.00 row [00:02, ? row/s]
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:34.778 |                                                                                                                                                                                   
+2026-01-26 13:56:34.778 | (raylet) WARNING: 4 PYTHON worker processes have been started on node: 0f6889ee3ee007e6802c89d0c7c331d726829fcaf3d693b4688c4497 with address: 10.1.5.25. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
+2026-01-26 13:56:34.778 | 
+2026-01-26 13:56:34.778 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:35.779 | (pid=440, ip=10.1.5.24) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 |                                                                                                                                        
+2026-01-26 13:56:35.779 |                                                        
+2026-01-26 13:56:35.779 | (RayTrainWorker pid=440, ip=10.1.5.24) 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:35.779 |                         
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 |                                                             
+2026-01-26 13:56:35.779 | (RayTrainWorker pid=440, ip=10.1.5.24) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:35.779 | (pid=440, ip=10.1.5.24) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=440, ip=10.1.5.24) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=440, ip=10.1.5.24) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 2.09M row/s]
+2026-01-26 13:56:35.779 |                                                                                                                                        
+2026-01-26 13:56:35.779 |                                                                                                                     
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=440, ip=10.1.5.24) ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 1.74M row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:35.779 |                                                                                                                                        
+2026-01-26 13:56:35.779 |                                                                                                                                                                                   
+2026-01-26 13:56:35.779 | (RayTrainWorker pid=440, ip=10.1.5.24) 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) Running Dataset: train_2_0. Active & requested resources: 1/2 CPU, 89.2KiB/4.1GiB object store: : 896 row [00:02, 444 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:35.779 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 2.06 seconds: : 896 row [00:02, 444 row/s]                                      
+2026-01-26 13:56:35.779 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 2.06 seconds:  45%|████▍     | 896/2.00k [00:02<00:02, 444 row/s]
+2026-01-26 13:56:35.779 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 2.06 seconds: 100%|██████████| 2.00k/2.00k [00:02<00:00, 1.14k row/s]
+2026-01-26 13:56:35.779 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 2.06 seconds: 100%|██████████| 2.00k/2.00k [00:02<00:00, 1.14k row/s]
+2026-01-26 13:56:35.779 |                                                                                                                                                                                                                                                                                                             
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) ✔️  Dataset train_2_0 execution finished in 2.06 seconds: 100%|██████████| 2.00k/2.00k [00:02<00:00, 943 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 29.6KiB object store: : 1.50k row [00:02, 745 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 1.50k row [00:02, 745 row/s]   
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 2.00k row [00:02, 1.02k row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 2.00k row [00:02, 1.02k row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 |                                                                                                                                                                                   
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 2.00k row [00:02, 942 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 3 (17.7KiB); Resources: 0.0 CPU, 47.5KiB object store; [0/24 objects local]: : 1.23k row [00:02, 609 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 47.1KiB object store; [0/33 objects local]: : 1.23k row [00:02, 609 row/s]   
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 47.1KiB object store; [0/33 objects local]:  62%|██████▏   | 1.23k/2.00k [00:02<00:01, 609 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 47.1KiB object store; [0/33 objects local]: 100%|██████████| 2.00k/2.00k [00:02<00:00, 1.08k row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 47.1KiB object store; [0/33 objects local]: 100%|██████████| 2.00k/2.00k [00:02<00:00, 1.08k row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 |                                                                                                                                                                                                         
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1534) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 47.1KiB object store; [0/33 objects local]: 100%|██████████| 2.00k/2.00k [00:02<00:00, 942 row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 |                                                             
+2026-01-26 13:56:35.779 | (RayTrainWorker pid=500, ip=10.1.5.23) 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 5.85M row/s]
+2026-01-26 13:56:35.779 |                                                                                                                     
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds: : 1.00k row [00:00, 4.21M row/s]
+2026-01-26 13:56:35.779 | (RayTrainWorker pid=500, ip=10.1.5.23) 
+2026-01-26 13:56:35.779 | (RayTrainWorker pid=500, ip=10.1.5.23) Exiting prefetcher's background thread
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1591) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | (pid=1591) - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:35.779 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | (pid=1591) Running Dataset: val_4_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | (pid=1591) Running Dataset: val_4_0. Active & requested resources: 1/2 CPU, 256.0MiB/4.1GiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | (pid=1591) ✔️  Dataset val_4_0 execution finished in 1.45 seconds: : 0.00 row [00:01, ? row/s]                                       
+2026-01-26 13:56:36.781 | (pid=1591) ✔️  Dataset val_4_0 execution finished in 1.45 seconds:   0%|          | 0.00/2.83k [00:01<?, ? row/s]
+2026-01-26 13:56:36.781 | (pid=1591) ✔️  Dataset val_4_0 execution finished in 1.45 seconds: 100%|██████████| 2.83k/2.83k [00:01<00:00, 2.00k row/s]
+2026-01-26 13:56:36.781 | (pid=1591) ✔️  Dataset val_4_0 execution finished in 1.45 seconds: 100%|██████████| 2.83k/2.83k [00:01<00:00, 2.00k row/s]
+2026-01-26 13:56:36.781 |                                                                                                                           
+2026-01-26 13:56:36.781 |                                                                                                                                                                 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) ✔️  Dataset val_4_0 execution finished in 1.45 seconds: 100%|██████████| 2.83k/2.83k [00:01<00:00, 2.00k row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]    
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store:   0%|          | 0.00/3.00k [00:01<?, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 3.00k/3.00k [00:01<00:00, 2.12k row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 3.00k/3.00k [00:01<00:00, 2.12k row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 |                                                                                                                                                                         
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - ReadParquet->SplitBlocks(36): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 3.00k/3.00k [00:01<00:00, 2.12k row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store; [all objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 79.9KiB object store; [0/33 objects local]: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 79.9KiB object store; [0/33 objects local]:   0%|          | 0.00/3.00k [00:01<?, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 79.9KiB object store; [0/33 objects local]: 100%|██████████| 3.00k/3.00k [00:01<00:00, 2.12k row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 79.9KiB object store; [0/33 objects local]: 100%|██████████| 3.00k/3.00k [00:01<00:00, 2.12k row/s]
+2026-01-26 13:56:36.781 |                                                                                                                                                                                                       
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=1591) - split(2, equal=True): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 79.9KiB object store; [0/33 objects local]: 100%|██████████| 3.00k/3.00k [00:01<00:00, 2.12k row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 |                                                             
+2026-01-26 13:56:36.781 | (RayTrainWorker pid=500, ip=10.1.5.23) 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | (pid=440, ip=10.1.5.24) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 |                                                             
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 |                                                             
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 |                                                             
+2026-01-26 13:56:36.781 | (RayTrainWorker pid=440, ip=10.1.5.24) 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=440, ip=10.1.5.24) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | (pid=440, ip=10.1.5.24) ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | (pid=440, ip=10.1.5.24) ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 3.86M row/s]
+2026-01-26 13:56:36.781 |                                                                                                                                                                              
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=440, ip=10.1.5.24) ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 2.58M row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 |                                                             
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 |                                                             
+2026-01-26 13:56:36.781 | (RayTrainWorker pid=440, ip=10.1.5.24) 
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 0.00 row [00:00, ? row/s]
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 14.6k row/s]
+2026-01-26 13:56:36.781 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 14.6k row/s]
+2026-01-26 13:56:36.781 |                                                                                                                     
+2026-01-26 13:56:36.781 | 
+2026-01-26 13:56:37.782 | (pid=500, ip=10.1.5.23) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds: : 1.50k row [00:00, 14.6k row/s]
+2026-01-26 13:56:37.782 | (RayTrainWorker pid=500, ip=10.1.5.23) 
+2026-01-26 13:56:37.782 | (RayTrainWorker pid=440, ip=10.1.5.24) Reporting training result 1: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.7551389080882073), 'validation-merror': np.float64(0.00833333333333333)}, validation_spec=None)
+2026-01-26 13:56:37.782 | (RayTrainWorker pid=440, ip=10.1.5.24) Reporting training result 2: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.5315327040950457), 'validation-merror': np.float64(0.006)}, validation_spec=None)
+2026-01-26 13:56:40.788 | (RayTrainWorker pid=440, ip=10.1.5.24) [11:56:32] Task [xgboost.ray-rank=00000000]:fc9e760bf45a8a1ea7dabae102000000 got rank 0
+2026-01-26 13:56:40.788 | (RayTrainWorker pid=440, ip=10.1.5.24) Registered dataset logger for dataset dataset_8_0 [repeated 5x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
+2026-01-26 13:56:40.788 | (SplitCoordinator pid=1591) Starting execution of Dataset val_4_0. Full logs are in /tmp/ray/session_2026-01-26_11-55-37_577426_1/logs/ray-data
+2026-01-26 13:56:40.788 | (SplitCoordinator pid=1591) Execution plan of Dataset val_4_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
+2026-01-26 13:56:40.788 | (SplitCoordinator pid=1591) [dataset]: A new progress UI is available. To enable, set `ray.data.DataContext.get_current().enable_rich_progress_bars = True` and `ray.data.DataContext.get_current().use_ray_tqdm = False`. [repeated 3x across cluster]
+2026-01-26 13:56:41.788 | (RayTrainWorker pid=500, ip=10.1.5.23) ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds [repeated 5x across cluster]
+2026-01-26 13:56:41.789 | (RayTrainWorker pid=500, ip=10.1.5.23) Exiting prefetcher's background thread [repeated 3x across cluster]
+2026-01-26 13:56:44.793 | (RayTrainWorker pid=440, ip=10.1.5.24) Reporting training result 6: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.15795218300819397), 'validation-merror': np.float64(0.00466666666666667)}, validation_spec=None) [repeated 9x across cluster]
+2026-01-26 13:56:51.806 | (RayTrainWorker pid=440, ip=10.1.5.24) Reporting training result 9: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.07189561847349007), 'validation-merror': np.float64(0.004)}, validation_spec=None) [repeated 6x across cluster]
+2026-01-26 13:56:58.092 | (RayTrainWorker pid=440, ip=10.1.5.24) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-56-52.750112)
+2026-01-26 13:56:58.093 | (RayTrainWorker pid=440, ip=10.1.5.24) Reporting training result 11: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_11-56-52.750112), metrics={'validation-mlogloss': np.float64(0.05672776946425438), 'validation-merror': np.float64(0.004)}, validation_spec=None)
+2026-01-26 13:56:58.093 | (RayTrainWorker pid=500, ip=10.1.5.23) Reporting training result 11: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': np.float64(0.05672776946425438), 'validation-merror': np.float64(0.004)}, validation_spec=None) [repeated 4x across cluster]
+2026-01-26 13:57:02.098 | [xgboost] distributed train_time_sec=35.00
+2026-01-26 13:57:02.098 | 2026-01-26 11:57:01,966	INFO logging.py:397 -- Registered dataset logger for dataset dataset_12_0
+2026-01-26 13:57:02.098 | 2026-01-26 11:57:01,980	INFO streaming_executor.py:174 -- Starting execution of Dataset dataset_12_0. Full logs are in /tmp/ray/session_2026-01-26_11-55-37_577426_1/logs/ray-data
+2026-01-26 13:57:02.098 | 2026-01-26 11:57:01,980	INFO streaming_executor.py:175 -- Execution plan of Dataset dataset_12_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> TaskPoolMapOperator[MapBatches(predict_batch)] -> HashAggregateOperator[HashAggregate(key_columns=('y_true', 'y_pred'), num_partitions=1)]
+2026-01-26 13:57:02.098 | 2026-01-26 11:57:01,994	INFO streaming_executor.py:682 -- [dataset]: A new progress UI is available. To enable, set `ray.data.DataContext.get_current().enable_rich_progress_bars = True` and `ray.data.DataContext.get_current().use_ray_tqdm = False`.
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | Running 0: 0.00 row [00:00, ? row/s]
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | - ReadParquet->SplitBlocks(36) 1: 0.00 row [00:00, ? row/s]
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | - MapBatches(predict_batch) 2: 0.00 row [00:00, ? row/s]
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | 
+2026-01-26 13:57:02.099 | - HashAggregate(key_columns=('y_true', 'y_pred'), num_partitions=1) 3: 0.00 row [00:00, ? row/s]
+2026-01-26 13:57:03.099 | Shuffle 4:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | Aggregation 5:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | - ReadParquet->SplitBlocks(36): Tasks: 1; Actors: 0; Queued blocks: 0 (0.0B); Resources: 1.0 CPU, 256.0MiB object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | - MapBatches(predict_batch): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | 
+2026-01-26 13:57:03.099 | - MapBatches(predict_batch): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:57:03.099 | - HashAggregate(key_columns=('y_true', 'y_pred'), num_partitions=1): Tasks: 0; Actors: 0; Queued blocks: 0 (0.0B); Resources: 0.2 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]
+2026-01-26 13:57:13.118 |   *- Aggregation: 100%|██████████| 10.0/10.0 [00:09<00:00, 1.03 row/s]
+2026-01-26 13:57:13.118 | 2026-01-26 11:57:11,748	INFO util.py:257 -- Exiting prefetcher's background thread
+2026-01-26 13:57:13.118 | 2026-01-26 11:57:11,751 - KubeRayTraining - INFO - Training completed successfully.
+2026-01-26 13:57:13.118 | 2026-01-26 11:57:11,751 - KubeRayTraining - INFO - Exportando modelo final de xgboost a S3...
+2026-01-26 13:57:14.119 | 2026-01-26 11:57:12,650 - KubeRayTraining - INFO - Modelo guardado exitosamente en: s3://k8s-mlops-platform-bucket/v1/models/model_xgboost.pkl
+2026-01-26 13:57:14.119 | 2026-01-26 11:57:12,650 - KubeRayTraining - INFO - xgboost training time (distributed) = 35.00 s
+2026-01-26 13:57:15.119 | 🏃 View run xgboost_final_xgboost at: http://my-mlflow/#/experiments/1/runs/704b121a30f146eaa4c9d8eafaa4bdc1
+2026-01-26 13:57:15.119 | 🧪 View experiment at: http://my-mlflow/#/experiments/1
+2026-01-26 13:57:15.119 | (MapBatches(predict_batch) pid=802, ip=10.1.5.23) /home/ray/app/.worktrees/36aacd3a7df28d3721ef54487e142911d72109f2/k3s/kuberay/helpers/metrics_utils.py:87: UserWarning: [11:57:11] WARNING: /workspace/src/c_api/c_api.cc:1511: Unknown file format: ``. Using UBJSON (`ubj`) as a guess. [repeated 35x across cluster]
+2026-01-26 13:57:15.119 | (MapBatches(predict_batch) pid=802, ip=10.1.5.23)   b.load_model(tmp.name) [repeated 35x across cluster]
+2026-01-26 13:57:18.133 | 2026-01-26 11:57:18,132	SUCC cli.py:65 -- ---------------------------------
+2026-01-26 13:57:18.133 | 2026-01-26 11:57:18,132	SUCC cli.py:66 -- Job 'kuberay-job-m5sk7' succeeded
+2026-01-26 13:57:18.133 | 2026-01-26 11:57:18,132	SUCC cli.py:67 -- ---------------------------------

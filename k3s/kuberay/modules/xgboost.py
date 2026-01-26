@@ -9,13 +9,91 @@ from typing import Dict, Iterator, Optional, Tuple
 import numpy as np
 import xgboost
 import ray.train
-from ray.train.xgboost import RayTrainReportCallback, XGBoostTrainer
+from ray.train import Checkpoint
+from ray.train.xgboost import XGBoostTrainer
 
 from schemas.xgboost_params import XGBOOST_PARAMS
 from helpers.metrics_utils import xgb_multiclass_metrics_on_val
 from helpers.xgboost_utils import get_train_val_dmatrix, run_xgboost_train
 
 logger = logging.getLogger(__name__)
+
+
+class _RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback):
+    """Periodic metric reporting + checkpointing for Ray Train.
+
+    Ray's built-in `RayTrainReportCallback` reports metrics every iteration.
+    For small datasets this overhead can dominate runtime in Kubernetes.
+    This callback reports every `report_every` iterations and checkpoints
+    every `checkpoint_every` iterations (rank 0 only), plus a final checkpoint
+    at the end.
+    """
+
+    def __init__(
+        self,
+        *,
+        report_every: int = 5,
+        checkpoint_every: int = 50,
+        filename: str = "model.ubj",
+    ):
+        self.report_every = max(int(report_every), 1)
+        self.checkpoint_every = max(int(checkpoint_every), 1)
+        self.filename = filename
+        self._last_checkpoint_iter: int | None = None
+
+    def _latest_metric(self, evals_log, dataset: str, metric: str):
+        try:
+            v = evals_log[dataset][metric]
+            return v[-1] if isinstance(v, list) else v
+        except Exception:
+            return None
+
+    def _report(self, report_dict: Dict, model: xgboost.Booster, *, checkpoint: bool) -> None:
+        world_rank = ray.train.get_context().get_world_rank()
+        if checkpoint and world_rank in (0, None):
+            import tempfile
+            import os
+
+            with tempfile.TemporaryDirectory() as tmpdir:
+                model.save_model(os.path.join(tmpdir, self.filename))
+                ray_checkpoint = Checkpoint.from_directory(tmpdir)
+                ray.train.report(report_dict, checkpoint=ray_checkpoint)
+        else:
+            ray.train.report(report_dict)
+
+    def after_iteration(self, model, epoch: int, evals_log) -> bool:
+        # XGBoost counts epochs from 0.
+        it = epoch + 1
+        if it % self.report_every != 0:
+            return False
+
+        report_dict: Dict[str, float] = {}
+        mlogloss = self._latest_metric(evals_log, "validation", "mlogloss")
+        merror = self._latest_metric(evals_log, "validation", "merror")
+        if mlogloss is not None:
+            report_dict["validation-mlogloss"] = float(mlogloss)
+        if merror is not None:
+            report_dict["validation-merror"] = float(merror)
+
+        do_ckpt = (it % self.checkpoint_every == 0)
+        if do_ckpt:
+            self._last_checkpoint_iter = epoch
+        self._report(report_dict, model, checkpoint=do_ckpt)
+        return False
+
+    def after_training(self, model):
+        # Avoid duplicate checkpoint if we checkpointed on the last iteration.
+        try:
+            last_iter = model.num_boosted_rounds() - 1
+        except Exception:
+            last_iter = None
+
+        if last_iter is not None and self._last_checkpoint_iter == last_iter:
+            return model
+
+        # Final report+checkpoint.
+        self._report({}, model, checkpoint=True)
+        return model
 
 # Training function for each worker
 def train_func(config: Dict):
@@ -53,13 +131,10 @@ def train_func(config: Dict):
         dval=dval,
         num_boost_round=num_boost_round,
         callbacks=[
-            RayTrainReportCallback(
-                metrics=["validation-mlogloss", "validation-merror"],
-                # IMPORTANT (Ray docs): frequency controls checkpointing.
-                # frequency=0 disables per-iteration checkpoint uploads (big overhead on S3)
-                # while still reporting metrics every iteration; a final checkpoint is saved
-                # at the end by default (checkpoint_at_end=True).
-                frequency=50,
+            _RayTrainPeriodicReportCheckpointCallback(
+                report_every=5,
+                checkpoint_every=50,
+                filename="model.ubj",
             )
         ],
     )
