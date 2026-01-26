@@ -119,14 +119,16 @@ def tune_model(
         if frac <= 0.0:
             return ds
 
-        # Stratified sample to avoid dropping minority classes during tuning.
-        def _sample_group(df):
-            n = int(len(df) * frac)
-            n_final = max(min(len(df), 5), n)
-            return df.sample(n=n_final, random_state=seed)
+        # NOTE:
+        # Avoid groupby/map_groups here because it triggers shuffles. In Ray Tune, trial
+        # placement groups can capture child tasks, and Ray Data shuffle tasks request
+        # the implicit `memory` resource, which isn't in the placement group bundles by
+        # default (causing scheduling errors).
+        if hasattr(ds, "random_sample"):
+            return ds.random_sample(frac, seed=seed)
 
-        # Materialize to avoid huge lineage and keep per-trial execution deterministic.
-        return ds.groupby(target).map_groups(_sample_group).materialize()
+        # Fallback (best-effort): no sampling.
+        return ds
 
     def _trainable(trial_config: Dict):
         train_dataset = _maybe_sample_train_ds(ray.data.read_parquet(train_path))

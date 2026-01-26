@@ -83,12 +83,13 @@ def tune_model(
         if frac <= 0.0:
             return ds
 
-        def _sample_group(df):
-            n = int(len(df) * frac)
-            n_final = max(min(len(df), 5), n)
-            return df.sample(n=n_final, random_state=seed)
+        # Avoid groupby/map_groups here because it triggers shuffles that request the
+        # implicit `memory` resource, which may not be present in Tune trial placement
+        # group bundles.
+        if hasattr(ds, "random_sample"):
+            return ds.random_sample(frac, seed=seed)
 
-        return ds.groupby(target).map_groups(_sample_group).materialize()
+        return ds
 
     # Same workaround as xgboost: build the Trainer inside a function trainable.
     def _trainable(trial_config: Dict):
