@@ -1,10 +1,10 @@
+from time import time
 from typing import Dict
 
 import os
 import json
 import logging
 import tempfile
-
 import ray
 import ray.train
 from ray.train import Checkpoint
@@ -116,6 +116,7 @@ def train_func(config: Dict):
     report_every = 5
     checkpoint_every = 50
 
+    start_time = time.perf_counter()
     for epoch in range(max_epochs):
         model.train()
         # prefetch_batches > 1 enables async data loading using background threads
@@ -166,6 +167,9 @@ def train_func(config: Dict):
                     pi = int(p.item())
                     if 0 <= ti < num_classes and 0 <= pi < num_classes:
                         conf[ti, pi] += 1
+
+        train_time_sec = time.perf_counter() - start_time
+        logger.info(f"[pytorch] Worker train_time_sec={train_time_sec:.2f}")
 
         avg_val_loss = val_loss / max(val_batches, 1)
         metrics = _metrics_from_confusion(conf)

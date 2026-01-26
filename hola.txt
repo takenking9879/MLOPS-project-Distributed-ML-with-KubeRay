@@ -1,144 +1,140 @@
-2026-01-26 16:00:58.688 | 2026-01-26 14:00:58,687	INFO cli.py:41 -- Job submission server address: http://kuberay-job-gmqdj-head-svc.ray.svc.cluster.local:8265
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	SUCC cli.py:65 -- ----------------------------------------------
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	SUCC cli.py:66 -- Job 'kuberay-job-hw8k8' submitted successfully
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	SUCC cli.py:67 -- ----------------------------------------------
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	INFO cli.py:291 -- Next steps
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	INFO cli.py:292 -- Query the logs of the job:
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	INFO cli.py:294 -- ray job logs kuberay-job-hw8k8
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	INFO cli.py:296 -- Query the status of the job:
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	INFO cli.py:298 -- ray job status kuberay-job-hw8k8
-2026-01-26 16:00:59.036 | 2026-01-26 14:00:59,036	INFO cli.py:300 -- Request the job to be stopped:
-2026-01-26 16:00:59.037 | 2026-01-26 14:00:59,036	INFO cli.py:302 -- ray job stop kuberay-job-hw8k8
-2026-01-26 16:01:00.658 | 2026-01-26 14:01:00,658	INFO cli.py:41 -- Job submission server address: http://kuberay-job-gmqdj-head-svc.ray.svc.cluster.local:8265
-2026-01-26 16:01:02.675 | 2026-01-26 14:00:58,763	INFO job_manager.py:568 -- Runtime env is setting up.
-2026-01-26 16:01:02.675 | Running entrypoint for job kuberay-job-hw8k8: python3 /home/ray/app/repo/k3s/kuberay/main.py
-2026-01-26 16:01:05.682 | 2026-01-26 14:01:04,017 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
-2026-01-26 16:01:06.683 | 2026-01-26 14:01:05,353 - KubeRayTraining - INFO - [RAY CLUSTER RESOURCES]
-2026-01-26 16:01:06.683 |             ────────────────────────────────
-2026-01-26 16:01:06.683 |             CPU           : 0.0 / 18.0
-2026-01-26 16:01:06.683 |             Memory        : 0B / 13.00GiB
-2026-01-26 16:01:06.683 |             Object Store  : 0B / 8.23GiB
-2026-01-26 16:01:06.683 |             ────────────────────────────────
-2026-01-26 16:01:07.684 | 2026-01-26 14:01:05,761 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
-2026-01-26 16:01:07.684 | 2026-01-26 14:01:06,900	INFO worker.py:1696 -- Using address 10.1.5.75:6379 set in the environment variable RAY_ADDRESS
-2026-01-26 16:01:07.684 | 2026-01-26 14:01:06,902	INFO worker.py:1837 -- Connecting to existing Ray cluster at address: 10.1.5.75:6379...
-2026-01-26 16:01:07.684 | 2026-01-26 14:01:06,915	INFO worker.py:2014 -- Connected to Ray cluster. View the dashboard at http://10.1.5.75:8265 
-2026-01-26 16:01:07.684 | /home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py:2062: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
-2026-01-26 16:01:07.684 |   warnings.warn(
-2026-01-26 16:01:07.684 | 
-2026-01-26 16:01:07.684 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:07.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:07.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:07.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:08.684 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:09.686 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.68s/ file]
-2026-01-26 16:01:09.686 | 2026-01-26 14:01:08,634	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.660.
-2026-01-26 16:01:09.686 | 2026-01-26 14:01:08,635	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
-2026-01-26 16:01:11.690 | 2026-01-26 14:01:09,779 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/train.
-2026-01-26 16:01:11.690 | 
-2026-01-26 16:01:11.690 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:11.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-26 16:01:12.691 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.84s/ file]
-2026-01-26 16:01:13.693 | 2026-01-26 14:01:12,500	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.783.
-2026-01-26 16:01:13.693 | 2026-01-26 14:01:12,500	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
-2026-01-26 16:01:13.693 | 2026-01-26 14:01:12,506 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/val.
-2026-01-26 16:01:13.693 | 2026-01-26 14:01:12,506 - KubeRayTraining - INFO - Starting training using framework: xgboost
-2026-01-26 16:01:18.699 | (TrainController pid=1364) Attempting to start training worker group of size 2 with the following resources: [{'CPU': 8}] * 2
-2026-01-26 16:01:21.705 | (TrainController pid=1364) Started training worker group of size 2: 
-2026-01-26 16:01:21.705 | (TrainController pid=1364) - (ip=10.1.5.77, pid=501) world_rank=0, local_rank=0, node_rank=0
-2026-01-26 16:01:21.705 | (TrainController pid=1364) - (ip=10.1.5.76, pid=438) world_rank=1, local_rank=0, node_rank=1
-2026-01-26 16:01:22.705 | (RayTrainWorker pid=438, ip=10.1.5.76) [14:01:20] Task [xgboost.ray-rank=00000001]:59e6cd77c34159a1739982fe02000000 got rank 1
-2026-01-26 16:01:22.705 | (RayTrainWorker pid=501, ip=10.1.5.77) [xgboost] Worker using nthread=8 | OMP_NUM_THREADS=8
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536) Registered dataset logger for dataset train_2_0
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536) Starting execution of Dataset train_2_0. Full logs are in /tmp/ray/session_2026-01-26_14-00-26_889640_1/logs/ray-data
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536) Execution plan of Dataset train_2_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
-2026-01-26 16:01:22.705 | (raylet) WARNING: 4 PYTHON worker processes have been started on node: d6c489ac03fced80a82a7fce8fc8b90c6955b000cbceb79cbe746d26 with address: 10.1.5.75. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)  ✔️  Dataset train_2_0 execution finished in 1.05 seconds 10… 2k/…   1.95 k row… 
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)   │ Active/total resources: Active & requested resources: 0/2 CPU, 47.1KiB/4.1G…
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)   │                                                                             
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 2k/2k [ 0:00:… , 1.97 k row/s ]
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)   ├─   split(2, equal=True) 100% ━━━━━━━━━━ 2k/2k [ 0:00:01 , 1.97 k row/s ]    
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)   │    0.0 CPU, 47.1KiB object store; Tasks: 0: [0/33 objects local]; Queued bl…
-2026-01-26 16:01:22.705 | (SplitCoordinator pid=1536)                                                                                 ✔️  Dataset train_2_0 execution finished in 1.05 seconds
-2026-01-26 16:01:22.705 | (RayTrainWorker pid=438, ip=10.1.5.76)  ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds 10… 1k/… [  ? rows/s 
-2026-01-26 16:01:23.707 | (RayTrainWorker pid=438, ip=10.1.5.76)   │ Active/total resources: Active & requested resources: 0/2 CPU, 0.0B/4.1GiB …
-2026-01-26 16:01:23.707 | (RayTrainWorker pid=501, ip=10.1.5.77) Exiting prefetcher's background thread
-2026-01-26 16:01:26.711 | (SplitCoordinator pid=1594)  ✔️  Dataset val_4_0 execution finished in 1.91 seconds 10… 3k/… [  1.59 k row/s 
-2026-01-26 16:01:26.711 | (RayTrainWorker pid=438, ip=10.1.5.76)  ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds 10… 1.50k/…   ? row… 
-2026-01-26 16:01:26.711 | (RayTrainWorker pid=438, ip=10.1.5.76) Reporting training result 1: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': 0.20996513929466407, 'validation-merror': 0.00466666666666667}, validation_spec=None)
-2026-01-26 16:01:26.711 | (RayTrainWorker pid=438, ip=10.1.5.76) Reporting training result 3: TrainingReport(checkpoint=None, metrics={}, validation_spec=None)
-2026-01-26 16:01:27.712 | (RayTrainWorker pid=501, ip=10.1.5.77) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_14-01-24.667914)
-2026-01-26 16:01:27.712 | (RayTrainWorker pid=501, ip=10.1.5.77) Reporting training result 3: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_14-01-24.667914), metrics={}, validation_spec=None)
-2026-01-26 16:01:27.712 | (RayTrainWorker pid=501, ip=10.1.5.77) [14:01:20] Task [xgboost.ray-rank=00000000]:268cbf434fa4c2d28ab7540c02000000 got rank 0
-2026-01-26 16:01:27.712 | (RayTrainWorker pid=501, ip=10.1.5.77) Registered dataset logger for dataset dataset_9_0 [repeated 5x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
-2026-01-26 16:01:27.712 | (SplitCoordinator pid=1594) Starting execution of Dataset val_4_0. Full logs are in /tmp/ray/session_2026-01-26_14-00-26_889640_1/logs/ray-data
-2026-01-26 16:01:27.712 | (SplitCoordinator pid=1594) Execution plan of Dataset val_4_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
-2026-01-26 16:01:28.853 | (RayTrainWorker pid=438, ip=10.1.5.76) [xgboost] Worker train_time_sec=2.64
-2026-01-26 16:01:33.862 | 2026-01-26 14:01:32,767	INFO logging.py:397 -- Registered dataset logger for dataset dataset_10_0
-2026-01-26 16:01:33.862 | 2026-01-26 14:01:32,780	INFO streaming_executor.py:174 -- Starting execution of Dataset dataset_10_0. Full logs are in /tmp/ray/session_2026-01-26_14-00-26_889640_1/logs/ray-data
-2026-01-26 16:01:33.862 | 2026-01-26 14:01:32,780	INFO streaming_executor.py:175 -- Execution plan of Dataset dataset_10_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> TaskPoolMapOperator[MapBatches(predict_and_cm_batch)]
-2026-01-26 16:01:40.878 | (autoscaler +38s) Tip: use `ray status` to view detailed cluster status. To disable these messages, set RAY_SCHEDULER_EVENTS=0.
-2026-01-26 16:01:40.878 | (autoscaler +38s) No available node types can fulfill cluster constraint: {'CPU': 1.0}*22. Add suitable node types to this cluster to resolve this issue.
-2026-01-26 16:01:40.878 |  ✔️  Dataset dataset_10_0 execution finished in 7.97 seconds 10… 36/…   4.53 ro… 
-2026-01-26 16:01:40.878 |   │ Active/total resources: Active & requested resources: 0/18 CPU, 1.5KiB/4.1G…
-2026-01-26 16:01:40.878 |   │                                                                             
-2026-01-26 16:01:40.878 |   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 3k/3k [ 0:00:… , 809.00 row/s ]
-2026-01-26 16:01:40.878 |   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
-2026-01-26 16:01:40.878 |   ├─   MapBatches(predict_and_cm_batch) 100% ━━━━━ 36/36 [ 0:00:… , 4.53 row/s ]
-2026-01-26 16:01:40.878 |   │    0.0 CPU, 1.5KiB object store; Tasks: 0; Queued blocks: 0;                
-2026-01-26 16:01:40.878 |                                                                                 2026-01-26 14:01:40,780	INFO progress_manager.py:347 -- ✔️  Dataset dataset_10_0 execution finished in 7.97 seconds
-2026-01-26 16:01:40.878 | 2026-01-26 14:01:40,782	INFO util.py:257 -- Exiting prefetcher's background thread
-2026-01-26 16:01:40.878 | 2026-01-26 14:01:40,784 - KubeRayTraining - INFO - Training completed successfully.
-2026-01-26 16:01:41.879 | 2026-01-26 14:01:40,784 - KubeRayTraining - INFO - Exportando modelo final de xgboost a S3...
-2026-01-26 16:01:44.883 | 2026-01-26 14:01:42,921 - KubeRayTraining - INFO - Modelo guardado exitosamente en: s3://k8s-mlops-platform-bucket/v1/models/model_xgboost.pkl
-2026-01-26 16:01:44.883 | 2026-01-26 14:01:42,921 - KubeRayTraining - INFO - xgboost multiclass metrics time = 8.88 s
-2026-01-26 16:01:44.883 | 🏃 View run xgboost_final_xgboost at: http://my-mlflow/#/experiments/1/runs/20efc0dd1f204beab55737b2e6069e1a
-2026-01-26 16:01:44.883 | 🧪 View experiment at: http://my-mlflow/#/experiments/1
-2026-01-26 16:01:44.883 | (SplitCoordinator pid=1594)   │ Active/total resources: Active & requested resources: 0/2 CPU, 53.3KiB/4.1G…
-2026-01-26 16:01:44.883 | (RayTrainWorker pid=501, ip=10.1.5.77)   │                                                                              [repeated 5x across cluster]
-2026-01-26 16:01:44.883 | (SplitCoordinator pid=1594)   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 3k/3k [ 0:00:… , 1.60 k row/s ]
-2026-01-26 16:01:44.883 | (SplitCoordinator pid=1594)   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
-2026-01-26 16:01:44.883 | (SplitCoordinator pid=1594)   ├─   split(2, equal=True) 100% ━━━━━━━━━━ 3k/3k [ 0:00:01 , 1.60 k row/s ]    
-2026-01-26 16:01:44.883 | (SplitCoordinator pid=1594)   │    0.0 CPU, 53.3KiB object store; Tasks: 0: [0/33 objects local]; Queued bl…
-2026-01-26 16:01:44.883 | (RayTrainWorker pid=501, ip=10.1.5.77)                                                                                 ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds [repeated 5x across cluster]
-2026-01-26 16:01:44.883 | (RayTrainWorker pid=501, ip=10.1.5.77)  ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds 10… 1k/… [  ? rows/s 
-2026-01-26 16:01:44.883 | (RayTrainWorker pid=501, ip=10.1.5.77)   │ Active/total resources: Active & requested resources: 0/2 CPU, 0.0B/4.1GiB … [repeated 3x across cluster]
-2026-01-26 16:01:44.883 | (RayTrainWorker pid=501, ip=10.1.5.77) Exiting prefetcher's background thread [repeated 3x across cluster]
-2026-01-26 16:01:45.886 | (RayTrainWorker pid=501, ip=10.1.5.77)  ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds 10… 1.50k/…   ? row… 
-2026-01-26 16:01:45.886 | (RayTrainWorker pid=501, ip=10.1.5.77) Reporting training result 2: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': 0.05672776946425438, 'validation-merror': 0.004}, validation_spec=None) [repeated 3x across cluster]
-2026-01-26 16:01:45.886 | (RayTrainWorker pid=501, ip=10.1.5.77) [xgboost] Worker train_time_sec=2.64
-2026-01-26 16:01:48.898 | 2026-01-26 14:01:48,897	SUCC cli.py:65 -- ---------------------------------
-2026-01-26 16:01:48.898 | 2026-01-26 14:01:48,897	SUCC cli.py:66 -- Job 'kuberay-job-hw8k8' succeeded
-2026-01-26 16:01:48.898 | 2026-01-26 14:01:48,897	SUCC cli.py:67 -- ---------------------------------
+2026-01-26 16:15:03.711 | 2026-01-26 14:15:03,711	INFO cli.py:41 -- Job submission server address: http://kuberay-job-f2xjd-head-svc.ray.svc.cluster.local:8265
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,041	SUCC cli.py:65 -- ----------------------------------------------
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	SUCC cli.py:66 -- Job 'kuberay-job-snvtj' submitted successfully
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	SUCC cli.py:67 -- ----------------------------------------------
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:291 -- Next steps
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:292 -- Query the logs of the job:
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:294 -- ray job logs kuberay-job-snvtj
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:296 -- Query the status of the job:
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:298 -- ray job status kuberay-job-snvtj
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:300 -- Request the job to be stopped:
+2026-01-26 16:15:04.042 | 2026-01-26 14:15:04,042	INFO cli.py:302 -- ray job stop kuberay-job-snvtj
+2026-01-26 16:15:05.664 | 2026-01-26 14:15:05,664	INFO cli.py:41 -- Job submission server address: http://kuberay-job-f2xjd-head-svc.ray.svc.cluster.local:8265
+2026-01-26 16:15:07.682 | 2026-01-26 14:15:03,778	INFO job_manager.py:568 -- Runtime env is setting up.
+2026-01-26 16:15:07.682 | Running entrypoint for job kuberay-job-snvtj: python3 /home/ray/app/repo/k3s/kuberay/main.py
+2026-01-26 16:15:10.686 | 2026-01-26 14:15:09,019 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
+2026-01-26 16:15:11.688 | 2026-01-26 14:15:10,337 - KubeRayTraining - INFO - [RAY CLUSTER RESOURCES]
+2026-01-26 16:15:11.688 |             ────────────────────────────────
+2026-01-26 16:15:11.688 |             CPU           : 0.0 / 18.0
+2026-01-26 16:15:11.688 |             Memory        : 0B / 13.00GiB
+2026-01-26 16:15:11.688 |             Object Store  : 0B / 8.23GiB
+2026-01-26 16:15:11.688 |             ────────────────────────────────
+2026-01-26 16:15:12.688 | 2026-01-26 14:15:10,778 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
+2026-01-26 16:15:12.688 | 2026-01-26 14:15:11,950	INFO worker.py:1696 -- Using address 10.1.5.81:6379 set in the environment variable RAY_ADDRESS
+2026-01-26 16:15:12.688 | 2026-01-26 14:15:11,954	INFO worker.py:1837 -- Connecting to existing Ray cluster at address: 10.1.5.81:6379...
+2026-01-26 16:15:12.688 | 2026-01-26 14:15:11,974	INFO worker.py:2014 -- Connected to Ray cluster. View the dashboard at http://10.1.5.81:8265 
+2026-01-26 16:15:12.688 | 
+2026-01-26 16:15:12.688 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:12.688 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:13.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:14.690 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:14.690 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.66s/ file]
+2026-01-26 16:15:14.690 | 2026-01-26 14:15:13,676	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.660.
+2026-01-26 16:15:14.690 | 2026-01-26 14:15:13,676	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
+2026-01-26 16:15:16.693 | 2026-01-26 14:15:14,790 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/train.
+2026-01-26 16:15:16.693 | 
+2026-01-26 16:15:16.693 |   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:16.693 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
+2026-01-26 16:15:17.695 | Parquet dataset sampling: 100%|██████████| 1.00/1.00 [00:01<00:00, 1.78s/ file]
+2026-01-26 16:15:17.695 | 2026-01-26 14:15:17,334	INFO parquet_datasource.py:728 -- Estimated parquet encoding ratio is 2.783.
+2026-01-26 16:15:17.695 | 2026-01-26 14:15:17,334	INFO parquet_datasource.py:788 -- Estimated parquet reader batch size at 1220162 rows
+2026-01-26 16:15:18.696 | 2026-01-26 14:15:17,341 - KubeRayTraining - INFO - Data loaded from s3://k8s-mlops-platform-bucket/v1/processed/val.
+2026-01-26 16:15:18.696 | 2026-01-26 14:15:17,341 - KubeRayTraining - INFO - Starting training using framework: xgboost
+2026-01-26 16:15:23.704 | (TrainController pid=1365) Attempting to start training worker group of size 2 with the following resources: [{'CPU': 8}] * 2
+2026-01-26 16:15:26.709 | (TrainController pid=1365) Started training worker group of size 2: 
+2026-01-26 16:15:26.709 | (TrainController pid=1365) - (ip=10.1.5.80, pid=501) world_rank=0, local_rank=0, node_rank=0
+2026-01-26 16:15:26.709 | (TrainController pid=1365) - (ip=10.1.5.79, pid=439) world_rank=1, local_rank=0, node_rank=1
+2026-01-26 16:15:26.709 | (RayTrainWorker pid=501, ip=10.1.5.80) [14:15:25] Task [xgboost.ray-rank=00000000]:a2f6bb314a414e2078d1696602000000 got rank 0
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537) Registered dataset logger for dataset train_2_0
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537) Starting execution of Dataset train_2_0. Full logs are in /tmp/ray/session_2026-01-26_14-14-31_065233_1/logs/ray-data
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537) Execution plan of Dataset train_2_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
+2026-01-26 16:15:26.709 | (raylet) WARNING: 4 PYTHON worker processes have been started on node: 8651d074a30080db1646d8a30f6967f802e7e9aeeb9bb4f4d1a60909 with address: 10.1.5.81. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)  ✔️  Dataset train_2_0 execution finished in 1.14 seconds 10… 2k/…   1.78 k row… 
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │ Active/total resources: Active & requested resources: 0/2 CPU, 29.4KiB/4.1G…
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │                                                                             
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 2k/2k [ 0:00:… , 1.80 k row/s ]
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   ├─   split(2, equal=True) 100% ━━━━━━━━━━ 2k/2k [ 0:00:01 , 1.79 k row/s ]    
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)   │    0.0 CPU, 29.4KiB object store; Tasks: 0: [0/33 objects local]; Queued bl…
+2026-01-26 16:15:26.709 | (SplitCoordinator pid=1537)                                                                                 ✔️  Dataset train_2_0 execution finished in 1.14 seconds
+2026-01-26 16:15:26.709 | (RayTrainWorker pid=501, ip=10.1.5.80)  ✔️  Dataset dataset_6_0 execution finished in 0.00 seconds 10… 1k/… [  ? rows/s 
+2026-01-26 16:15:27.710 | (RayTrainWorker pid=501, ip=10.1.5.80)   │ Active/total resources: Active & requested resources: 0/2 CPU, 0.0B/4.1GiB …
+2026-01-26 16:15:27.710 | (RayTrainWorker pid=501, ip=10.1.5.80) Exiting prefetcher's background thread
+2026-01-26 16:15:30.716 | (SplitCoordinator pid=1594)  ✔️  Dataset val_4_0 execution finished in 1.85 seconds 10… 3k/… [  1.64 k row/s 
+2026-01-26 16:15:30.716 | (RayTrainWorker pid=501, ip=10.1.5.80)  ✔️  Dataset dataset_8_0 execution finished in 0.00 seconds 10… 1.50k/…   ? row… 
+2026-01-26 16:15:30.716 | (RayTrainWorker pid=439, ip=10.1.5.79) Reporting training result 1: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': 0.20996513929466407, 'validation-merror': 0.00466666666666667}, validation_spec=None)
+2026-01-26 16:15:30.716 | (RayTrainWorker pid=439, ip=10.1.5.79) Reporting training result 3: TrainingReport(checkpoint=None, metrics={}, validation_spec=None)
+2026-01-26 16:15:33.860 | (RayTrainWorker pid=501, ip=10.1.5.80) Checkpoint successfully created at: Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_14-15-29.288289)
+2026-01-26 16:15:33.860 | (RayTrainWorker pid=501, ip=10.1.5.80) Reporting training result 3: TrainingReport(checkpoint=Checkpoint(filesystem=s3, path=k8s-mlops-platform-bucket/v1/models/xgboost/checkpoint_2026-01-26_14-15-29.288289), metrics={}, validation_spec=None)
+2026-01-26 16:15:33.860 | (RayTrainWorker pid=439, ip=10.1.5.79) [14:15:25] Task [xgboost.ray-rank=00000001]:165ccb4e42aab6de99f84f8a02000000 got rank 1
+2026-01-26 16:15:33.861 | (RayTrainWorker pid=439, ip=10.1.5.79) Registered dataset logger for dataset dataset_9_0 [repeated 5x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
+2026-01-26 16:15:33.861 | (SplitCoordinator pid=1594) Starting execution of Dataset val_4_0. Full logs are in /tmp/ray/session_2026-01-26_14-14-31_065233_1/logs/ray-data
+2026-01-26 16:15:33.861 | (SplitCoordinator pid=1594) Execution plan of Dataset val_4_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> OutputSplitter[split(2, equal=True)]
+2026-01-26 16:15:33.861 | (RayTrainWorker pid=439, ip=10.1.5.79) [xgboost] Worker train_time_sec=2.63
+2026-01-26 16:15:38.870 | 2026-01-26 14:15:37,248	INFO logging.py:397 -- Registered dataset logger for dataset dataset_10_0
+2026-01-26 16:15:38.870 | 2026-01-26 14:15:37,260	INFO streaming_executor.py:174 -- Starting execution of Dataset dataset_10_0. Full logs are in /tmp/ray/session_2026-01-26_14-14-31_065233_1/logs/ray-data
+2026-01-26 16:15:38.870 | 2026-01-26 14:15:37,260	INFO streaming_executor.py:175 -- Execution plan of Dataset dataset_10_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> TaskPoolMapOperator[MapBatches(predict_and_cm_batch)]
+2026-01-26 16:15:43.921 | (autoscaler +37s) Tip: use `ray status` to view detailed cluster status. To disable these messages, set RAY_SCHEDULER_EVENTS=0.
+2026-01-26 16:15:43.922 | (autoscaler +37s) No available node types can fulfill cluster constraint: {'CPU': 1.0}*22. Add suitable node types to this cluster to resolve this issue.
+2026-01-26 16:15:45.927 |  ✔️  Dataset dataset_10_0 execution finished in 8.17 seconds 10… 36/…   4.42 ro… 
+2026-01-26 16:15:45.927 |   │ Active/total resources: Active & requested resources: 0/18 CPU, 1.5KiB/4.1G…
+2026-01-26 16:15:45.927 |   │                                                                             
+2026-01-26 16:15:45.927 |   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 3k/3k [ 0:00:… , 796.37 row/s ]
+2026-01-26 16:15:45.927 |   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
+2026-01-26 16:15:45.927 |   ├─   MapBatches(predict_and_cm_batch) 100% ━━━━━ 36/36 [ 0:00:… , 4.42 row/s ]
+2026-01-26 16:15:45.927 |   │    0.0 CPU, 1.5KiB object store; Tasks: 0; Queued blocks: 0;                
+2026-01-26 16:15:45.927 |                                                                                 2026-01-26 14:15:45,465	INFO progress_manager.py:347 -- ✔️  Dataset dataset_10_0 execution finished in 8.17 seconds
+2026-01-26 16:15:45.927 | 2026-01-26 14:15:45,467	INFO util.py:257 -- Exiting prefetcher's background thread
+2026-01-26 16:15:45.927 | 2026-01-26 14:15:45,470 - KubeRayTraining - INFO - Training completed successfully.
+2026-01-26 16:15:46.926 | 2026-01-26 14:15:45,470 - KubeRayTraining - INFO - Exportando modelo final de xgboost a S3...
+2026-01-26 16:15:47.927 | 2026-01-26 14:15:46,480 - KubeRayTraining - INFO - Modelo guardado exitosamente en: s3://k8s-mlops-platform-bucket/v1/models/model_xgboost.pkl
+2026-01-26 16:15:47.927 | 2026-01-26 14:15:46,480 - KubeRayTraining - INFO - xgboost multiclass metrics time = 9.04 s
+2026-01-26 16:15:47.927 | 🏃 View run xgboost_final_xgboost at: http://my-mlflow/#/experiments/1/runs/524ee2f96d654774a85222028ab3240b
+2026-01-26 16:15:47.927 | 🧪 View experiment at: http://my-mlflow/#/experiments/1
+2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   │ Active/total resources: Active & requested resources: 0/2 CPU, 79.9KiB/4.1G…
+2026-01-26 16:15:47.927 | (RayTrainWorker pid=439, ip=10.1.5.79)   │                                                                              [repeated 5x across cluster]
+2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   ├─   ReadParquet->SplitBlocks(36) 100% ━━━━━━━ 3k/3k [ 0:00:… , 1.65 k row/s ]
+2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   │    0.0 CPU, 0.0B object store; Tasks: 0; Queued blocks: 0;                  
+2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   ├─   split(2, equal=True) 100% ━━━━━━━━━━ 3k/3k [ 0:00:01 , 1.65 k row/s ]    
+2026-01-26 16:15:47.927 | (SplitCoordinator pid=1594)   │    0.0 CPU, 79.9KiB object store; Tasks: 0: [0/33 objects local]; Queued bl…
+2026-01-26 16:15:47.927 | (RayTrainWorker pid=439, ip=10.1.5.79)                                                                                 ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds [repeated 5x across cluster]
+2026-01-26 16:15:47.927 | (RayTrainWorker pid=439, ip=10.1.5.79)  ✔️  Dataset dataset_7_0 execution finished in 0.00 seconds 10… 1k/… [  ? rows/s 
+2026-01-26 16:15:48.928 | (RayTrainWorker pid=439, ip=10.1.5.79)   │ Active/total resources: Active & requested resources: 0/2 CPU, 0.0B/4.1GiB … [repeated 3x across cluster]
+2026-01-26 16:15:48.928 | (RayTrainWorker pid=439, ip=10.1.5.79) Exiting prefetcher's background thread [repeated 3x across cluster]
+2026-01-26 16:15:48.928 | (RayTrainWorker pid=439, ip=10.1.5.79)  ✔️  Dataset dataset_9_0 execution finished in 0.00 seconds 10… 1.50k/…   ? row… 
+2026-01-26 16:15:48.928 | (RayTrainWorker pid=501, ip=10.1.5.80) Reporting training result 2: TrainingReport(checkpoint=None, metrics={'validation-mlogloss': 0.05672776946425438, 'validation-merror': 0.004}, validation_spec=None) [repeated 3x across cluster]
+2026-01-26 16:15:48.928 | (RayTrainWorker pid=501, ip=10.1.5.80) [xgboost] Worker train_time_sec=2.63
+2026-01-26 16:15:51.945 | 2026-01-26 14:15:51,945	SUCC cli.py:65 -- ---------------------------------
+2026-01-26 16:15:51.945 | 2026-01-26 14:15:51,945	SUCC cli.py:66 -- Job 'kuberay-job-snvtj' succeeded
+2026-01-26 16:15:51.945 | 2026-01-26 14:15:51,945	SUCC cli.py:67 -- ---------------------------------

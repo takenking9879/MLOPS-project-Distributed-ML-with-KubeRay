@@ -129,7 +129,7 @@ def train_func(config: Dict):
         ],
     )
     train_time_sec = time.perf_counter() - start_time
-    print(f"[xgboost] Worker train_time_sec={train_time_sec:.2f}")
+    logger.info(f"[xgboost] Worker train_time_sec={train_time_sec:.2f}")
     #Aqui termina el tiempo de entrenamiento
 
 # Main training function
