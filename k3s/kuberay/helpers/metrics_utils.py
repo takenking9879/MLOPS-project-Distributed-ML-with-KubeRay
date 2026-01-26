@@ -1,6 +1,12 @@
 from __future__ import annotations
 
+import os
+import tempfile
 from typing import Any, Dict, Optional
+
+import numpy as np
+import pandas as pd
+import xgboost
 
 
 def metrics_from_confusion_np(conf) -> Dict[str, float]:
@@ -8,8 +14,6 @@ def metrics_from_confusion_np(conf) -> Dict[str, float]:
 
     Expected conf shape: [C, C] where rows=true labels, cols=pred labels.
     """
-    import numpy as np
-
     conf = np.asarray(conf, dtype=np.int64)
     support = conf.sum(axis=1)
     tp = np.diag(conf)
@@ -62,22 +66,10 @@ def xgb_multiclass_metrics_on_val(
     """
 
     try:
-        import tempfile
-
-        import numpy as np
-        import pandas as pd
-        import xgboost
-
         booster = booster_checkpoint.get_model()
         model_bytes = booster.save_raw()
 
         def predict_batch(df: "pd.DataFrame") -> "pd.DataFrame":
-            import os
-            import tempfile
-
-            import pandas as pd
-            import xgboost
-
             y_true = df[target].astype("int64").to_numpy()
             X = df.drop(columns=[target])
 

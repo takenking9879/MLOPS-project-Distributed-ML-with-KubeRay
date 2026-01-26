@@ -27,7 +27,8 @@ CHECKPOINT_FILENAME = "xgb_checkpoint.json"
 # Train loop (runs on each Ray Train worker)
 # --------------------------------------------------
 def train_func(config: Dict):
-    params = config["xgboost_params"]
+    # Copy to avoid mutating the Tune search-space dict across calls.
+    params = dict(config["xgboost_params"])
     target = config["target"]
     num_classes = int(config.get("num_classes", 2))
 
@@ -38,7 +39,21 @@ def train_func(config: Dict):
     # IMPORTANT:
     # In Ray Train integration, the train loop runs on Train workers.
     # We keep `nthread` consistent with the CPU allocated per worker bundle.
-    params["nthread"] = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
+    cpus_per_worker = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
+    cpus_per_worker = max(cpus_per_worker, 1)
+
+    # IMPORTANT (Ray docs): if num_cpus isn't set on the worker, Ray defaults
+    # to OMP_NUM_THREADS=1. We set it explicitly to actually use the allocated CPUs.
+    for var in (
+        "OMP_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "NUMEXPR_NUM_THREADS",
+        "VECLIB_MAXIMUM_THREADS",
+    ):
+        os.environ[var] = str(cpus_per_worker)
+
+    params["nthread"] = cpus_per_worker
     params["num_class"] = num_classes
 
     run_xgboost_train(

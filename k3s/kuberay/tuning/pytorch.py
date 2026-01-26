@@ -109,6 +109,7 @@ def tune_model(
             "pytorch_params": trial_config["pytorch_params"],
             "input_dim": 14,
             "num_classes": int(num_classes),
+                "cpus_per_worker": cpus_per_worker,
         }
 
         trainer = TorchTrainer(

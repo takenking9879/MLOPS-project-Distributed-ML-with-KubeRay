@@ -9,6 +9,9 @@ from urllib.parse import urlparse
 from typing import Dict, Any
 import mlflow
 
+from schemas.pytorch_params import PYTORCH_PARAMS
+from schemas.xgboost_params import XGBOOST_PARAMS
+
 class KubeRayTraining(BaseUtils):
     def __init__(self, params_path: str, data_dir: str, output_dir: str):
         logger = create_logger('KubeRayTraining', 'kuberay_training.log')
@@ -228,12 +231,8 @@ class KubeRayTraining(BaseUtils):
             # If tuning is disabled, log default params as the effective params.
             try:
                 if framework == "xgboost" and not mlflow_payload.get("xgboost_params"):
-                    from schemas.xgboost_params import XGBOOST_PARAMS
-
                     mlflow_payload["xgboost_params"] = dict(XGBOOST_PARAMS)
                 if framework == "pytorch" and not mlflow_payload.get("pytorch_params"):
-                    from schemas.pytorch_params import PYTORCH_PARAMS
-
                     mlflow_payload["pytorch_params"] = dict(PYTORCH_PARAMS)
             except Exception:
                 pass

@@ -1,6 +1,9 @@
 from typing import Dict
 
+import os
+
 import ray
+import ray.train
 import torch
 from torch import nn
 
@@ -49,6 +52,30 @@ def _metrics_from_confusion(conf: torch.Tensor) -> Dict[str, float]:
 
 
 def train_func(config: Dict):
+    # Ray defaults to OMP_NUM_THREADS=1 unless the task/actor sets num_cpus.
+    # For Ray Train workers, we pass the intended CPU budget via train_loop_config.
+    try:
+        cpus_per_worker = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
+    except Exception:
+        cpus_per_worker = 1
+    cpus_per_worker = max(cpus_per_worker, 1)
+
+    for var in (
+        "OMP_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "NUMEXPR_NUM_THREADS",
+        "VECLIB_MAXIMUM_THREADS",
+    ):
+        os.environ[var] = str(cpus_per_worker)
+
+    torch.set_num_threads(cpus_per_worker)
+    # Inter-op threads >2 often hurts on small CPU pods.
+    try:
+        torch.set_num_interop_threads(min(2, cpus_per_worker))
+    except Exception:
+        pass
+
     params = config["pytorch_params"]
     batch_size = params.get("batch_size", 64)
     lr = params.get("lr", 1e-3)
@@ -67,9 +94,19 @@ def train_func(config: Dict):
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
+    # Log actual CPU configuration for debugging
+    if ray.train.get_context().get_world_rank() == 0:
+        print(f"[pytorch_utils] Worker using {cpus_per_worker} CPU thread(s) | "
+              f"torch.get_num_threads()={torch.get_num_threads()}")
+
     for epoch in range(max_epochs):
         model.train()
-        train_loader = train_shard.iter_torch_batches(batch_size=batch_size, dtypes=torch.float32)
+        # prefetch_batches > 1 enables async data loading using background threads
+        train_loader = train_shard.iter_torch_batches(
+            batch_size=batch_size, 
+            dtypes=torch.float32,
+            prefetch_batches=max(2, cpus_per_worker // 2),  # Async prefetch
+        )
         train_loss, train_batches = 0.0, 0
         for batch in train_loader:
             # Separar target de features dinámicamente
@@ -88,7 +125,11 @@ def train_func(config: Dict):
         avg_train_loss = train_loss / max(train_batches, 1)
 
         model.eval()
-        val_loader = val_shard.iter_torch_batches(batch_size=batch_size, dtypes=torch.float32)
+        val_loader = val_shard.iter_torch_batches(
+            batch_size=batch_size, 
+            dtypes=torch.float32,
+            prefetch_batches=max(2, cpus_per_worker // 2),  # Async prefetch
+        )
         val_loss, val_batches = 0.0, 0
         num_classes = int(config.get("num_classes", 2))
         conf = torch.zeros((num_classes, num_classes), dtype=torch.int64)

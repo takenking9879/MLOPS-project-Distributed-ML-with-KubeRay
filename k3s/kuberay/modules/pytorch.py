@@ -23,12 +23,15 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
         use_gpu=torch.cuda.is_available(),
     )
 
+    cpus_per_worker = int(os.getenv("CPUS_PER_WORKER", 2))
+
     params = pytorch_params if pytorch_params is not None else PYTORCH_PARAMS
     config = {
         "target": target,
         "pytorch_params": params,
         "input_dim": 14,  # Ajustado a las columnas de preprocessing_001.py (3 cat + 11 num)
-        "num_classes": int(num_classes)
+        "num_classes": int(num_classes),
+        "cpus_per_worker": cpus_per_worker,
         }
 
     trainer = TorchTrainer(

@@ -7,7 +7,6 @@ import pickle
 
 class XGBoostHandler:
     def __init__(self, model_path):
-        import xgboost as xgb
         self.model = self._load_model(model_path)
 
     def _load_model(self, model_path):

@@ -16,9 +16,29 @@ from helpers.xgboost_utils import get_train_val_dmatrix, run_xgboost_train
 # Training function for each worker
 def train_func(config: Dict):
     """Runs on each Ray Train worker."""
-    params = config.get("xgboost_params", XGBOOST_PARAMS)
+    # Copy params to avoid mutating shared dicts across workers/trials.
+    params = dict(config.get("xgboost_params", XGBOOST_PARAMS))
     target = config["target"]
     params["num_class"] = int(config.get("num_classes", 2))
+
+    # Align XGBoost threading with the CPU allocated per Ray Train worker.
+    cpus_per_worker = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
+    cpus_per_worker = max(cpus_per_worker, 1)
+    params["nthread"] = cpus_per_worker
+    for var in (
+        "OMP_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "NUMEXPR_NUM_THREADS",
+        "VECLIB_MAXIMUM_THREADS",
+    ):
+        os.environ[var] = str(cpus_per_worker)
+    
+    # Log actual CPU configuration for debugging
+    if ray.train.get_context().get_world_rank() == 0:
+        print(f"[xgboost] Worker using nthread={cpus_per_worker} | "
+              f"OMP_NUM_THREADS={os.environ.get('OMP_NUM_THREADS', 'not set')}")
+    
     num_boost_round = params.get("num_boost_round", 100)
     dtrain, dval = get_train_val_dmatrix(target)
     run_xgboost_train(
@@ -45,6 +65,7 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
         "target": target,
         "num_classes": int(num_classes),
         "xgboost_params": params,
+        "cpus_per_worker": int(os.getenv("CPUS_PER_WORKER", 2)),
     }
     
     trainer = XGBoostTrainer(

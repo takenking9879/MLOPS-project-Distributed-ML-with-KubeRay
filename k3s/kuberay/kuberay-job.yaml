@@ -57,7 +57,7 @@ spec:
                   name: client
               resources:
                 limits:
-                  cpu: "1"
+                  cpu: "2"
                   memory: "3Gi"
                 requests:
                   cpu: "1"
@@ -72,7 +72,7 @@ spec:
                 - name: RAY_enable_infeasible_task_early_exit
                   value: "true"
                 - name: RAY_DEFAULT_OBJECT_STORE_MEMORY_PROPORTION
-                  value: "0.3"
+                  value: "0.7"
 
           initContainers:
             - name: git-sync
@@ -152,7 +152,7 @@ spec:
                   - name: RAY_enable_infeasible_task_early_exit
                     value: "true"
                   - name: RAY_DEFAULT_OBJECT_STORE_MEMORY_PROPORTION
-                    value: "0.6"
+                    value: "0.7"
 
             initContainers:
               - name: git-sync

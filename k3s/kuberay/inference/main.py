@@ -1,3 +1,4 @@
+import traceback
 
 import ray
 from ray import serve
@@ -8,6 +9,10 @@ import importlib
 from typing import Dict
 from starlette.requests import Request
 from kuberay.utils import create_logger, BaseUtils
+
+from inference.modules.preprocessor import InferencePreprocessor
+from inference.modules.pytorch import PyTorchHandler
+from inference.modules.xgboost import XGBoostHandler
 # Export variables
 FRAMEWORK = os.getenv("FRAMEWORK", "xgboost")
 MODEL_BUCKET = os.getenv("MODEL_BUCKET", "mlops-platform")
@@ -29,7 +34,6 @@ class InferenceService(BaseUtils):
         self.artifacts_path = self._download_file(artifacts_path)
         
         # Initialize components
-        from inference.modules.preprocessor import InferencePreprocessor
         self.preprocessor = InferencePreprocessor(self.artifacts_path)
         self.handler = self._load_handler()
 
@@ -63,10 +67,8 @@ class InferenceService(BaseUtils):
     def _load_handler(self):
         try:
             if self.framework == "xgboost":
-                from inference.modules.xgboost import XGBoostHandler
                 return XGBoostHandler(self.model_path)
             elif self.framework == "pytorch":
-                from inference.modules.pytorch import PyTorchHandler
                 return PyTorchHandler(self.model_path)
             else:
                 raise ValueError(f"Unsupported framework: {self.framework}")
@@ -92,7 +94,6 @@ class InferenceService(BaseUtils):
             
             return result
         except Exception as e:
-            import traceback
             traceback.print_exc()
             return {"error": str(e)}
 
