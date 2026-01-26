@@ -114,8 +114,14 @@ class KubeRayTraining(BaseUtils):
                 for k, v in metrics.items():
                     try:
                         mlflow.log_metric(k, float(v))
-                    except Exception:
-                        continue
+                    except Exception as e:
+                        self.logger.warning(
+                            "No se pudo loggear la métrica %s=%r en MLflow: %s",
+                            k,
+                            v,
+                            str(e),
+                            exc_info=True,
+                        )
         except Exception as e:
             self.logger.error(f"Error al loggear en MLflow: {str(e)}", exc_info=True)
 
@@ -218,8 +224,12 @@ class KubeRayTraining(BaseUtils):
                         for k, v in result.metrics.items():
                             if isinstance(v, (int, float)):
                                 final_metrics[k] = float(v)
-                except Exception:
-                    pass
+                except Exception as e:
+                    self.logger.warning(
+                        "No se pudieron extraer métricas numéricas de result.metrics: %s",
+                        str(e),
+                        exc_info=True,
+                    )
 
             mlflow_payload = {
                 **self.params,
@@ -228,14 +238,26 @@ class KubeRayTraining(BaseUtils):
                 "pytorch_params": train_kwargs.get("pytorch_params"),
             }
 
+            train_time_sec = final_metrics.get("train_time_sec")
+            if train_time_sec is not None:
+                self.logger.info(
+                    "%s training time (distributed) = %.2f s",
+                    framework,
+                    float(train_time_sec),
+                )
+            else:
+                self.logger.warning(
+                    "%s no reportó 'train_time_sec' en final_metrics.",
+                    framework,
+                )
+
             # If tuning is disabled, log default params as the effective params.
-            try:
-                if framework == "xgboost" and not mlflow_payload.get("xgboost_params"):
-                    mlflow_payload["xgboost_params"] = dict(XGBOOST_PARAMS)
-                if framework == "pytorch" and not mlflow_payload.get("pytorch_params"):
-                    mlflow_payload["pytorch_params"] = dict(PYTORCH_PARAMS)
-            except Exception:
-                pass
+            
+            if framework == "xgboost" and not mlflow_payload.get("xgboost_params"):
+                mlflow_payload["xgboost_params"] = dict(XGBOOST_PARAMS)
+            if framework == "pytorch" and not mlflow_payload.get("pytorch_params"):
+                mlflow_payload["pytorch_params"] = dict(PYTORCH_PARAMS)
+                
             self._log_final_to_mlflow(framework=framework, params=mlflow_payload, metrics=final_metrics)
 
             return result

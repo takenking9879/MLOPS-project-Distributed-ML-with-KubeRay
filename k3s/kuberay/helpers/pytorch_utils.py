@@ -1,6 +1,7 @@
 from typing import Dict
 
 import os
+import logging
 
 import ray
 import ray.train
@@ -8,6 +9,8 @@ import torch
 from torch import nn
 
 from pytorch_models.models import NeuralNetwork
+
+logger = logging.getLogger(__name__)
 
 
 def _metrics_from_confusion(conf: torch.Tensor) -> Dict[str, float]:
@@ -73,8 +76,13 @@ def train_func(config: Dict):
     # Inter-op threads >2 often hurts on small CPU pods.
     try:
         torch.set_num_interop_threads(min(2, cpus_per_worker))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(
+            "[pytorch_utils] No se pudo setear torch.set_num_interop_threads(%s): %s",
+            str(min(2, cpus_per_worker)),
+            str(e),
+            exc_info=True,
+        )
 
     params = config["pytorch_params"]
     batch_size = params.get("batch_size", 64)

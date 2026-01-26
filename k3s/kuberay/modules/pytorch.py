@@ -1,4 +1,6 @@
 import os
+import time
+import logging
 import torch
 import ray.train
 from ray.train.torch import TorchTrainer
@@ -6,6 +8,8 @@ from torch import nn
 from typing import Dict
 from schemas.pytorch_params import PYTORCH_PARAMS 
 from helpers.pytorch_utils import train_func
+
+logger = logging.getLogger(__name__)
 
 # =========================
 # Model Definition
@@ -42,7 +46,10 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
         run_config=ray.train.RunConfig(storage_path=storage_path, name=name),
         )
 
+    start_time = time.perf_counter()
     result = trainer.fit()
+    train_time_sec = time.perf_counter() - start_time
+    print(f"[pytorch] distributed train_time_sec={train_time_sec:.2f}")
 
     final_metrics: Dict[str, float] = {}
     try:
@@ -50,7 +57,13 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
             for k, v in result.metrics.items():
                 if isinstance(v, (int, float)):
                     final_metrics[k] = float(v)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(
+            "[pytorch] No se pudieron extraer métricas numéricas de result.metrics: %s",
+            str(e),
+            exc_info=True,
+        )
+
+    final_metrics["train_time_sec"] = train_time_sec
 
     return result, final_metrics

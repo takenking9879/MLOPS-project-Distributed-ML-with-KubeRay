@@ -2,6 +2,8 @@
 XGBoost training module using Ray Train. It only supports RAM-based training."""
 
 import os
+import time
+import logging
 from typing import Dict, Iterator, Optional, Tuple
 
 import numpy as np
@@ -12,6 +14,8 @@ from ray.train.xgboost import RayTrainReportCallback, XGBoostTrainer
 from schemas.xgboost_params import XGBOOST_PARAMS
 from helpers.metrics_utils import xgb_multiclass_metrics_on_val
 from helpers.xgboost_utils import get_train_val_dmatrix, run_xgboost_train
+
+logger = logging.getLogger(__name__)
 
 # Training function for each worker
 def train_func(config: Dict):
@@ -76,7 +80,10 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
         run_config=ray.train.RunConfig(storage_path=storage_path, name=name), #Donde guardar los resultados
     )
 
+    start_time = time.perf_counter()
     result = trainer.fit()
+    train_time_sec = time.perf_counter() - start_time
+    print(f"[xgboost] distributed train_time_sec={train_time_sec:.2f}")
 
     # Métricas finales (mezcla de métricas reportadas por Ray + multiclass en val)
     final_metrics: Dict[str, float] = {}
@@ -85,8 +92,14 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
             for k, v in result.metrics.items():
                 if isinstance(v, (int, float)):
                     final_metrics[k] = float(v)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(
+            "[xgboost] No se pudieron extraer métricas numéricas de result.metrics: %s",
+            str(e),
+            exc_info=True,
+        )
+
+    final_metrics["train_time_sec"] = train_time_sec
 
     try:
         if getattr(result, "checkpoint", None):
@@ -98,7 +111,11 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
                     booster_checkpoint=result.checkpoint,
                 )
             )
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(
+            "[xgboost] Falló el cálculo de métricas multiclass en val: %s",
+            str(e),
+            exc_info=True,
+        )
 
     return result, final_metrics

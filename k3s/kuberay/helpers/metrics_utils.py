@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import os
 import tempfile
-from typing import Any, Dict, Optional
+import logging
+from typing import Any, Dict
 
 import numpy as np
 import pandas as pd
 import xgboost
+
+logger_std = logging.getLogger(__name__)
 
 
 def metrics_from_confusion_np(conf) -> Dict[str, float]:
@@ -58,7 +61,6 @@ def xgb_multiclass_metrics_on_val(
     target: str,
     num_classes: int,
     booster_checkpoint,
-    logger: Optional[Any] = None,
 ) -> Dict[str, float]:
     """Compute multiclass metrics for XGBoost on a Ray Dataset validation split.
 
@@ -83,8 +85,13 @@ def xgb_multiclass_metrics_on_val(
             finally:
                 try:
                     os.unlink(tmp.name)
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger_std.debug(
+                        "No se pudo borrar archivo temporal %s: %s",
+                        tmp.name,
+                        str(e),
+                        exc_info=True,
+                    )
 
             dmat = xgboost.DMatrix(X)
             probs = b.predict(dmat)
@@ -110,9 +117,8 @@ def xgb_multiclass_metrics_on_val(
         return metrics_from_confusion_np(conf)
 
     except Exception as e:
-        if logger is not None:
-            try:
-                logger.error(f"Error calculando métricas multiclass de XGBoost: {str(e)}", exc_info=True)
-            except Exception:
-                pass
+        logger_std.error(
+            f"Error calculando métricas multiclass de XGBoost: {str(e)}",
+            exc_info=True,
+        )
         return {}
