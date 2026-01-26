@@ -4,6 +4,7 @@ Supports cheap HPT with ASHA + ResourceChangingScheduler.
 """
 
 import os
+import numbers
 import torch
 import ray
 from ray import tune
@@ -119,8 +120,11 @@ def tune_model(
         result = trainer.fit()
         metrics = getattr(result, "metrics", None) or {}
         tune.report(
-            training_iteration=1,
-            **{k: v for k, v in metrics.items() if isinstance(v, (int, float))},
+            **{
+                k: float(v)
+                for k, v in metrics.items()
+                if isinstance(v, numbers.Real) and not isinstance(v, bool)
+            },
         )
 
     cpus_per_trial = int(os.getenv("CPUS_PER_TRIAL", str(num_workers * cpus_per_worker)))

@@ -4,6 +4,7 @@ Supports cheap HPT with ASHA + ResourceChangingScheduler.
 """
 
 import os
+import numbers
 from typing import Dict
 
 import xgboost
@@ -171,8 +172,11 @@ def tune_model(
         result = trainer.fit()
         metrics = getattr(result, "metrics", None) or {}
         tune.report(
-            training_iteration=1,
-            **{k: v for k, v in metrics.items() if isinstance(v, (int, float))},
+            **{
+                k: float(v)
+                for k, v in metrics.items()
+                if isinstance(v, numbers.Real) and not isinstance(v, bool)
+            },
         )
 
     # Make Tune account for the full CPU budget per trial.
