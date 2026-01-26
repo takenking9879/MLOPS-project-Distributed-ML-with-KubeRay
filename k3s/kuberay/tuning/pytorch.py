@@ -23,12 +23,14 @@ from ray.air.integrations.mlflow import MLflowLoggerCallback
 # Tuning entrypoint
 # --------------------------
 def tune_model(
-    train_dataset,
-    val_dataset,
+    train_path: str,
+    val_path: str,
     target,
     storage_path,
     name,
     num_classes: int = 6,
+    sample_fraction: float | None = None,
+    seed: int = 42,
     mlflow_tracking_uri: str | None = None,
     mlflow_experiment_name: str | None = None,
 ):
@@ -67,8 +69,32 @@ def tune_model(
     scheduler = ResourceChangingScheduler(base_scheduler=asha) if enable_rcs else asha
 
     # NOTE:
+    # Do NOT pass Ray Datasets via `tune.with_parameters(...)`.
+    # Tune stores those params via `ray.put`, and Ray Datasets are not picklable
+    # under Ray 2.52 in that code path.
+    # Workaround: pass dataset *paths* and load datasets inside each trial.
+
+    def _maybe_sample_train_ds(ds: ray.data.Dataset) -> ray.data.Dataset:
+        if sample_fraction is None:
+            return ds
+        frac = float(sample_fraction)
+        if frac >= 1.0:
+            return ds
+        if frac <= 0.0:
+            return ds
+
+        def _sample_group(df):
+            n = int(len(df) * frac)
+            n_final = max(min(len(df), 5), n)
+            return df.sample(n=n_final, random_state=seed)
+
+        return ds.groupby(target).map_groups(_sample_group).materialize()
+
     # Same workaround as xgboost: build the Trainer inside a function trainable.
-    def _trainable(trial_config: Dict, *, train_dataset, val_dataset):
+    def _trainable(trial_config: Dict):
+        train_dataset = _maybe_sample_train_ds(ray.data.read_parquet(train_path))
+        val_dataset = ray.data.read_parquet(val_path)
+
         train_loop_config = {
             "target": target,
             "pytorch_params": trial_config["pytorch_params"],
@@ -89,7 +115,7 @@ def tune_model(
             **{k: v for k, v in metrics.items() if isinstance(v, (int, float))},
         )
 
-    trainable = tune.with_parameters(_trainable, train_dataset=train_dataset, val_dataset=val_dataset)
+    trainable = _trainable
 
     callbacks = []
     if mlflow_tracking_uri and mlflow_experiment_name:

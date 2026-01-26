@@ -152,30 +152,23 @@ class KubeRayTraining(BaseUtils):
             mlflow_experiment_name = self.params.get("mlflow_experiment_name")
             if self.params.get('tune', False):
                 self.logger.info("Starting hyperparameter tuning...")
-                
-                # Muestreo estratificado opcional para acelerar el tuning
-                tune_ds = train_ds
+
+                # NOTE:
+                # We do NOT pass Ray Datasets into Tune trainables.
+                # Ray Tune's `tune.with_parameters(...)` stores parameters via `ray.put`, and
+                # Ray Datasets are not picklable under Ray 2.52 in that code path.
+                # Instead, we pass *paths* and load/sample datasets inside each trial.
                 sample_frac = self.params.get('sample_fraction_for_tuning')
-                if sample_frac and sample_frac < 1.0:
-                    tune_ds = self._stratified_sample(train_ds, self.params['target'], sample_frac)
-                    # Ray Tune will attempt to serialize (ray.put) parameters passed into the
-                    # trainable. Some Dataset lineages (notably groupby/map_groups) can be
-                    # non-serializable due to internal locks. Materializing converts the lineage
-                    # into concrete blocks and avoids pickling failures.
-                    try:
-                        tune_ds = tune_ds.materialize()
-                    except Exception as e:
-                        self.logger.warning(
-                            "Could not materialize tune dataset; falling back to full train dataset. Error: %s",
-                            str(e),
-                        )
-                        tune_ds = train_ds
+                train_path = os.path.join(self.data_dir, 'train')
+                val_path = os.path.join(self.data_dir, 'val')
                 
                 tuner = importlib.import_module('tuning.'+ framework)
                 best_config = tuner.tune_model(
-                    train_dataset=tune_ds,
-                    val_dataset=val_ds,
+                    train_path=train_path,
+                    val_path=val_path,
                     target=self.params['target'],
+                    sample_fraction=sample_frac,
+                    seed=int(self.params.get('seed', 42)),
                     storage_path=self.output_dir,
                     name=self.params.get('name', framework) + "_tune",
                     num_classes=num_classes,
