@@ -81,6 +81,7 @@ class RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback
             self.metrics = None
 
         self._last_checkpoint_iter: Optional[int] = None
+        self._last_report_dict: Dict[str, float] = {}
 
     def _latest_metric(self, evals_log, dataset: str, metric: str):
         try:
@@ -147,6 +148,10 @@ class RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback
         # Añadimos training_iteration por compatibilidad con Ray dashboards
         report_dict["training_iteration"] = it
 
+        # Persist last metrics so `after_training` can attach them to the final
+        # checkpoint report (Tune schedulers may require the metric every time).
+        self._last_report_dict = dict(report_dict)
+
         do_ckpt = (it % self.checkpoint_every == 0)
         if do_ckpt:
             self._last_checkpoint_iter = epoch
@@ -164,5 +169,15 @@ class RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback
             return model
 
         # Final report+checkpoint.
-        self._report({}, model, checkpoint=True)
+        # IMPORTANT: Do not report an empty dict here.
+        # Ray Tune schedulers (e.g. ASHA) can run with strict metric checking and
+        # will error if a result event is missing the target metric.
+        final_report: Dict[str, float] = dict(self._last_report_dict) if self._last_report_dict else {}
+        if "training_iteration" not in final_report:
+            try:
+                final_report["training_iteration"] = int(model.num_boosted_rounds())
+            except Exception:
+                pass
+
+        self._report(final_report, model, checkpoint=True)
         return model

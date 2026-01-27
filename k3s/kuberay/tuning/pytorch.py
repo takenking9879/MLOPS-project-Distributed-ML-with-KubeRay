@@ -93,8 +93,17 @@ def tune_model(
 
     # Same workaround as xgboost: build the Trainer inside a function trainable.
     def _trainable(trial_config: Dict):
-        train_dataset = _maybe_sample_train_ds(ray.data.read_parquet(train_path))
-        val_dataset = ray.data.read_parquet(val_path)
+        # Limit Ray Data CPU usage per trial to avoid stealing CPUs from Train placement groups.
+        total_cluster_cpus = int(os.getenv("NUM_CPUS_CLUSTER"))
+        max_concurrent = int(os.getenv("MAX_CONCURRENT_TRIALS", "1"))
+        reserved_for_training = (num_workers * cpus_per_worker) * max_concurrent
+        remaining = max(1, total_cluster_cpus - reserved_for_training)
+        default_data_cpus = max(1, remaining // max_concurrent)
+        cpus_for_data = int(float(os.getenv("NUM_CPUS_DATA_TUNE", str(default_data_cpus))))
+        cpus_for_data = max(1, cpus_for_data)
+
+        train_dataset = _maybe_sample_train_ds(ray.data.read_parquet(train_path, num_cpus=cpus_for_data))
+        val_dataset = ray.data.read_parquet(val_path, num_cpus=cpus_for_data)
 
         max_train_rows = int(os.getenv("TUNE_MAX_TRAIN_ROWS", "0"))
         max_val_rows = int(os.getenv("TUNE_MAX_VAL_ROWS", "0"))
@@ -134,8 +143,11 @@ def tune_model(
             }
         )
 
-    cpus_per_trial = num_workers * cpus_per_worker
-    trainable = tune.with_resources(_trainable, resources={"cpu": cpus_per_trial})
+    # IMPORTANT:
+    # Do NOT reserve `num_workers * cpus_per_worker` on the Tune trial actor.
+    # The TorchTrainer will create a placement group with those resources.
+    # Reserving them here can cause fragmentation and unschedulable placement groups.
+    trainable = _trainable
 
     callbacks = []
     if mlflow_tracking_uri and mlflow_experiment_name:

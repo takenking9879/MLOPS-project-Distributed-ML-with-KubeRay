@@ -127,7 +127,7 @@ def tune_model(
 
         cpus_for_data = max(1, cpus_for_data)
         
-        print(
+        logger.info(
             f"[tune_model] total_cluster_cpus={total_cluster_cpus}\n"
             f"num_workers={num_workers}, cpus_per_worker={cpus_per_worker}, num_concurrent_trials={int(os.getenv('MAX_CONCURRENT_TRIALS', '1'))}\n"
             f"cpus_for_data_per_worker={cpus_for_data}"

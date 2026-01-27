@@ -20,7 +20,7 @@ spec:
       # Each trial (train) will use NUM_WORKERS_TUNE
       NUM_WORKERS_TUNE: "1"
       # Each trial (train) will use CPUS_PER_WORKER_TUNE
-      CPUS_PER_WORKER_TUNE: "5"
+      CPUS_PER_WORKER_TUNE: "6"
       # The total number of CPUS will be NUM_WORKERS_TUNE * CPUS_PER_WORKER_TUNE
       # Number of CPUs to use for Ray Datasets during tuning for each worker.
       NUM_CPUS_DATA_TUNE: "2"
