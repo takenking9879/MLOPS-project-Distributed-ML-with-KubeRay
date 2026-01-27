@@ -92,27 +92,16 @@ def tune_model(
 
     # Compute default CPUs for Ray Data during tuning:
     # env NUM_CPUS_DATA_TUNE overrides; otherwise use cluster_total - (num_workers * cpus_per_worker)
-    def _get_cluster_total_cpus():
-        try:
-            # ray.cluster_resources() returns totals; prefer that if ray is initialized
-            total = ray.cluster_resources().get("CPU", 0)
-            total = int(total)
-            if total > 0:
-                logger.info("Ray reports that the total CPUs is: %d", total)
-                return total
-        except Exception:
-            logger.debug("ray.cluster_resources() not available")
+    total_cluster_cpus = int(os.getenv("NUM_CPUS_CLUSTER"))
+    default_data_cpus = max(1, (total_cluster_cpus - (num_workers * cpus_per_worker * int(os.getenv("MAX_CONCURRENT_TRIALS", "1"))))/num_workers)
+    cpus_for_data  = int(os.getenv("NUM_CPUS_DATA_TUNE", str(default_data_cpus)))
 
-    total_cluster_cpus = _get_cluster_total_cpus()
-    default_data_cpus = max(1, total_cluster_cpus - (num_workers * cpus_per_worker))
-    env_val = int(os.getenv("NUM_CPUS_DATA_TUNE", str(default_data_cpus)))
-    # safety clamps
-    cpus_for_data = max(1, min(env_val, max(1, total_cluster_cpus)))
-
+    cpus_for_data = max(1, cpus_for_data)
+    
     logger.info(
         f"[tune_model] total_cluster_cpus={total_cluster_cpus}\n"
         f"num_workers={num_workers}, cpus_per_worker={cpus_per_worker}, num_concurrent_trials={int(os.getenv('MAX_CONCURRENT_TRIALS', '1'))}\n"
-        f"cpus_for_data={cpus_for_data}"
+        f"cpus_for_data_per_worker={cpus_for_data}"
     )
 
     # --- Search space (cheap tuning) ---

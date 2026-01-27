@@ -22,7 +22,7 @@ spec:
       # Each trial (train) will use CPUS_PER_WORKER_TUNE
       CPUS_PER_WORKER_TUNE: "6"
       # The total number of CPUS will be NUM_WORKERS_TUNE * CPUS_PER_WORKER_TUNE
-      # Number of CPUs to use for Ray Datasets during tuning.
+      # Number of CPUs to use for Ray Datasets during tuning for each worker.
       NUM_CPUS_DATA_TUNE: "2"
       # Maximum concurrent trials during tuning. 
       MAX_CONCURRENT_TRIALS: "2"
@@ -31,6 +31,9 @@ spec:
       # Tune loads Ray Datasets inside each trial.
       TUNE_MAX_TRAIN_ROWS: "250000"
       TUNE_MAX_VAL_ROWS: "150000"
+
+      # TOTAL NUMBER OF CPUS in the RAY CLUSTER. I leave 1 CPU free for system overhead in each worker.
+      NUM_CPUS_CLUSTER: "16"
 
       # Performance knobs (small datasets):
       RAY_MATERIALIZE_DATASETS: "1"

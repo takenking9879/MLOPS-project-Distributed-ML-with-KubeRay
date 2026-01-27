@@ -1,370 +1,60 @@
-2026-01-27 14:22:52.186 | 2026-01-27 12:22:50,689 - KubeRayTraining - INFO - Starting hyperparameter tuning...
-2026-01-27 14:22:55.189 | /home/ray/anaconda3/lib/python3.11/site-packages/google/rpc/__init__.py:18: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-2026-01-27 14:22:55.189 |   import pkg_resources
-2026-01-27 14:22:57.192 | ╭──────────────────────────────────────────────────────────╮
-2026-01-27 14:22:57.193 | │ Configuration for experiment     xgboost_tune            │
-2026-01-27 14:22:57.193 | ├──────────────────────────────────────────────────────────┤
-2026-01-27 14:22:57.193 | │ Search algorithm                 BasicVariantGenerator   │
-2026-01-27 14:22:57.193 | │ Scheduler                        AsyncHyperBandScheduler │
-2026-01-27 14:22:57.193 | │ Number of trials                 3                       │
-2026-01-27 14:22:57.193 | ╰──────────────────────────────────────────────────────────╯
-2026-01-27 14:22:57.193 | 
-2026-01-27 14:22:57.193 | View detailed results here: k8s-mlops-platform-bucket/v1/models/xgboost_tune
-2026-01-27 14:22:57.193 | To visualize your results with TensorBoard, run: `tensorboard --logdir /tmp/ray/session_2026-01-27_12-21-49_947779_1/artifacts/2026-01-27_12-22-53/xgboost_tune/driver_artifacts`
-2026-01-27 14:22:57.193 | 
-2026-01-27 14:22:57.193 | Trial status: 2 PENDING
-2026-01-27 14:22:57.193 | Current time: 2026-01-27 12:22:56. Total running time: 0s
-2026-01-27 14:22:57.193 | Logical resource usage: 12.0/18 CPUs, 0/0 GPUs
-2026-01-27 14:22:57.193 | ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-2026-01-27 14:22:57.193 | │ Trial name               status       ..._params/max_depth     .../min_child_weight     ..._params/subsample     xgboost_params/eta     ...ost_params/lambda     xgboost_params/alpha │
-2026-01-27 14:22:57.193 | ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-2026-01-27 14:22:57.193 | │ _trainable_f5b1e_00000   PENDING                         7                        3                 0.60397              0.0526112                0.0825311                0.0150229  │
-2026-01-27 14:22:57.193 | │ _trainable_f5b1e_00001   PENDING                         9                        3                 0.811169             0.00549217               0.00779462               0.00926675 │
-2026-01-27 14:22:57.193 | ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-2026-01-27 14:23:05.876 | 
-2026-01-27 14:23:05.876 | Trial _trainable_f5b1e_00001 started with configuration:
-2026-01-27 14:23:05.876 | ╭──────────────────────────────────────────────────────────────╮
-2026-01-27 14:23:05.876 | │ Trial _trainable_f5b1e_00001 config                          │
-2026-01-27 14:23:05.876 | ├──────────────────────────────────────────────────────────────┤
-2026-01-27 14:23:05.876 | │ xgboost_params/alpha                    0.009266751718787282 │
-2026-01-27 14:23:05.876 | │ xgboost_params/eta                      0.005492168099103233 │
-2026-01-27 14:23:05.876 | │ xgboost_params/eval_metric              ...gloss', 'merror'] │
-2026-01-27 14:23:05.876 | │ xgboost_params/lambda                   0.007794622933518857 │
-2026-01-27 14:23:05.876 | │ xgboost_params/max_depth                                   9 │
-2026-01-27 14:23:05.876 | │ xgboost_params/min_child_weight                            3 │
-2026-01-27 14:23:05.876 | │ xgboost_params/objective                      multi:softprob │
-2026-01-27 14:23:05.876 | │ xgboost_params/subsample                   0.811169030664326 │
-2026-01-27 14:23:05.876 | ╰──────────────────────────────────────────────────────────────╯
-2026-01-27 14:23:05.876 | 
-2026-01-27 14:23:05.876 | Trial _trainable_f5b1e_00000 started with configuration:
-2026-01-27 14:23:05.876 | ╭──────────────────────────────────────────────────────────────╮
-2026-01-27 14:23:05.876 | │ Trial _trainable_f5b1e_00000 config                          │
-2026-01-27 14:23:05.876 | ├──────────────────────────────────────────────────────────────┤
-2026-01-27 14:23:05.876 | │ xgboost_params/alpha                    0.015022911674630053 │
-2026-01-27 14:23:05.876 | │ xgboost_params/eta                       0.05261120112002363 │
-2026-01-27 14:23:05.876 | │ xgboost_params/eval_metric              ...gloss', 'merror'] │
-2026-01-27 14:23:05.876 | │ xgboost_params/lambda                    0.08253106079789725 │
-2026-01-27 14:23:05.876 | │ xgboost_params/max_depth                                   7 │
-2026-01-27 14:23:05.876 | │ xgboost_params/min_child_weight                            3 │
-2026-01-27 14:23:05.876 | │ xgboost_params/objective                      multi:softprob │
-2026-01-27 14:23:05.876 | │ xgboost_params/subsample                  0.6039696421364023 │
-2026-01-27 14:23:05.876 | ╰──────────────────────────────────────────────────────────────╯
-2026-01-27 14:23:05.876 | 
-2026-01-27 14:23:05.876 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-27 14:23:06.877 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-27 14:23:07.878 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-27 14:23:07.878 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:07.878 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.43s/ file]
-2026-01-27 14:23:07.878 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.43s/ file]
-2026-01-27 14:23:07.878 |                                                                                                           
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 |                                                                                                    
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.43s/ file]
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 |                                                                                                    
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:07.878 |                                                                                                    
-2026-01-27 14:23:07.878 | (_trainable pid=485, ip=10.1.5.174) Estimated parquet encoding ratio is 2.660.
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:07.878 |                                                                                                    
-2026-01-27 14:23:07.878 | (_trainable pid=485, ip=10.1.5.174) Estimated parquet reader batch size at 1220162 rows
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:07.878 |                                                                                                    
-2026-01-27 14:23:07.878 | (_trainable pid=485, ip=10.1.5.174) The argument ``parallelism`` is deprecated in Ray 2.10. Please specify argument ``override_num_blocks`` instead.
-2026-01-27 14:23:07.878 | 
-2026-01-27 14:23:07.878 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:08.880 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.42s/ file]
-2026-01-27 14:23:08.880 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.42s/ file]
-2026-01-27 14:23:08.880 |                                                                                                           
-2026-01-27 14:23:08.880 | 
-2026-01-27 14:23:08.880 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.43s/ file]
-2026-01-27 14:23:09.881 | 
-2026-01-27 14:23:09.881 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-27 14:23:09.881 | 
-2026-01-27 14:23:10.882 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:00<?, ? file/s]
-2026-01-27 14:23:10.882 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-27 14:23:10.882 | 
-2026-01-27 14:23:11.883 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:01<?, ? file/s]
-2026-01-27 14:23:11.883 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:11.883 | 
-2026-01-27 14:23:11.883 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:11.883 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.63s/ file]
-2026-01-27 14:23:11.883 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.63s/ file]
-2026-01-27 14:23:11.883 |                                                                                                           
-2026-01-27 14:23:11.883 | 
-2026-01-27 14:23:11.883 |                                                                                                    
-2026-01-27 14:23:11.883 | 
-2026-01-27 14:23:11.883 | (pid=485, ip=10.1.5.174) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.63s/ file]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0:   0%|          | 0.00/1.00 [00:02<?, ? file/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.63s/ file]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.63s/ file]
-2026-01-27 14:23:11.884 |                                                                                                                                                                
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Parquet dataset sampling 0: 100%|██████████| 1.00/1.00 [00:02<00:00, 2.63s/ file]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_17_0 execution finished in 0.69 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_17_0 execution finished in 0.69 seconds:   0%|          | 0.00/412 [00:00<?, ? row/s]
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_17_0 execution finished in 0.69 seconds: 100%|██████████| 412/412 [00:00<00:00, 581 row/s]
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_17_0 execution finished in 0.69 seconds: 100%|██████████| 412/412 [00:00<00:00, 581 row/s]
-2026-01-27 14:23:11.884 |                                                                                                                                        
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_17_0 execution finished in 0.69 seconds: 100%|██████████| 412/412 [00:00<00:00, 581 row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174)   *- Split Repartition:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174)   *- Split Repartition:   0%|          | 0.00/2.00k [00:00<?, ? row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174)   *- Split Repartition: 100%|██████████| 2.00k/2.00k [00:00<00:00, 2.82k row/s]
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | 
-2026-01-27 14:23:11.884 | (pid=485, ip=10.1.5.174)   *- Split Repartition: 100%|██████████| 2.00k/2.00k [00:00<00:00, 2.82k row/s]                                                                                    
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=485, ip=10.1.5.174)   *- Split Repartition: 100%|██████████| 2.00k/2.00k [00:00<00:00, 2.82k row/s]
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.885 |                                                              
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 |                                                                                            
-2026-01-27 14:23:11.885 | (_trainable pid=485, ip=10.1.5.174) ✔️  Dataset dataset_17_0 execution finished in 0.69 seconds
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.885 | (pid=485, ip=10.1.5.174) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.885 |                                                                                            
-2026-01-27 14:23:11.885 | (_trainable pid=485, ip=10.1.5.174) Execution plan of Dataset dataset_26_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> AllToAllOperator[Repartition] -> LimitOperator[limit=150000]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=485, ip=10.1.5.174) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=485, ip=10.1.5.174) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_24_0 execution finished in 0.64 seconds: 100%|██████████| 412/412 [00:00<00:00, 678 row/s]
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | 
-2026-01-27 14:23:11.885 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_24_0 execution finished in 0.64 seconds: 100%|██████████| 412/412 [00:00<00:00, 678 row/s]
-2026-01-27 14:23:11.885 |                                                                                                                                                   
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_24_0 execution finished in 0.64 seconds: 100%|██████████| 412/412 [00:00<00:00, 677 row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=485, ip=10.1.5.174) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=485, ip=10.1.5.174) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=483, ip=10.1.5.173)   *- Split Repartition:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=483, ip=10.1.5.173)   *- Split Repartition:   0%|          | 0.00/2.00k [00:00<?, ? row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=483, ip=10.1.5.173)   *- Split Repartition: 100%|██████████| 2.00k/2.00k [00:00<00:00, 3.28k row/s]
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 | (pid=483, ip=10.1.5.173)   *- Split Repartition: 100%|██████████| 2.00k/2.00k [00:00<00:00, 3.28k row/s]
-2026-01-27 14:23:12.886 |                                                              
-2026-01-27 14:23:12.886 | 
-2026-01-27 14:23:12.886 |                                                                                                         
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173)   *- Split Repartition: 100%|██████████| 2.00k/2.00k [00:00<00:00, 3.28k row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_26_0 execution finished in 0.72 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_26_0 execution finished in 0.72 seconds:   0%|          | 0.00/3.00k [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_26_0 execution finished in 0.72 seconds: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.20k row/s]
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174) ✔️  Dataset dataset_26_0 execution finished in 0.72 seconds: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.20k row/s]
-2026-01-27 14:23:12.887 |                                                                                                                                              
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174)   *- Split Repartition:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174)   *- Split Repartition:   0%|          | 0.00/3.00k [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174)   *- Split Repartition: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.19k row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174)   *- Split Repartition: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.19k row/s]
-2026-01-27 14:23:12.887 |                                                                                  
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=485, ip=10.1.5.174)   *- Split Repartition: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.19k row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 |                                                              
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Running 0: 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_28_0 execution finished in 0.76 seconds: : 0.00 row [00:00, ? row/s]
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_28_0 execution finished in 0.76 seconds:   0%|          | 0.00/3.00k [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_28_0 execution finished in 0.76 seconds: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.19k row/s]
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) ✔️  Dataset dataset_28_0 execution finished in 0.76 seconds: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.19k row/s]
-2026-01-27 14:23:12.887 |                                                                                                                                              
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173) Split Repartition 2:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173)   *- Split Repartition:   0%|          | 0.00/1.00 [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173)   *- Split Repartition:   0%|          | 0.00/3.00k [00:00<?, ? row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173)   *- Split Repartition: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.18k row/s]
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173)   *- Split Repartition: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.18k row/s]                                                                                             
-2026-01-27 14:23:12.887 | 
-2026-01-27 14:23:12.887 | (pid=483, ip=10.1.5.173)   *- Split Repartition: 100%|██████████| 3.00k/3.00k [00:00<00:00, 4.18k row/s]
-2026-01-27 14:23:12.887 | (_trainable pid=483, ip=10.1.5.173) Estimated parquet encoding ratio is 2.783. [repeated 3x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
-2026-01-27 14:23:12.887 | (_trainable pid=483, ip=10.1.5.173) Estimated parquet reader batch size at 1220162 rows [repeated 3x across cluster]
-2026-01-27 14:23:13.889 | (_trainable pid=483, ip=10.1.5.173) The argument ``parallelism`` is deprecated in Ray 2.10. Please specify argument ``override_num_blocks`` instead. [repeated 3x across cluster]
-2026-01-27 14:23:22.909 | (TrainController pid=854, ip=10.1.5.173) Attempting to start training worker group of size 1 with the following resources: [{'CPU': 6}] * 1
-2026-01-27 14:23:22.909 | (_trainable pid=483, ip=10.1.5.173) Registered dataset logger for dataset dataset_28_0 [repeated 3x across cluster]
-2026-01-27 14:23:22.909 | (_trainable pid=483, ip=10.1.5.173) Starting execution of Dataset dataset_28_0. Full logs are in /tmp/ray/session_2026-01-27_12-21-49_947779_1/logs/ray-data [repeated 3x across cluster]
-2026-01-27 14:23:22.909 | (_trainable pid=483, ip=10.1.5.173) Execution plan of Dataset dataset_24_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> AllToAllOperator[Repartition] -> LimitOperator[limit=250000] -> TaskPoolMapOperator[MapBatches(random_sample)]
-2026-01-27 14:23:22.909 | (_trainable pid=483, ip=10.1.5.173) [dataset]: A new progress UI is available. To enable, set `ray.data.DataContext.get_current().enable_rich_progress_bars = True` and `ray.data.DataContext.get_current().use_ray_tqdm = False`.
-2026-01-27 14:23:22.909 | (_trainable pid=483, ip=10.1.5.173) ✔️  Dataset dataset_28_0 execution finished in 0.76 seconds [repeated 3x across cluster]
-2026-01-27 14:23:22.909 | (_trainable pid=483, ip=10.1.5.173) Execution plan of Dataset dataset_28_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ReadParquet] -> AllToAllOperator[Repartition] -> LimitOperator[limit=150000]
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174) [FailurePolicy] RAISE
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   Source: controller
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   Error count: 1 (max allowed: 0)
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174) 
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174) Traceback (most recent call last):
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/_internal/execution/controller/controller.py", line 326, in _start_worker_group
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     self._worker_group = self.worker_group_cls.create(
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/_internal/execution/worker_group/worker_group.py", line 132, in create
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     worker_group._start()
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/_internal/execution/worker_group/worker_group.py", line 207, in _start
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     raise e
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/_internal/execution/worker_group/worker_group.py", line 200, in _start
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     self._start_impl(
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/_internal/execution/worker_group/worker_group.py", line 295, in _start_impl
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     ray.get(pg.ready(), timeout=self._worker_group_start_timeout_s)
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/auto_init_hook.py", line 22, in auto_init_wrapper
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     return fn(*args, **kwargs)
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)            ^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/client_mode_hook.py", line 104, in wrapper
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     return func(*args, **kwargs)
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)            ^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 2972, in get
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     values, debugger_breakpoint = worker.get_objects(
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)                                   ^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 1033, in get_objects
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174)     raise value
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174) ray.train.ControllerError: Training failed due to controller error:
-2026-01-27 14:23:24.913 | (TrainController pid=858, ip=10.1.5.174) The task is not schedulable: Tasks or actors with resource shapes [{bundle_group_3d29bd0bfa21675ae0dbafb1668102000000: 0.001}] failed to schedule because there are not enough resources for the tasks or actors on the whole cluster. lease_id=00000000940c8156008ede4a37f943b4b70ef7c19f62c88df187e1a34717f453, name=bundle_reservation_check_func
-2026-01-27 14:23:24.913 | (TrainController pid=854, ip=10.1.5.173) 
-2026-01-27 14:23:24.913 | (autoscaler +55s) Tip: use `ray status` to view detailed cluster status. To disable these messages, set RAY_SCHEDULER_EVENTS=0.
-2026-01-27 14:23:24.913 | (autoscaler +55s) No available node types can fulfill resource requests {'bundle_group_65978bef81a794fc3791d2cab82e02000000': 0.001}*1, {'bundle_group_3d29bd0bfa21675ae0dbafb1668102000000': 0.001}*1. Add suitable node types to this cluster to resolve this issue.
-2026-01-27 14:23:24.913 | (autoscaler +55s) No available node types can fulfill placement group requests (detail=65978bef81a794fc3791d2cab82e02000000:PACK|PENDING): {'CPU': 6.0}*1. Add suitable node types to this cluster to resolve this issue.
-2026-01-27 14:23:24.913 | (autoscaler +55s) No available node types can fulfill placement group requests (detail=3d29bd0bfa21675ae0dbafb1668102000000:PACK|PENDING): {'CPU': 6.0}*1. Add suitable node types to this cluster to resolve this issue.
-2026-01-27 14:23:24.913 | 2026-01-27 12:23:24,044	ERROR tune_controller.py:1331 -- Trial task failed for trial _trainable_f5b1e_00000
-2026-01-27 14:23:24.913 | Traceback (most recent call last):
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/air/execution/_internal/event_manager.py", line 110, in resolve_future
-2026-01-27 14:23:24.913 |     result = ray.get(future)
-2026-01-27 14:23:24.913 |              ^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/auto_init_hook.py", line 22, in auto_init_wrapper
-2026-01-27 14:23:24.913 |     return fn(*args, **kwargs)
-2026-01-27 14:23:24.913 |            ^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/client_mode_hook.py", line 104, in wrapper
-2026-01-27 14:23:24.913 |     return func(*args, **kwargs)
-2026-01-27 14:23:24.913 |            ^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 2972, in get
-2026-01-27 14:23:24.913 |     values, debugger_breakpoint = worker.get_objects(
-2026-01-27 14:23:24.913 |                                   ^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/_private/worker.py", line 1031, in get_objects
-2026-01-27 14:23:24.913 |     raise value.as_instanceof_cause()
-2026-01-27 14:23:24.913 | ray.exceptions.RayTaskError(ControllerError): ray::ImplicitFunc.train() (pid=483, ip=10.1.5.173, actor_id=b72201628566f20276cef20302000000, repr=_trainable)
-2026-01-27 14:23:24.913 |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/tune/trainable/trainable.py", line 331, in train
-2026-01-27 14:23:24.913 |     raise skipped from exception_cause(skipped)
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/air/_internal/util.py", line 98, in run
-2026-01-27 14:23:24.913 |     self._ret = self._target(*self._args, **self._kwargs)
-2026-01-27 14:23:24.913 |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/tune/trainable/function_trainable.py", line 44, in <lambda>
-2026-01-27 14:23:24.913 |     training_func=lambda: self._trainable_func(self.config),
-2026-01-27 14:23:24.913 |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/tune/trainable/function_trainable.py", line 249, in _trainable_func
-2026-01-27 14:23:24.913 |     output = fn()
-2026-01-27 14:23:24.913 |              ^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/app/.worktrees/8111260188e0d9df1f3f64324b15742c80701d76/k3s/kuberay/tuning/xgboost.py", line 196, in _trainable
-2026-01-27 14:23:24.913 |     result = trainer.fit()
-2026-01-27 14:23:24.913 |              ^^^^^^^^^^^^^
-2026-01-27 14:23:24.913 |   File "/home/ray/anaconda3/lib/python3.11/site-packages/ray/train/v2/api/data_parallel_trainer.py", line 185, in fit
-2026-01-27 14:23:24.913 |     raise result.error
-2026-01-27 14:23:24.913 | ray.train.ControllerError: Training failed due to controller error:
-2026-01-27 14:23:24.913 | The task is not schedulable: Tasks or actors with resource shapes [{bundle_group_65978bef81a794fc3791d2cab82e02000000: 0.001}] failed to schedule because there are not enough resources for the tasks or actors on the whole cluster. lease_id=000000006d428ebdc61be00b12caa51e5a352077514a80f81b38c004605d528b, name=bundle_reservation_check_func
-2026-01-27 14:23:24.913 | 🏃 View run _trainable_f5b1e_00000 at: http://my-mlflow/#/experiments/1/runs/ef26bf2f784d461c8009e2c4b606b9d8
-2026-01-27 14:23:24.913 | 🧪 View experiment at: http://my-mlflow/#/experiments/1
+2026-01-27 14:40:02.551 | 2026-01-27 12:40:02,551	INFO cli.py:41 -- Job submission server address: http://kuberay-job-9dgbk-head-svc.ray.svc.cluster.local:8265
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	SUCC cli.py:65 -- ----------------------------------------------
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	SUCC cli.py:66 -- Job 'kuberay-job-plhxq' submitted successfully
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	SUCC cli.py:67 -- ----------------------------------------------
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:291 -- Next steps
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:292 -- Query the logs of the job:
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:294 -- ray job logs kuberay-job-plhxq
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:296 -- Query the status of the job:
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:298 -- ray job status kuberay-job-plhxq
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:300 -- Request the job to be stopped:
+2026-01-27 14:40:02.919 | 2026-01-27 12:40:02,919	INFO cli.py:302 -- ray job stop kuberay-job-plhxq
+2026-01-27 14:40:04.621 | 2026-01-27 12:40:04,621	INFO cli.py:41 -- Job submission server address: http://kuberay-job-9dgbk-head-svc.ray.svc.cluster.local:8265
+2026-01-27 14:40:06.643 | 2026-01-27 12:40:02,645	INFO job_manager.py:568 -- Runtime env is setting up.
+2026-01-27 14:40:06.643 | Running entrypoint for job kuberay-job-plhxq: python3 /home/ray/app/repo/k3s/kuberay/main.py
+2026-01-27 14:40:10.650 | 2026-01-27 12:40:08,721 - KubeRayTraining - DEBUG - Parameters retrieved from /home/ray/app/repo/k3s/params.yaml
+2026-01-27 14:40:10.650 | 2026-01-27 12:40:10,052 - KubeRayTraining - INFO - [RAY CLUSTER RESOURCES]
+2026-01-27 14:40:10.650 |             ────────────────────────────────
+2026-01-27 14:40:10.650 |             CPU           : 0.0 / 18.0
+2026-01-27 14:40:10.650 |             Memory        : 0B / 13.00GiB
+2026-01-27 14:40:10.650 |             Object Store  : 0B / 8.23GiB
+2026-01-27 14:40:10.650 |             ────────────────────────────────
+2026-01-27 14:40:10.650 | 2026-01-27 12:40:10,403 - KubeRayTraining - INFO - Minio connection verified. Buckets: ['frontend-crm-bucket', 'k8s-mlops-platform-bucket']
+2026-01-27 14:40:10.650 | 2026-01-27 12:40:10,408 - KubeRayTraining - INFO - Starting training using framework: xgboost
+2026-01-27 14:40:10.650 | 2026-01-27 12:40:10,409 - KubeRayTraining - INFO - Starting hyperparameter tuning...
+2026-01-27 14:40:10.650 | 2026-01-27 12:40:10,413 - KubeRayTraining - ERROR - Training job failed: unsupported operand type(s) for -: 'NoneType' and 'int'
+2026-01-27 14:40:10.650 | Traceback (most recent call last):
+2026-01-27 14:40:10.650 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 211, in train
+2026-01-27 14:40:10.650 |     best_config = tuner.tune_model(
+2026-01-27 14:40:10.650 |                   ^^^^^^^^^^^^^^^^^
+2026-01-27 14:40:10.650 |   File "/home/ray/app/.worktrees/caa32175f5bf28789882db492a6dcfc88951c207/k3s/kuberay/tuning/xgboost.py", line 107, in tune_model
+2026-01-27 14:40:10.650 |     default_data_cpus = max(1, total_cluster_cpus - (num_workers * cpus_per_worker))
+2026-01-27 14:40:10.650 |                                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-01-27 14:40:10.650 | TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+2026-01-27 14:40:10.650 | Traceback (most recent call last):
+2026-01-27 14:40:10.650 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 308, in <module>
+2026-01-27 14:40:10.650 |     main()
+2026-01-27 14:40:10.650 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 305, in main
+2026-01-27 14:40:10.650 |     model.train()
+2026-01-27 14:40:10.650 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 211, in train
+2026-01-27 14:40:10.650 |     best_config = tuner.tune_model(
+2026-01-27 14:40:10.650 |                   ^^^^^^^^^^^^^^^^^
+2026-01-27 14:40:10.650 |   File "/home/ray/app/.worktrees/caa32175f5bf28789882db492a6dcfc88951c207/k3s/kuberay/tuning/xgboost.py", line 107, in tune_model
+2026-01-27 14:40:10.650 |     default_data_cpus = max(1, total_cluster_cpus - (num_workers * cpus_per_worker))
+2026-01-27 14:40:10.650 |                                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-01-27 14:40:11.652 | TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+2026-01-27 14:40:16.670 | 2026-01-27 12:40:16,669	ERR cli.py:73 -- ------------------------------
+2026-01-27 14:40:16.670 | 2026-01-27 12:40:16,670	ERR cli.py:74 -- Job 'kuberay-job-plhxq' failed
+2026-01-27 14:40:16.670 | 2026-01-27 12:40:16,670	ERR cli.py:75 -- ------------------------------
+2026-01-27 14:40:16.670 | 2026-01-27 12:40:16,670	INFO cli.py:88 -- Status message: Job entrypoint command failed with exit code 1, last available logs (truncated to 20,000 chars):
+2026-01-27 14:40:16.670 |     main()
+2026-01-27 14:40:16.670 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 305, in main
+2026-01-27 14:40:16.670 |     model.train()
+2026-01-27 14:40:16.670 |   File "/home/ray/app/repo/k3s/kuberay/main.py", line 211, in train
+2026-01-27 14:40:16.670 |     best_config = tuner.tune_model(
+2026-01-27 14:40:16.670 |                   ^^^^^^^^^^^^^^^^^
+2026-01-27 14:40:16.670 |   File "/home/ray/app/.worktrees/caa32175f5bf28789882db492a6dcfc88951c207/k3s/kuberay/tuning/xgboost.py", line 107, in tune_model
+2026-01-27 14:40:16.670 |     default_data_cpus = max(1, total_cluster_cpus - (num_workers * cpus_per_worker))
+2026-01-27 14:40:16.670 |                                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-01-27 14:40:16.670 | TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+2026-01-27 14:40:16.670 | 
