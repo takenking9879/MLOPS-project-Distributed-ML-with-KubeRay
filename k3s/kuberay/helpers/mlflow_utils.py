@@ -38,18 +38,35 @@ def log_evaluation_artifacts(metrics: Dict[str, Any], framework: str):
 
                 # Save PNG
                 cm_np = np.asarray(cm_obj)
-                fig_w = min(14, max(6, cm_np.shape[0] * 0.75))
-                fig_h = min(12, max(5, cm_np.shape[0] * 0.60))
+                # For imbalanced datasets, a normalized colormap is more interpretable than raw counts.
+                # We still annotate with raw counts + per-row percentages.
+                row_sum = cm_np.sum(axis=1, keepdims=True).astype(np.float64)
+                denom = np.where(row_sum == 0.0, 1.0, row_sum)
+                cm_norm = cm_np.astype(np.float64) / denom
+
+                scale = 0.8
+                fig_w = min(14 * scale, max(6 * scale, cm_np.shape[0] * 0.75 * scale))
+                fig_h = min(12 * scale, max(5 * scale, cm_np.shape[0] * 0.60 * scale))
                 fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                im = ax.imshow(cm_np, cmap="Blues")
+                im = ax.imshow(cm_norm, cmap="Blues", vmin=0.0, vmax=1.0)
                 fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-                ax.set_title(f"{prefix.upper()} Confusion Matrix ({framework})")
+                ax.set_title(f"{prefix.upper()} Confusion Matrix (row-normalized) ({framework})")
                 ax.set_xlabel("Predicted")
                 ax.set_ylabel("True")
                 ax.set_xticks(range(cm_np.shape[1]))
                 ax.set_yticks(range(cm_np.shape[0]))
                 ax.set_xticklabels([str(i) for i in range(cm_np.shape[1])], rotation=45, ha="right")
                 ax.set_yticklabels([str(i) for i in range(cm_np.shape[0])])
+
+                # Annotate each cell with count and percentage.
+                # Choose text color based on normalized intensity.
+                for i in range(cm_np.shape[0]):
+                    for j in range(cm_np.shape[1]):
+                        count = int(cm_np[i, j])
+                        pct = float(cm_norm[i, j] * 100.0)
+                        txt = f"{count}\n{pct:.1f}%"
+                        color = "white" if cm_norm[i, j] >= 0.5 else "black"
+                        ax.text(j, i, txt, ha="center", va="center", color=color, fontsize=8)
                 plt.tight_layout()
 
                 png_path = os.path.join(tmpdir, f"{prefix}_confusion_matrix.png")
