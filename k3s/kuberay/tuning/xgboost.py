@@ -134,8 +134,8 @@ def tune_model(
         )
 
         # read with controlled parallelism and repartition to cpus_for_data blocks
-        train_ds = ray.data.read_parquet(train_path, num_cpus=cpus_for_data)
-        val_ds = ray.data.read_parquet(val_path, num_cpus=cpus_for_data)
+        train_ds = ray.data.read_parquet(train_path)
+        val_ds = ray.data.read_parquet(val_path)
 
         train_ds = _maybe_sample_train_ds(train_ds)
         # apply limits if configured

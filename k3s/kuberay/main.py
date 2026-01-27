@@ -241,10 +241,12 @@ class KubeRayTraining(BaseUtils):
 
             # XGBoost specific tuned params
             if framework == "xgboost":
+                best_params['num_boost_round'] = XGBOOST_PARAMS['num_boost_round']
                 train_kwargs["xgboost_params"] = best_params
 
             # PyTorch specific tuned params
             if framework == "pytorch":
+                best_params['max_epochs'] = PYTORCH_PARAMS['max_epochs']
                 train_kwargs["pytorch_params"] = best_params
 
             train_out = module.train(**train_kwargs)
