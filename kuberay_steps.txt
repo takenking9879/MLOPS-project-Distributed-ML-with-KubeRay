@@ -15,7 +15,7 @@ helm install postgres bitnami/postgresql -n ray -f k3s/mlflow/postgres_values.ya
 # Instalar mlflow
 helm install my-mlflow community-charts/mlflow -n ray -f k3s/mlflow/mlflow_values.yaml
 #debugging
-kubectl port-forward -n ray my-mlflow-865d45dd75-hjscs 8080:5000
+kubectl port-forward -n ray my-mlflow-7f5f4cb689-q52mw 8080:5000
 
 kubectl delete secret my-mlflow-flask-server-secret-key -n mlops-fraud
 ####
