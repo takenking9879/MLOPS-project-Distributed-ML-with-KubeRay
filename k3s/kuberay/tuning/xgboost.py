@@ -5,10 +5,9 @@ Supports cheap HPT with ASHA + ResourceChangingScheduler.
 
 import os
 import numbers
-from time import time
+import time
 from typing import Dict
 import logging
-import xgboost
 import ray
 import ray.train
 from ray import tune

@@ -9,7 +9,6 @@ import subprocess
 import tempfile
 from urllib.parse import urlparse
 from typing import Dict, Any
-import mlflow
 from ray.train.xgboost import RayTrainReportCallback
 
 from schemas.pytorch_params import PYTORCH_PARAMS

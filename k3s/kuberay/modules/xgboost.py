@@ -6,8 +6,6 @@ import time
 import logging
 from typing import Any, Dict
 
-import numpy as np
-import xgboost
 import ray.train
 from ray.train.xgboost import XGBoostTrainer
 

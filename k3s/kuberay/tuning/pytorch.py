@@ -12,7 +12,6 @@ from ray.train.torch import TorchTrainer
 from ray.train import ScalingConfig
 from ray.tune import RunConfig
 from ray.tune.schedulers import ASHAScheduler, ResourceChangingScheduler
-from torch import nn
 from typing import Dict
 
 from schemas.pytorch_params import SEARCH_SPACE_PYTORCH_PARAMS, PYTORCH_TUNE_SETTINGS

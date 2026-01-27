@@ -16,9 +16,9 @@ spec:
       CPUS_PER_WORKER: "8"
       # Tuning stage: lighter per-trial footprint; bounded by laptop RAM.
       NUM_WORKERS_TUNE: "2"
-      CPUS_PER_WORKER_TUNE: "4"
+      CPUS_PER_WORKER_TUNE: "8"
       # Reserve CPUs per Tune trial (controls Tune's placement group accounting).
-      CPUS_PER_TRIAL: "8"
+      CPUS_PER_TRIAL: "4"
       # With ~13GB RAM total, 4GB/trial typically allows 2 concurrent trials safely.
       # Start conservative to avoid Ray OOM kills; increase to 2 once stable.
       MAX_CONCURRENT_TRIALS: "2"

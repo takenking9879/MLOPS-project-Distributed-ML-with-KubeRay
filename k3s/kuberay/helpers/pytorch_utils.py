@@ -8,7 +8,6 @@ import tempfile
 import ray
 import ray.train
 from ray.train import Checkpoint
-import numpy as np
 import torch
 from torch import nn
 
