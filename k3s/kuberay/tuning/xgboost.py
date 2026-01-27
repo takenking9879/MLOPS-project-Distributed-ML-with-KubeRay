@@ -126,12 +126,9 @@ def tune_model(
         if sample_fraction is None:
             return ds
         frac = float(sample_fraction)
-        if frac >= 1.0:
-            return ds
-        if frac <= 0.0:
+        if frac >= 1.0 or frac <= 0.0:
             return ds
 
-        # NOTE:
         # Avoid groupby/map_groups here because it triggers shuffles. In Ray Tune, trial
         # placement groups can capture child tasks, and Ray Data shuffle tasks request
         # the implicit `memory` resource, which isn't in the placement group bundles by
