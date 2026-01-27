@@ -11,7 +11,7 @@ backendStore:
 artifactRoot:
   s3:
     enabled: true
-    bucket: ${S3_BUCKET_NAME}
+    bucket: k8s-mlops-platform-bucket
 
 extraEnvVars:
   MLFLOW_S3_IGNORE_TLS: "true"

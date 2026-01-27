@@ -104,12 +104,19 @@ def tune_model(
         if max_val_rows > 0:
             val_dataset = val_dataset.limit(max_val_rows)
 
+        # Optional: materialize per-trial datasets to avoid repeated `ReadParquet`
+        # executions across epochs inside the Train loop.
+        # Keep default OFF because many concurrent trials can pressure the object store.
+        if os.getenv("RAY_MATERIALIZE_DATASETS_TUNE", "0").lower() in ("1", "true", "yes"):
+            train_dataset = train_dataset.materialize()
+            val_dataset = val_dataset.materialize()
+
         train_loop_config = {
             "target": target,
             "pytorch_params": trial_config["pytorch_params"],
             "input_dim": 14,
             "num_classes": int(num_classes),
-                "cpus_per_worker": cpus_per_worker,
+            "cpus_per_worker": cpus_per_worker,
         }
 
         trainer = TorchTrainer(

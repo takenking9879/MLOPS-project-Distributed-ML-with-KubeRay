@@ -5,7 +5,7 @@ import torch
 import ray.train
 from ray.train.torch import TorchTrainer
 from torch import nn
-from typing import Dict
+from typing import Any, Dict
 from schemas.pytorch_params import PYTORCH_PARAMS 
 from helpers.pytorch_utils import train_func
 
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 # =========================
 # Trainer
 # =========================
-def train(train_dataset, val_dataset, target, storage_path, name, num_classes: int = 6, pytorch_params=None):
+def train(train_dataset, val_dataset, test_dataset, target, storage_path, name, num_classes: int = 6, pytorch_params=None):
     scaling_config = ray.train.ScalingConfig(
         num_workers=int(os.getenv("NUM_WORKERS", 2)),
         resources_per_worker={"CPU": int(os.getenv("CPUS_PER_WORKER", 2))},
@@ -51,12 +51,22 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
     train_time_sec = time.perf_counter() - start_time
     print(f"[pytorch] distributed train_time_sec={train_time_sec:.2f}")
 
-    final_metrics: Dict[str, float] = {}
+    final_metrics: Dict[str, Any] = {}
     try:
         if getattr(result, "metrics", None):
             for k, v in result.metrics.items():
                 if isinstance(v, (int, float)):
                     final_metrics[k] = float(v)
+
+            # Non-numeric eval artifacts (added by train loop on the last epoch).
+            for key in (
+                "confusion_matrix",
+                "classification_report",
+                "test_confusion_matrix",
+                "test_classification_report",
+            ):
+                if key in result.metrics:
+                    final_metrics[key] = result.metrics.get(key)
     except Exception as e:
         logger.warning(
             "[pytorch] No se pudieron extraer métricas numéricas de result.metrics: %s",

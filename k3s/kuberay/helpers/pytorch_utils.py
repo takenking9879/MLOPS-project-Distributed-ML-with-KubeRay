@@ -8,15 +8,17 @@ import tempfile
 import ray
 import ray.train
 from ray.train import Checkpoint
+import numpy as np
 import torch
 from torch import nn
+from sklearn.metrics import classification_report
 
 from pytorch_models.models import NeuralNetwork
 
 logger = logging.getLogger(__name__)
 
 
-def _metrics_from_confusion(conf: torch.Tensor) -> Dict[str, float]:
+def _metrics_from_confusion(conf: torch.Tensor, *, prefix: str = "val") -> Dict[str, float]:
     # conf shape: [C, C] where rows=true, cols=pred
     conf = conf.to(torch.float32)
     support = conf.sum(dim=1)
@@ -38,21 +40,21 @@ def _metrics_from_confusion(conf: torch.Tensor) -> Dict[str, float]:
     weighted_f1 = (f1 * weights).sum()
 
     metrics: Dict[str, float] = {
-        "val_accuracy": float(accuracy.item()),
-        "val_precision_macro": float(macro_precision.item()),
-        "val_recall_macro": float(macro_recall.item()),
-        "val_f1_macro": float(macro_f1.item()),
-        "val_precision_weighted": float(weighted_precision.item()),
-        "val_recall_weighted": float(weighted_recall.item()),
-        "val_f1_weighted": float(weighted_f1.item()),
+        f"{prefix}_accuracy": float(accuracy.item()),
+        f"{prefix}_precision_macro": float(macro_precision.item()),
+        f"{prefix}_recall_macro": float(macro_recall.item()),
+        f"{prefix}_f1_macro": float(macro_f1.item()),
+        f"{prefix}_precision_weighted": float(weighted_precision.item()),
+        f"{prefix}_recall_weighted": float(weighted_recall.item()),
+        f"{prefix}_f1_weighted": float(weighted_f1.item()),
     }
 
     # Per-class metrics (similar to classification_report())
     for i in range(conf.shape[0]):
-        metrics[f"val_precision_class_{i}"] = float(precision[i].item())
-        metrics[f"val_recall_class_{i}"] = float(recall[i].item())
-        metrics[f"val_f1_class_{i}"] = float(f1[i].item())
-        metrics[f"val_support_class_{i}"] = float(support[i].item())
+        metrics[f"{prefix}_precision_class_{i}"] = float(precision[i].item())
+        metrics[f"{prefix}_recall_class_{i}"] = float(recall[i].item())
+        metrics[f"{prefix}_f1_class_{i}"] = float(f1[i].item())
+        metrics[f"{prefix}_support_class_{i}"] = float(support[i].item())
 
     return metrics
 
@@ -96,6 +98,7 @@ def train_func(config: Dict):
 
     train_shard = ray.train.get_dataset_shard("train")
     val_shard = ray.train.get_dataset_shard("val")
+    test_shard = ray.train.get_dataset_shard("test")
 
     model = NeuralNetwork(
         input_dim=config.get("input_dim", 28 * 28),
@@ -180,7 +183,7 @@ def train_func(config: Dict):
         
         # Medimos el tiempo que tarda en derivar precisión, recall, etc. de la matriz
         metrics_start = time.perf_counter()
-        metrics = _metrics_from_confusion(conf)
+        metrics = _metrics_from_confusion(conf, prefix="val")
         metrics["multiclass_metrics_time_sec"] = time.perf_counter() - metrics_start
 
         report = {
@@ -189,6 +192,99 @@ def train_func(config: Dict):
             "val_loss": avg_val_loss,
             **metrics,
         }
+
+        # Attach evaluation artifacts on the last epoch (rank 0 only).
+        # - Keep validation artifacts (optional)
+        # - Add test metrics + test artifacts (preferred for final model quality)
+        world_rank = ray.train.get_context().get_world_rank()
+        if epoch == max_epochs - 1 and world_rank in (0, None):
+            try:
+                conf_np = conf.detach().cpu().numpy().astype(np.int64)
+                report["confusion_matrix"] = conf_np.tolist()
+
+                # Build y_true/y_pred for sklearn classification_report.
+                # For very large validation sets, sample pairs from the confusion matrix.
+                total = int(conf_np.sum())
+                max_rows = int(os.getenv("MLFLOW_CLASSIFICATION_REPORT_MAX_ROWS", "200000"))
+                seed = int(config.get("seed", os.getenv("SEED", "42")))
+                flat = conf_np.ravel()
+                if total > 0:
+                    if max_rows > 0 and total > max_rows:
+                        rng = np.random.default_rng(seed)
+                        p = flat / max(float(total), 1.0)
+                        sampled = rng.multinomial(max_rows, p)
+                        idx = np.repeat(np.arange(flat.size, dtype=np.int64), sampled)
+                    else:
+                        idx = np.repeat(np.arange(flat.size, dtype=np.int64), flat)
+
+                    y_true = (idx // num_classes).astype(np.int64)
+                    y_pred = (idx % num_classes).astype(np.int64)
+                    report["classification_report"] = classification_report(
+                        y_true,
+                        y_pred,
+                        labels=list(range(num_classes)),
+                        digits=4,
+                        zero_division=0,
+                    )
+
+                # ---- Test evaluation (only once) ----
+                if test_shard is not None:
+                    test_loader = test_shard.iter_torch_batches(
+                        batch_size=batch_size,
+                        dtypes=torch.float32,
+                        prefetch_batches=max(2, cpus_per_worker // 2),
+                    )
+                    test_loss, test_batches = 0.0, 0
+                    test_conf = torch.zeros((num_classes, num_classes), dtype=torch.int64)
+                    with torch.no_grad():
+                        for tbatch in test_loader:
+                            ty = tbatch.pop(target).long()
+                            if feature_cols is None:
+                                feature_cols = sorted(tbatch.keys())
+                            tX = torch.stack([tbatch[c] for c in feature_cols], dim=1)
+
+                            tpreds = model(tX)
+                            tloss = loss_fn(tpreds, ty)
+                            test_loss += float(tloss.item())
+                            test_batches += 1
+
+                            ty_pred = tpreds.argmax(dim=1)
+                            tidx = ty * num_classes + ty_pred
+                            tcounts = torch.bincount(tidx, minlength=num_classes * num_classes)
+                            test_conf += tcounts.reshape(num_classes, num_classes)
+
+                    report["test_loss"] = test_loss / max(test_batches, 1)
+                    report.update(_metrics_from_confusion(test_conf, prefix="test"))
+                    report["test_confusion_matrix"] = test_conf.detach().cpu().numpy().astype(np.int64).tolist()
+
+                    # sklearn report on test (sampled if huge)
+                    test_conf_np = test_conf.detach().cpu().numpy().astype(np.int64)
+                    total_t = int(test_conf_np.sum())
+                    flat_t = test_conf_np.ravel()
+                    if total_t > 0:
+                        if max_rows > 0 and total_t > max_rows:
+                            rng = np.random.default_rng(seed)
+                            p = flat_t / max(float(total_t), 1.0)
+                            sampled = rng.multinomial(max_rows, p)
+                            idx = np.repeat(np.arange(flat_t.size, dtype=np.int64), sampled)
+                        else:
+                            idx = np.repeat(np.arange(flat_t.size, dtype=np.int64), flat_t)
+
+                        y_true_t = (idx // num_classes).astype(np.int64)
+                        y_pred_t = (idx % num_classes).astype(np.int64)
+                        report["test_classification_report"] = classification_report(
+                            y_true_t,
+                            y_pred_t,
+                            labels=list(range(num_classes)),
+                            digits=4,
+                            zero_division=0,
+                        )
+            except Exception as e:
+                logger.warning(
+                    "[pytorch_utils] No se pudo generar confusion_matrix / classification_report: %s",
+                    str(e),
+                    exc_info=True,
+                )
 
         should_report = ((epoch + 1) % report_every == 0) or (epoch == max_epochs - 1)
         if not should_report:
@@ -199,7 +295,6 @@ def train_func(config: Dict):
         # Mimic XGBoost RayTrainReportCallback semantics:
         # - all ranks report metrics
         # - only rank 0 attaches checkpoints to avoid duplicated uploads
-        world_rank = ray.train.get_context().get_world_rank()
         if should_checkpoint and world_rank in (0, None):
             base_model = model.module if hasattr(model, "module") else model
             with tempfile.TemporaryDirectory() as tmpdir:

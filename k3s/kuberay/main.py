@@ -14,6 +14,7 @@ from ray.train.xgboost import RayTrainReportCallback
 
 from schemas.pytorch_params import PYTORCH_PARAMS
 from schemas.xgboost_params import XGBOOST_PARAMS
+from helpers.mlflow_utils import log_training_run
 
 class KubeRayTraining(BaseUtils):
     def __init__(self, params_path: str, data_dir: str, output_dir: str):
@@ -43,6 +44,10 @@ class KubeRayTraining(BaseUtils):
     def _load_data(self, path: str):
         try:
             ds = ray.data.read_parquet(path, override_num_blocks=self.params.get('num_data_blocks', None))
+            
+            # Senior validation before heavy processing
+            self._validate_schema(ds)
+
             # Senior Optimization: Materialize data in the Object Store once.
             # This avoids re-scanning S3/Parquet files during each epoch of training.
             # It keeps only 1 batch in the Python worker memory while sharing blocks via shared-memory.
@@ -53,6 +58,28 @@ class KubeRayTraining(BaseUtils):
             return ds
         except Exception as e:
             self.logger.error(f"Failed to load data from {path}: {str(e)}", exc_info=True)
+            raise
+
+    def _validate_schema(self, ds: ray.data.Dataset):
+        """Validates dataset schema against Spark preprocessing contract."""
+        try:
+            cols = set(ds.schema().names)
+            expected = {
+                self.params.get('target', 'attack'),
+                'protocol_idx', 'conn_state_idx', 'protocol_conn_idx',
+                'src_port_norm', 'dst_port_norm', 'packet_count_norm',
+                'bytes_transferred_norm', 'bytes_log_norm', 'packet_log_norm',
+                'hour_norm', 'dayofweek_norm', 'is_weekend_norm',
+                'hour_sin_norm', 'hour_cos_norm'
+            }
+            
+            missing = expected - cols
+            if missing:
+                raise ValueError(f"Data Validation failed: missing {list(missing)}")
+
+            self.logger.info(f"Schema validation passed. Total columns: {len(cols)}")
+        except Exception as e:
+            self.logger.error(str(e))
             raise
 
     def _save_model(self, result, framework):
@@ -98,36 +125,22 @@ class KubeRayTraining(BaseUtils):
         except Exception as e:
             self.logger.error(f"Error en el export del modelo: {str(e)}", exc_info=True)
 
-    def _log_final_to_mlflow(self, *, framework: str, params: Dict[str, Any], metrics: Dict[str, float]) -> None:
-        tracking_uri = params.get("mlflow_tracking_uri")
-        experiment_name = params.get("mlflow_experiment_name")
-        if not tracking_uri or not experiment_name:
-            return
+    def _log_final_to_mlflow(self, *, framework: str, params: Dict[str, Any], metrics: Dict[str, Any]) -> None:
+        # Senior Optimization: Encapsulated MLflow logic into a helper utility.
+        # This reduces noise in the main orchestrator and separates plotting concerns.
+        artifact_location = (
+            params.get("mlflow_artifact_location")
+            or os.getenv("MLFLOW_ARTIFACT_LOCATION")
+            or "s3://k8s-mlops-platform-bucket/v1/mlflow_artifacts/"
+        )
 
         try:
-            mlflow.set_tracking_uri(tracking_uri)
-            mlflow.set_experiment(experiment_name)
-
-            run_name = f"{params.get('name', framework)}_final_{framework}"
-            with mlflow.start_run(run_name=run_name):
-                mlflow.log_param("framework", framework)
-                mlflow.log_param("target", params.get("target"))
-                mlflow.log_param("num_classes", params.get("num_classes"))
-                mlflow.log_param("num_workers", os.getenv("NUM_WORKERS", ""))
-                mlflow.log_param("cpus_per_worker", os.getenv("CPUS_PER_WORKER", ""))
-
-                # Log hyperparameters (flatten safely)
-                if framework == "xgboost" and params.get("xgboost_params"):
-                    for k, v in params["xgboost_params"].items():
-                        mlflow.log_param(f"xgb_{k}", v)
-                if framework == "pytorch" and params.get("pytorch_params"):
-                    for k, v in params["pytorch_params"].items():
-                        mlflow.log_param(f"pt_{k}", v)
-
-                # Log metrics (NO artifacts)
-                for k, v in metrics.items():
-                    mlflow.log_metric(k, float(v))
-
+            log_training_run(
+                framework=framework,
+                params=params,
+                metrics=metrics,
+                artifact_location=artifact_location
+            )
         except Exception as e:
             self.logger.error(f"Error al loggear en MLflow: {str(e)}", exc_info=True)
 
@@ -180,6 +193,7 @@ class KubeRayTraining(BaseUtils):
 
             train_ds = self._load_data(os.path.join(self.data_dir, 'train'))
             val_ds = self._load_data(os.path.join(self.data_dir, 'val'))
+            test_ds = self._load_data(os.path.join(self.data_dir, 'test'))
 
             self.logger.info(f"Starting training using framework: {framework}")
             best_params = None
@@ -218,6 +232,7 @@ class KubeRayTraining(BaseUtils):
             train_kwargs = {
                 "train_dataset": train_ds,
                 "val_dataset": val_ds,
+                "test_dataset": test_ds,
                 "storage_path": self.output_dir,
                 "name": self.params.get('name', framework),
                 "target": self.params.get('target', 'attack'),

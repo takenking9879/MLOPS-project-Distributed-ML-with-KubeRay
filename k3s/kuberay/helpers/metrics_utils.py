@@ -9,11 +9,12 @@ import numpy as np
 import pandas as pd
 import xgboost
 from ray.train.xgboost import RayTrainReportCallback
+from sklearn.metrics import classification_report
 
 logger_std = logging.getLogger(__name__)
 
 
-def metrics_from_confusion_np(conf) -> Dict[str, float]:
+def metrics_from_confusion_np(conf, *, prefix: str = "val") -> Dict[str, float]:
     """Compute classification-report-like metrics from a confusion matrix.
 
     Expected conf shape: [C, C] where rows=true labels, cols=pred labels.
@@ -38,32 +39,33 @@ def metrics_from_confusion_np(conf) -> Dict[str, float]:
     weighted_f1 = float(np.sum(f1 * weights))
 
     metrics: Dict[str, float] = {
-        "val_accuracy": accuracy,
-        "val_precision_macro": macro_precision,
-        "val_recall_macro": macro_recall,
-        "val_f1_macro": macro_f1,
-        "val_precision_weighted": weighted_precision,
-        "val_recall_weighted": weighted_recall,
-        "val_f1_weighted": weighted_f1,
+        f"{prefix}_accuracy": accuracy,
+        f"{prefix}_precision_macro": macro_precision,
+        f"{prefix}_recall_macro": macro_recall,
+        f"{prefix}_f1_macro": macro_f1,
+        f"{prefix}_precision_weighted": weighted_precision,
+        f"{prefix}_recall_weighted": weighted_recall,
+        f"{prefix}_f1_weighted": weighted_f1,
     }
 
     for i in range(conf.shape[0]):
-        metrics[f"val_precision_class_{i}"] = float(precision[i])
-        metrics[f"val_recall_class_{i}"] = float(recall[i])
-        metrics[f"val_f1_class_{i}"] = float(f1[i])
-        metrics[f"val_support_class_{i}"] = float(support[i])
+        metrics[f"{prefix}_precision_class_{i}"] = float(precision[i])
+        metrics[f"{prefix}_recall_class_{i}"] = float(recall[i])
+        metrics[f"{prefix}_f1_class_{i}"] = float(f1[i])
+        metrics[f"{prefix}_support_class_{i}"] = float(support[i])
 
     return metrics
 
 
-def xgb_multiclass_metrics_on_val(
+def xgb_multiclass_metrics_on_ds(
     *,
-    val_ds,
+    ds,
+    split: str,
     target: str,
     num_classes: int,
     booster_checkpoint,
-) -> Dict[str, float]:
-    """Compute multiclass metrics for XGBoost on a Ray Dataset validation split.
+) -> Dict[str, Any]:
+    """Compute multiclass metrics for XGBoost on a Ray Dataset split.
 
     This avoids collecting the full dataset to the driver by aggregating a confusion matrix.
     """
@@ -108,15 +110,17 @@ def xgb_multiclass_metrics_on_val(
                 y_pred = probs.argmax(axis=1).astype("int64")
 
             # Compute confusion matrix counts for this batch.
-            cm = np.zeros((num_classes, num_classes), dtype=np.int64)
-            for ti, pi in zip(y_true, y_pred, strict=False):
-                if 0 <= ti < num_classes and 0 <= pi < num_classes:
-                    cm[int(ti), int(pi)] += 1
+            # Vectorized bincount avoids Python loops.
+            mask = (y_true >= 0) & (y_true < num_classes) & (y_pred >= 0) & (y_pred < num_classes)
+            yt = y_true[mask].astype(np.int64, copy=False)
+            yp = y_pred[mask].astype(np.int64, copy=False)
+            idx = yt * num_classes + yp
+            cm = np.bincount(idx, minlength=num_classes * num_classes).reshape((num_classes, num_classes))
 
             # One row per batch: store flattened counts.
             return pd.DataFrame({"cm": [cm.ravel().tolist()]})
 
-        cm_rows = val_ds.map_batches(predict_and_cm_batch, batch_format="pandas").take_all()
+        cm_rows = ds.map_batches(predict_and_cm_batch, batch_format="pandas").take_all()
         conf = np.zeros((num_classes, num_classes), dtype=np.int64)
         for r in cm_rows:
             flat = np.asarray(r["cm"], dtype=np.int64)
@@ -124,7 +128,42 @@ def xgb_multiclass_metrics_on_val(
                 continue
             conf += flat.reshape((num_classes, num_classes))
 
-        return metrics_from_confusion_np(conf)
+        out: Dict[str, Any] = metrics_from_confusion_np(conf, prefix=split)
+        out["confusion_matrix"] = conf.tolist()
+
+        # Build y_true/y_pred for sklearn classification_report.
+        # If very large, sample pairs from confusion matrix distribution.
+        try:
+            total = int(conf.sum())
+            max_rows = int(os.getenv("MLFLOW_CLASSIFICATION_REPORT_MAX_ROWS", "200000"))
+            seed = int(os.getenv("SEED", "42"))
+            flat = conf.ravel()
+            if total > 0:
+                if max_rows > 0 and total > max_rows:
+                    rng = np.random.default_rng(seed)
+                    p = flat / max(float(total), 1.0)
+                    sampled = rng.multinomial(max_rows, p)
+                    idx = np.repeat(np.arange(flat.size, dtype=np.int64), sampled)
+                else:
+                    idx = np.repeat(np.arange(flat.size, dtype=np.int64), flat)
+
+                y_true = (idx // num_classes).astype(np.int64)
+                y_pred = (idx % num_classes).astype(np.int64)
+                out["classification_report"] = classification_report(
+                    y_true,
+                    y_pred,
+                    labels=list(range(num_classes)),
+                    digits=4,
+                    zero_division=0,
+                )
+        except Exception as e:
+            logger_std.warning(
+                "No se pudo generar classification_report para XGBoost: %s",
+                str(e),
+                exc_info=True,
+            )
+
+        return out
 
     except Exception as e:
         logger_std.error(
@@ -132,3 +171,21 @@ def xgb_multiclass_metrics_on_val(
             exc_info=True,
         )
         return {}
+
+
+def xgb_multiclass_metrics_on_val(
+    *,
+    val_ds,
+    target: str,
+    num_classes: int,
+    booster_checkpoint,
+) -> Dict[str, Any]:
+    """Backward-compatible wrapper (validation split)."""
+
+    return xgb_multiclass_metrics_on_ds(
+        ds=val_ds,
+        split="val",
+        target=target,
+        num_classes=num_classes,
+        booster_checkpoint=booster_checkpoint,
+    )

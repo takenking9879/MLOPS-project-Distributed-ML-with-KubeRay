@@ -5,6 +5,7 @@ numpy==2.3.3
 pandas==2.3.3
 pyarrow==22.0.0
 scikit-learn==1.8.0
+matplotlib==3.10.0
 
 # =========================
 # Gradient Boosting

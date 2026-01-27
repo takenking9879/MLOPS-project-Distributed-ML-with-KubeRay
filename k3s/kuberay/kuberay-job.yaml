@@ -30,6 +30,7 @@ spec:
 
       # Performance knobs (small datasets):
       RAY_MATERIALIZE_DATASETS: "1"
+      RAY_MATERIALIZE_DATASETS_TUNE: "1"
 
   rayClusterSpec:
     rayVersion: "2.52.0"

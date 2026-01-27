@@ -4,7 +4,8 @@ XGBoost training module using Ray Train. It only supports RAM-based training."""
 import os
 import time
 import logging
-from typing import Dict, Iterator, Optional, Tuple
+import tempfile
+from typing import Any, Dict, Iterator, Optional, Tuple
 
 import numpy as np
 import xgboost
@@ -13,7 +14,7 @@ from ray.train import Checkpoint
 from ray.train.xgboost import XGBoostTrainer
 
 from schemas.xgboost_params import XGBOOST_PARAMS
-from helpers.metrics_utils import xgb_multiclass_metrics_on_val
+from helpers.metrics_utils import xgb_multiclass_metrics_on_ds
 from helpers.xgboost_utils import get_train_val_dmatrix, run_xgboost_train
 
 logger = logging.getLogger(__name__)
@@ -51,9 +52,6 @@ class RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback
     def _report(self, report_dict: Dict, model: xgboost.Booster, *, checkpoint: bool) -> None:
         world_rank = ray.train.get_context().get_world_rank()
         if checkpoint and world_rank in (0, None):
-            import tempfile
-            import os
-
             with tempfile.TemporaryDirectory() as tmpdir:
                 model.save_model(os.path.join(tmpdir, self.filename))
                 ray_checkpoint = Checkpoint.from_directory(tmpdir)
@@ -133,7 +131,7 @@ def train_func(config: Dict):
     #Aqui termina el tiempo de entrenamiento
 
 # Main training function
-def train(train_dataset, val_dataset, target, storage_path, name, num_classes: int = 6, xgboost_params=None):
+def train(train_dataset, val_dataset, test_dataset, target, storage_path, name, num_classes: int = 6, xgboost_params=None):
     scaling_config = ray.train.ScalingConfig(
         num_workers=int(os.getenv("NUM_WORKERS", 2)),
         resources_per_worker={"CPU": int(os.getenv("CPUS_PER_WORKER", 2))})
@@ -157,7 +155,7 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
     result = trainer.fit()
     
     # Métricas finales (mezcla de métricas reportadas por Ray + multiclass en val)
-    final_metrics: Dict[str, float] = {}
+    final_metrics: Dict[str, Any] = {}
 
     if getattr(result, "metrics", None):
         for k, v in result.metrics.items():
@@ -165,9 +163,11 @@ def train(train_dataset, val_dataset, target, storage_path, name, num_classes: i
                 final_metrics[k] = float(v)
 
     mc_start = time.perf_counter()
+    eval_ds = test_dataset if test_dataset is not None else val_dataset
     final_metrics.update(
-        xgb_multiclass_metrics_on_val(
-            val_ds=val_dataset,
+        xgb_multiclass_metrics_on_ds(
+            ds=eval_ds,
+            split="test" if test_dataset is not None else "val",
             target=target,
             num_classes=int(num_classes),
             booster_checkpoint=result.checkpoint,
