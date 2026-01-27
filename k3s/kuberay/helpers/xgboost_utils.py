@@ -4,8 +4,7 @@ import tempfile
 import ray
 import xgboost
 from ray.train import Checkpoint
-from typing import Any, Dict
-
+from typing import Dict, Optional, List
 
 def get_train_val_dmatrix(target: str) -> Tuple[xgboost.DMatrix, xgboost.DMatrix]:
     train_shard = ray.train.get_dataset_shard("train")
@@ -68,7 +67,6 @@ class RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback
         checkpoint_every: int = 50,
         filename: str = "model.ubj",
         # Aquí aceptamos tanto `metric` como `metrics` por compatibilidad
-        metric: Optional[List[str]] = None,
         metrics: Optional[List[str]] = None,
     ):
         self.report_every = max(int(report_every), 1)
@@ -78,8 +76,6 @@ class RayTrainPeriodicReportCheckpointCallback(xgboost.callback.TrainingCallback
         # Normalizamos alias: metrics override metric if ambos provistos
         if metrics is not None:
             self.metrics = list(metrics)
-        elif metric is not None:
-            self.metrics = list(metric)
         else:
             # None significa "reporta todo" (comportamiento similar al oficial)
             self.metrics = None
