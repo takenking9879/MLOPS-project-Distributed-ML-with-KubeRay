@@ -11,7 +11,6 @@ from ray.train import Checkpoint
 import numpy as np
 import torch
 from torch import nn
-from sklearn.metrics import classification_report
 
 from pytorch_models.models import NeuralNetwork
 
@@ -62,10 +61,7 @@ def _metrics_from_confusion(conf: torch.Tensor, *, prefix: str = "val") -> Dict[
 def train_func(config: Dict):
     # Ray defaults to OMP_NUM_THREADS=1 unless the task/actor sets num_cpus.
     # For Ray Train workers, we pass the intended CPU budget via train_loop_config.
-    try:
-        cpus_per_worker = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
-    except Exception:
-        cpus_per_worker = 1
+    cpus_per_worker = int(config.get("cpus_per_worker", os.getenv("CPUS_PER_WORKER", "1")))
     cpus_per_worker = max(cpus_per_worker, 1)
 
     for var in (
@@ -98,7 +94,6 @@ def train_func(config: Dict):
 
     train_shard = ray.train.get_dataset_shard("train")
     val_shard = ray.train.get_dataset_shard("val")
-    test_shard = ray.train.get_dataset_shard("test")
 
     model = NeuralNetwork(
         input_dim=config.get("input_dim", 28 * 28),
@@ -193,98 +188,7 @@ def train_func(config: Dict):
             **metrics,
         }
 
-        # Attach evaluation artifacts on the last epoch (rank 0 only).
-        # - Keep validation artifacts (optional)
-        # - Add test metrics + test artifacts (preferred for final model quality)
         world_rank = ray.train.get_context().get_world_rank()
-        if epoch == max_epochs - 1 and world_rank in (0, None):
-            try:
-                conf_np = conf.detach().cpu().numpy().astype(np.int64)
-                report["confusion_matrix"] = conf_np.tolist()
-
-                # Build y_true/y_pred for sklearn classification_report.
-                # For very large validation sets, sample pairs from the confusion matrix.
-                total = int(conf_np.sum())
-                max_rows = int(os.getenv("MLFLOW_CLASSIFICATION_REPORT_MAX_ROWS", "200000"))
-                seed = int(config.get("seed", os.getenv("SEED", "42")))
-                flat = conf_np.ravel()
-                if total > 0:
-                    if max_rows > 0 and total > max_rows:
-                        rng = np.random.default_rng(seed)
-                        p = flat / max(float(total), 1.0)
-                        sampled = rng.multinomial(max_rows, p)
-                        idx = np.repeat(np.arange(flat.size, dtype=np.int64), sampled)
-                    else:
-                        idx = np.repeat(np.arange(flat.size, dtype=np.int64), flat)
-
-                    y_true = (idx // num_classes).astype(np.int64)
-                    y_pred = (idx % num_classes).astype(np.int64)
-                    report["classification_report"] = classification_report(
-                        y_true,
-                        y_pred,
-                        labels=list(range(num_classes)),
-                        digits=4,
-                        zero_division=0,
-                    )
-
-                # ---- Test evaluation (only once) ----
-                if test_shard is not None:
-                    test_loader = test_shard.iter_torch_batches(
-                        batch_size=batch_size,
-                        dtypes=torch.float32,
-                        prefetch_batches=max(2, cpus_per_worker // 2),
-                    )
-                    test_loss, test_batches = 0.0, 0
-                    test_conf = torch.zeros((num_classes, num_classes), dtype=torch.int64)
-                    with torch.no_grad():
-                        for tbatch in test_loader:
-                            ty = tbatch.pop(target).long()
-                            if feature_cols is None:
-                                feature_cols = sorted(tbatch.keys())
-                            tX = torch.stack([tbatch[c] for c in feature_cols], dim=1)
-
-                            tpreds = model(tX)
-                            tloss = loss_fn(tpreds, ty)
-                            test_loss += float(tloss.item())
-                            test_batches += 1
-
-                            ty_pred = tpreds.argmax(dim=1)
-                            tidx = ty * num_classes + ty_pred
-                            tcounts = torch.bincount(tidx, minlength=num_classes * num_classes)
-                            test_conf += tcounts.reshape(num_classes, num_classes)
-
-                    report["test_loss"] = test_loss / max(test_batches, 1)
-                    report.update(_metrics_from_confusion(test_conf, prefix="test"))
-                    report["test_confusion_matrix"] = test_conf.detach().cpu().numpy().astype(np.int64).tolist()
-
-                    # sklearn report on test (sampled if huge)
-                    test_conf_np = test_conf.detach().cpu().numpy().astype(np.int64)
-                    total_t = int(test_conf_np.sum())
-                    flat_t = test_conf_np.ravel()
-                    if total_t > 0:
-                        if max_rows > 0 and total_t > max_rows:
-                            rng = np.random.default_rng(seed)
-                            p = flat_t / max(float(total_t), 1.0)
-                            sampled = rng.multinomial(max_rows, p)
-                            idx = np.repeat(np.arange(flat_t.size, dtype=np.int64), sampled)
-                        else:
-                            idx = np.repeat(np.arange(flat_t.size, dtype=np.int64), flat_t)
-
-                        y_true_t = (idx // num_classes).astype(np.int64)
-                        y_pred_t = (idx % num_classes).astype(np.int64)
-                        report["test_classification_report"] = classification_report(
-                            y_true_t,
-                            y_pred_t,
-                            labels=list(range(num_classes)),
-                            digits=4,
-                            zero_division=0,
-                        )
-            except Exception as e:
-                logger.warning(
-                    "[pytorch_utils] No se pudo generar confusion_matrix / classification_report: %s",
-                    str(e),
-                    exc_info=True,
-                )
 
         should_report = ((epoch + 1) % report_every == 0) or (epoch == max_epochs - 1)
         if not should_report:
