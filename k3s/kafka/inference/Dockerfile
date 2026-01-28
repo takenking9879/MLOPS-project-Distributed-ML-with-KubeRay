@@ -1,4 +1,6 @@
-FROM python:3.11.14-slim-bookworm
+FROM rayproject/ray:2.9.0-py311
+
+USER root
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -7,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 WORKDIR /app
 
-# Install system dependencies (ADD libsasl2-dev HERE)
+# Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         curl \
@@ -15,7 +17,6 @@ RUN apt-get update && \
         gcc \
         g++ \
         build-essential \
-        python3-dev \
         libssl-dev \
         libsasl2-dev \
         pkg-config \
@@ -35,11 +36,7 @@ RUN curl -fsSL https://github.com/confluentinc/librdkafka/archive/refs/tags/v2.1
 # Copy requirements and install Python dependencies
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install uv==0.9.24 \
-    && uv pip install --system -r /app/requirements.txt
+    && uv pip install --system --no-cache -r /app/requirements.txt
 
-
-# Copy application code
-COPY . .
-
-# Entrypoint
-ENTRYPOINT ["python3", "kafka_main.py"]
+# Switch back to ray user for security
+USER ray

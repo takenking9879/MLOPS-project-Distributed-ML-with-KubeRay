@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: kafka-ui
-          image: provectuslabs/kafka-ui:latest
+          image: ghcr.io/kafbat/kafka-ui:latest #provectuslabs/kafka-ui:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8083

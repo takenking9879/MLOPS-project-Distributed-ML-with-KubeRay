@@ -8,11 +8,9 @@ spec:
   
   # Para streaming continuo, queremos que el job corra indefinidamente
   shutdownAfterJobFinishes: false
-  ttlSecondsAfterFinished: 86400  # 24h después de que termine (si llega a terminar)
+  ttlSecondsAfterFinished: 10000  # 24h después de que termine (si llega a terminar)
   
   runtimeEnvYAML: |
-    pip:
-      - confluent-kafka==2.3.0
     env_vars:
       NUM_ACTORS: "6"  # Número de actores = particiones de Kafka
   
@@ -31,7 +29,7 @@ spec:
         spec:
           containers:
             - name: ray-head
-              image: rayproject/ray:2.9.0-py310
+              image: k3s-kafka-inference:latest
               ports:
                 - containerPort: 6379
                   name: gcs-server
@@ -86,9 +84,9 @@ spec:
     # WORKERS
     ########################
     workerGroupSpecs:
-      - replicas: 6
-        minReplicas: 6
-        maxReplicas: 6
+      - replicas: 2
+        minReplicas: 2
+        maxReplicas: 2
         groupName: kafka-consumers
         rayStartParams: {}
         
@@ -110,7 +108,7 @@ spec:
             
             containers:
               - name: ray-worker
-                image: rayproject/ray:2.9.0-py310
+                image: k3s-kafka-inference:latest
                 resources:
                   limits:
                     cpu: "2"

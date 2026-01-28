@@ -56,13 +56,13 @@ ingress:
     #   servicePort: 8080
     #   path: /
     #   pathType: Prefix
-    # - name: ray-serving
-    #   namespace: ray
-    #   subdomain: serving
-    #   serviceName: model-serving-serve-svc
-    #   servicePort: 8000
-    #   path: /infer
-    #   pathType: Prefix
+    - name: ray-serving
+      namespace: ray
+      subdomain: serving
+      serviceName: model-serving-serve-svc
+      servicePort: 8000
+      path: /infer
+      pathType: Prefix
     - name: kafka-ui
       namespace: kafka
       subdomain: kafka

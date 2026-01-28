@@ -4,11 +4,16 @@ helm repo add strimzi https://strimzi.io/charts
 #Create namespace
 kubectl create namespace kafka
 
+#Secret
+kubectl create secret generic kafka-secret \
+  -n kafka \
+  --from-env-file=.env
+
 #install kafka operator
 helm install my-strimzi-kafka-operator strimzi/strimzi-kafka-operator --version 0.49.1 -n kafka
 
 #levantar kafka cluster y topic
-kubectl apply -f k3s/kafka/kafka-cluster.yaml #Podria cambiar
+kubectl apply -f k3s/kafka/kafka-cluster.yaml
 kubectl apply -f k3s/kafka/kafka-topics.yaml
 kubectl apply -f k3s/kafka/kafka-user.yaml
 
@@ -43,10 +48,5 @@ docker run -d \
   --cpus="2" \
   --memory="1g" \
   k3s-kafka-producer 
-
-# UI secret
-kubectl create secret generic kafka-secret \
-  -n kafka \
-  --from-env-file=.env
 
 kubectl apply -f k3s/kafka/kafka-ui.yaml

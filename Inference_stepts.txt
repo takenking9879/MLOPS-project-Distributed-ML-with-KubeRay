@@ -1,2 +1,5 @@
 # Haber seguido kafka_steps.txt
+# Haber seguido kuberay_steps.txt (al menos los necesarios como el operador y el serving)
 
+# Crear la imagen
+docker build -t k3s-kafka-inference ./k3s/kafka/inference

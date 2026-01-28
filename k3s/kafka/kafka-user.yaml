@@ -11,6 +11,11 @@ spec:
   authentication:
     # Autenticación SCRAM (user/password)
     type: scram-sha-512
+    password:
+      valueFrom:
+        secretKeyRef:
+          name: kafka-secret
+          key: KAFKA_PASSWORD
 
   authorization:
     # Usamos ACLs explícitas (no RBAC amplio)

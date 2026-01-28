@@ -1,4 +1,4 @@
-confluent-kafka==2.3.0
-httpx==0.26.0
-python-dotenv==1.0.0
-pydantic==2.5.3
+confluent-kafka==2.13.0
+httpx==0.28.1
+python-dotenv==1.2.1
+pydantic==2.12.5
