@@ -84,7 +84,7 @@ class KubeRayTraining(BaseUtils):
     def _save_model(self, result, framework):
         """
         Extrae el mejor modelo del resultado y lo guarda en S3 como un archivo .pkl.
-        Usa boto3 directo para evitar archivos temporales y el error de checksum de pyarrow.
+        Usa boto3 directo para evitar archivos temporales y errores de checksum.
         """
         self.logger.info(f"Exportando modelo final de {framework} a S3...")
         try:
@@ -93,37 +93,46 @@ class KubeRayTraining(BaseUtils):
                 self.logger.warning("No se encontró un checkpoint válido en el resultado.")
                 return
 
-            # 1. Obtener el path de S3 del checkpoint
-            parsed_ckpt = urlparse(checkpoint.path)
-            bucket_in = parsed_ckpt.netloc
-            prefix_in = parsed_ckpt.path.lstrip('/')
+            # 1. Parsear el path de S3 (manejando si tiene o no el scheme s3://)
+            ckpt_path = checkpoint.path
+            raw_path = ckpt_path[5:] if ckpt_path.startswith("s3://") else ckpt_path
+            bucket_in, prefix_in = raw_path.split("/", 1)
 
-            # 2. Definir qué archivo buscar según el framework
-            if framework == "xgboost":
-                target_file = "model.ubj"
-            elif framework == "pytorch":
-                target_file = "model.pt"
+            # 2. Definir archivo de origen según framework
+            target_file = "model.pt" if framework == "pytorch" else "model.ubj"
+            key_in = f"{prefix_in.rstrip('/')}/{target_file}"
 
-            key_in = os.path.join(prefix_in, target_file)
-
-            # 3. Leer directamente de S3 a memoria
-            self.logger.info(f"Leyendo {target_file} desde {checkpoint.path}")
+            self.logger.info(f"Descargando {target_file} desde s3://{bucket_in}/{key_in}")
             response = self.s3.get_object(Bucket=bucket_in, Key=key_in)
             model_bytes = response['Body'].read()
 
+            # 3. Preparar el payload final para el archivo .pkl
+            # Mantenemos la estructura original del usuario para no romper la inferencia
             if framework == "xgboost":
-                payload = model_bytes # O pickle.dumps(model_bytes) si prefieres mantener el formato
+                # RayTrainReportCallback.get_model(checkpoint) devuelve el objeto Booster
+                # Aquí lo simulamos cargando los bytes si fuera necesario, o simplemente
+                # guardamos los bytes dentro del pickle si así lo espera el consumidor.
+                # Para ser 100% fieles al código original que usaba pickle.dump(model):
+                import xgboost as xgb
+                import tempfile
+                with tempfile.NamedTemporaryFile() as tmp:
+                    tmp.write(model_bytes)
+                    tmp.flush()
+                    bst = xgb.Booster()
+                    bst.load_model(tmp.name)
+                payload = pickle.dumps(bst)
             else:
-                # Para PyTorch mantenemos tu estructura de dict
+                # PyTorch: dict con la key "model_pt"
                 payload = pickle.dumps({"model_pt": model_bytes})
 
             # 4. Subir al destino final
             parsed_out = urlparse(self.output_dir)
             bucket_out = parsed_out.netloc
-            s3_key_out = os.path.join(parsed_out.path.lstrip('/'), f"model_{framework}.pkl")
+            prefix_out = parsed_out.path.lstrip('/')
+            s3_key_out = os.path.join(prefix_out, f"model_{framework}.pkl")
 
-            self.s3.put_object(Bucket=bucket_out, Key=s3_key_out, Body=payload if isinstance(payload, bytes) else pickle.dumps(payload))
-            self.logger.info(f"Modelo guardado exitosamente en: s3://{bucket_out}/{s3_key_out}")
+            self.s3.put_object(Bucket=bucket_out, Key=s3_key_out, Body=payload)
+            self.logger.info(f"Modelo exportado correctamente a s3://{bucket_out}/{s3_key_out}")
                 
         except Exception as e:
             self.logger.error(f"Error en el export del modelo (S3 direct): {str(e)}", exc_info=True)
