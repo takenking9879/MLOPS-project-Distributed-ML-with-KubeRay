@@ -6,11 +6,9 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 import boto3
-import pickle
 
 from ray import serve
 from starlette.requests import Request
-from starlette.responses import JSONResponse
 
 from k3s.kuberay.utils import create_logger
 from k3s.kuberay.serving.modules.preprocessor import InferencePreprocessor
@@ -57,16 +55,22 @@ def _normalize_payload(payload: Any) -> List[Dict[str, Any]]:
     raise ValueError("'data' must be an object or a list of objects")
 
 
-@serve.deployment(name="StableModel")
-class StableModel:
-    def __init__(self):
-        self._logger = create_logger("StableModel")
+class _ModelRuntime:
+    """Shared (non-deployment) runtime.
+
+    IMPORTANT: Do not subclass a class decorated by @serve.deployment.
+    Ray wraps deployment classes, and Python inheritance breaks with that wrapper.
+    """
+
+    def __init__(self, *, name: str, variant: str):
+        self._logger = create_logger(name)
+        self._variant = variant
         self._store: Optional[S3Store] = None
         self._pre: Optional[InferencePreprocessor] = None
         self._handler: Optional[XGBoostHandler] = None
         self._spec: Optional[ModelSpec] = None
 
-    def reconfigure(self, config: Dict[str, Any]) -> None:
+    def _load_from_config(self, config: Dict[str, Any]) -> None:
         bucket = os.getenv("S3_BUCKET_NAME", "k8s-mlops-platform-bucket")
         framework = str(config.get("framework", os.getenv("FRAMEWORK", "xgboost")))
         model_key = str(config.get("model_key", os.getenv("MODEL_KEY", f"models/model_{framework}.pkl")))
@@ -74,41 +78,67 @@ class StableModel:
         self._spec = ModelSpec(framework=framework, model_key=model_key, artifacts_key=artifacts_key)
 
         self._store = S3Store(bucket=bucket)
-        model_path = self._store.download_to_tmp(key=self._spec.model_key, filename=f"stable_{framework}.pkl")
-        artifacts_path = self._store.download_to_tmp(key=self._spec.artifacts_key, filename="pipeline_model.json")
+        model_path = self._store.download_to_tmp(
+            key=self._spec.model_key,
+            filename=f"{self._variant}_{framework}.pkl",
+        )
+        artifacts_path = self._store.download_to_tmp(
+            key=self._spec.artifacts_key,
+            filename="pipeline_model.json",
+        )
 
         self._pre = InferencePreprocessor(artifacts_path)
         if framework != "xgboost":
             raise ValueError(f"Unsupported framework for this deployment: {framework}")
         self._handler = XGBoostHandler(model_path)
-        self._logger.info("Stable model loaded: %s", self._spec)
 
-    async def predict(self, payload: Dict[str, Any]) -> JSONResponse:
+        self._logger.info("Model loaded (%s): %s", self._variant, self._spec)
+
+    def predict(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         if self._pre is None or self._handler is None or self._spec is None:
-            return JSONResponse({"error": "Model not initialized"}, status_code=503)
+            return {"error": "Model not initialized"}
 
         started = time.perf_counter()
+        rows = _normalize_payload(payload)
+        processed = self._pre.transform(rows)
+        result = self._handler.predict(processed.values.tolist())
+        result["latency_ms"] = (time.perf_counter() - started) * 1000.0
+        result["model"] = {
+            "variant": self._variant,
+            "framework": self._spec.framework,
+            "model_key": self._spec.model_key,
+        }
+        return result
+
+
+@serve.deployment(name="StableModel")
+class StableModel:
+    def __init__(self):
+        self._rt = _ModelRuntime(name="StableModel", variant="stable")
+
+    def reconfigure(self, config: Dict[str, Any]) -> None:
+        self._rt._load_from_config(config)
+
+    async def predict(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         try:
-            rows = _normalize_payload(payload)
-            processed = self._pre.transform(rows)
-            result = self._handler.predict(processed.values.tolist())
-            latency_ms = (time.perf_counter() - started) * 1000.0
-            result["latency_ms"] = latency_ms
-            result["model"] = {"variant": "stable", "framework": self._spec.framework, "model_key": self._spec.model_key}
-            return JSONResponse(result)
+            return self._rt.predict(payload)
         except Exception as e:
-            return JSONResponse({"error": str(e)}, status_code=400)
+            return {"error": str(e)}
 
 
 @serve.deployment(name="CanaryModel")
-class CanaryModel(StableModel):
-    async def predict(self, payload: Dict[str, Any]) -> JSONResponse:
-        resp = await super().predict(payload)
-        # Override metadata if initialized
-        if isinstance(resp, JSONResponse) and resp.status_code == 200:
-            # JSONResponse body is already rendered; we keep response as-is to avoid double encoding.
-            return resp
-        return resp
+class CanaryModel:
+    def __init__(self):
+        self._rt = _ModelRuntime(name="CanaryModel", variant="canary")
+
+    def reconfigure(self, config: Dict[str, Any]) -> None:
+        self._rt._load_from_config(config)
+
+    async def predict(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+        try:
+            return self._rt.predict(payload)
+        except Exception as e:
+            return {"error": str(e)}
 
 
 @serve.deployment(name="ModelRouter")
@@ -126,12 +156,9 @@ class ModelRouter:
 
     async def __call__(self, request: Request):
         if request.url.path.endswith("/healthz"):
-            return JSONResponse({"status": "ok"})
+            return {"status": "ok"}
 
-        try:
-            payload = await request.json()
-        except Exception:
-            return JSONResponse({"error": "Invalid JSON"}, status_code=400)
+        payload = await request.json()
 
         use_canary = random.random() < self._canary_probability
         handle = self._canary if use_canary else self._stable

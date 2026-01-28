@@ -44,6 +44,8 @@ kubectl delete rayjob kuberay-job -n ray
 
 kubectl apply -f k3s/kuberay/serving/rayservice-model-serving.yaml
 
+kubectl delete rayservice model-serving -n ray
+
 # Ver estado
 kubectl get rayservice -n ray
 kubectl describe rayservice model-serving -n ray

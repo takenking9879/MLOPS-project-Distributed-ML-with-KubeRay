@@ -1,6 +1,6 @@
 import pickle
 import torch
-from pytorch_models.models import NeuralNetwork
+from k3s.kuberay.pytorch_models.models import NeuralNetwork
 
 
 class PyTorchHandler:
