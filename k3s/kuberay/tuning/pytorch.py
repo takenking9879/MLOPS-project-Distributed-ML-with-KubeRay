@@ -119,11 +119,23 @@ def tune_model(
             "cpus_per_worker": cpus_per_worker,
         }
 
+        # Ensure Ray Train persists checkpoints/metrics to shared storage.
+        # Without this, Ray Train falls back to local /home/ray/ray_results which
+        # is NOT shared across pods in Kubernetes, and checkpoint upload fails.
+        try:
+            trial_id = tune.get_context().get_trial_id()
+        except Exception:
+            trial_id = str(os.getpid())
+
         trainer = TorchTrainer(
             train_loop_per_worker=train_func,
             train_loop_config=train_loop_config,
             scaling_config=scaling_config,
             datasets={"train": train_dataset, "val": val_dataset},
+            run_config=RunConfig(
+                storage_path=storage_path,
+                name=f"{name}_train_{trial_id}",
+            ),
         )
         result = trainer.fit()
         metrics = getattr(result, "metrics", None) or {}
