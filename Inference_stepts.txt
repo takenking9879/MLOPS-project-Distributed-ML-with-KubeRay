@@ -3,3 +3,5 @@
 
 # Crear la imagen
 docker build -t k3s-kafka-inference ./k3s/kafka/inference
+
+kubectl apply -f k3s/kafka/inference/inference.yaml

@@ -47,9 +47,29 @@ spec:
               volumeMounts:
                 - name: app-code
                   mountPath: /home/ray/app
+                - name: kafka-cluster-ca
+                  mountPath: /etc/kafka/ca
+                  readOnly: true
+              envFrom:
+                - secretRef:
+                    name: kafka-secret
               env:
                 - name: RAY_enable_infeasible_task_early_exit
                   value: "true"
+                - name: KAFKA_BOOTSTRAP_SERVERS
+                  value: "my-kafka-cluster-kafka-bootstrap:9093"
+                - name: KAFKA_SASL_MECHANISM
+                  value: "SCRAM-SHA-512"
+                - name: KAFKA_SECURITY_PROTOCOL
+                  value: "SASL_SSL"
+                - name: KAFKA_SSL_CA_LOCATION
+                  value: "/etc/kafka/ca/ca.crt"
+                - name: KAFKA_TOPIC
+                  value: "topic-traffic"
+                - name: KAFKA_TOPIC_OUTPUT
+                  value: "topic-prediction"
+                - name: RAY_SERVE_URL
+                  value: "http://model-serving-serve-svc.ray.svc.cluster.local:8000/infer"
           
           initContainers:
             - name: git-sync
@@ -63,7 +83,7 @@ spec:
                   memory: 256Mi
               env:
                 - name: GITSYNC_REPO
-                  value: "https://github.com/YOUR_USERNAME/YOUR_REPO"  # Tu repo
+                  value: "https://github.com/takenking9879/Kubernetes-MLOPS-platform"
                 - name: GIT_SYNC_BRANCH
                   value: "main"
                 - name: GIT_SYNC_ROOT
@@ -79,6 +99,9 @@ spec:
           volumes:
             - name: app-code
               emptyDir: {}
+            - name: kafka-cluster-ca
+              secret:
+                secretName: my-kafka-cluster-cluster-ca-cert
     
     ########################
     # WORKERS
@@ -119,9 +142,12 @@ spec:
                 volumeMounts:
                   - name: app-code
                     mountPath: /home/ray/app
+                  - name: kafka-cluster-ca
+                    mountPath: /etc/kafka/ca
+                    readOnly: true
                 envFrom:
                   - secretRef:
-                      name: kafka-config  # Tus credenciales de Kafka
+                      name: kafka-secret
                 env:
                   - name: RAY_enable_infeasible_task_early_exit
                     value: "true"
@@ -129,10 +155,16 @@ spec:
                     value: "topic-traffic"
                   - name: KAFKA_TOPIC_OUTPUT
                     value: "topic-prediction"
+                  - name: KAFKA_BOOTSTRAP_SERVERS
+                    value: "my-kafka-cluster-kafka-bootstrap:9093"
                   - name: KAFKA_SASL_MECHANISM
-                    value: "PLAIN"
+                    value: "SCRAM-SHA-512"
                   - name: KAFKA_SECURITY_PROTOCOL
                     value: "SASL_SSL"
+                  - name: KAFKA_SSL_CA_LOCATION
+                    value: "/etc/kafka/ca/ca.crt"
+                  - name: RAY_SERVE_URL
+                    value: "http://model-serving-serve-svc.ray.svc.cluster.local:8000/infer"
             
             initContainers:
               - name: git-sync
@@ -146,7 +178,7 @@ spec:
                     memory: 256Mi
                 env:
                   - name: GITSYNC_REPO
-                    value: "https://github.com/YOUR_USERNAME/YOUR_REPO"
+                    value: "https://github.com/takenking9879/Kubernetes-MLOPS-platform"
                   - name: GIT_SYNC_BRANCH
                     value: "main"
                   - name: GIT_SYNC_ROOT
@@ -162,3 +194,6 @@ spec:
             volumes:
               - name: app-code
                 emptyDir: {}
+              - name: kafka-cluster-ca
+                secret:
+                  secretName: my-kafka-cluster-cluster-ca-cert

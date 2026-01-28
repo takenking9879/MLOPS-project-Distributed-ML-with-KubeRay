@@ -5,7 +5,7 @@ import logging
 from typing import Dict, Optional
 import json
 import ray
-from ray import serve
+import httpx
 from confluent_kafka import Consumer, Producer, KafkaError, KafkaException
 
 
@@ -43,9 +43,15 @@ class KafkaConfig:
         self.password = os.getenv('KAFKA_PASSWORD')
         self.sasl_mechanism = os.getenv('KAFKA_SASL_MECHANISM', 'PLAIN')
         self.security_protocol = os.getenv('KAFKA_SECURITY_PROTOCOL', 'SASL_SSL')
+        self.ssl_ca_location = os.getenv('KAFKA_SSL_CA_LOCATION')
         self.input_topic = os.getenv('KAFKA_TOPIC', 'topic-traffic')
         self.output_topic = os.getenv('KAFKA_TOPIC_OUTPUT', 'topic-prediction')
         self.group_id = 'kafka-inference-consumer-group'
+
+        # Ray Serve HTTP endpoint (recommended when Serve runs in a different Ray cluster)
+        # Example in-cluster: http://model-serving-serve-svc.ray.svc.cluster.local:8000/infer
+        self.ray_serve_url = os.getenv('RAY_SERVE_URL')
+        self.ray_serve_timeout_s = float(os.getenv('RAY_SERVE_TIMEOUT_S', '10'))
         
         self._validate()
     
@@ -77,7 +83,7 @@ class KafkaInferenceActor:
         
         self.consumer = None
         self.producer = None
-        self.predictor_handle = None
+        self._http: httpx.Client | None = None
         
         self._initialize_kafka()
         self._initialize_predictor()
@@ -100,6 +106,9 @@ class KafkaInferenceActor:
                 'max.poll.interval.ms': 300000,
                 'session.timeout.ms': 45000
             }
+
+            if self.config.ssl_ca_location:
+                consumer_config['ssl.ca.location'] = self.config.ssl_ca_location
             
             producer_config = {
                 'bootstrap.servers': self.config.bootstrap_servers,
@@ -112,6 +121,9 @@ class KafkaInferenceActor:
                 'max.in.flight.requests.per.connection': 5,
                 'compression.type': 'lz4'
             }
+
+            if self.config.ssl_ca_location:
+                producer_config['ssl.ca.location'] = self.config.ssl_ca_location
             
             self.consumer = Consumer(consumer_config)
             self.producer = Producer(producer_config)
@@ -124,10 +136,34 @@ class KafkaInferenceActor:
             raise
     
     def _initialize_predictor(self):
-        """Get handle to Ray Serve predictor deployment."""
+        """Initialize predictor client.
+
+        This consumer is designed to run in a Ray cluster that may be different from the
+        Ray Serve cluster that exposes the HTTP route (e.g. /infer). For that reason,
+        we default to HTTP calls instead of `serve.get_deployment(...).get_handle()`.
+        """
         try:
-            self.predictor_handle = serve.get_deployment("Predictor").get_handle()
-            self.logger.info(f"Actor {self.actor_id} connected to Ray Serve predictor")
+            if not self.config.ray_serve_url:
+                raise ValueError(
+                    "Missing RAY_SERVE_URL (e.g. http://model-serving-serve-svc.ray.svc.cluster.local:8000/infer)"
+                )
+
+            self._http = httpx.Client(timeout=self.config.ray_serve_timeout_s)
+
+            # Optional quick health check
+            healthz = self.config.ray_serve_url.rstrip('/') + '/healthz'
+            try:
+                r = self._http.get(healthz)
+                if r.status_code >= 400:
+                    self.logger.warning(
+                        f"Ray Serve health check non-200: {r.status_code} body={r.text[:200]}"
+                    )
+            except Exception as e:
+                self.logger.warning(f"Ray Serve health check failed: {e}")
+
+            self.logger.info(
+                f"Actor {self.actor_id} configured to call Ray Serve via HTTP: {self.config.ray_serve_url}"
+            )
         except Exception as e:
             self.logger.error(f"Failed to get predictor handle: {e}")
             raise
@@ -178,7 +214,15 @@ class KafkaInferenceActor:
             Prediction result
         """
         try:
-            result = ray.get(self.predictor_handle.predict.remote(data))
+            if self._http is None:
+                raise RuntimeError("Predictor client not initialized")
+
+            payload = {"data": data}
+            resp = self._http.post(self.config.ray_serve_url, json=payload)
+            resp.raise_for_status()
+            result = resp.json()
+            if isinstance(result, dict) and result.get("error"):
+                raise RuntimeError(str(result.get("error")))
             return result
         except Exception as e:
             self.logger.error(f"Prediction failed: {e}")
@@ -298,6 +342,10 @@ def main():
     
     try:
         logger.info("Starting Kafka inference consumer")
+
+        if not ray.is_initialized():
+            # In RayJob contexts, connect to the in-cluster Ray runtime.
+            ray.init(address="auto")
         
         config = KafkaConfig()
         num_actors = int(os.getenv('NUM_ACTORS', '6'))
