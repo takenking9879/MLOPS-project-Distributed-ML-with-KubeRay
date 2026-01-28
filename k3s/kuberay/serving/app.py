@@ -74,7 +74,12 @@ class _ModelRuntime:
         bucket = os.getenv("S3_BUCKET_NAME", "k8s-mlops-platform-bucket")
         framework = str(config.get("framework", os.getenv("FRAMEWORK", "xgboost")))
         model_key = str(config.get("model_key", os.getenv("MODEL_KEY", f"models/model_{framework}.pkl")))
-        artifacts_key = str(config.get("artifacts_key", os.getenv("ARTIFACTS_KEY", "processed/pipeline_model.json")))
+        artifacts_key = str(
+            config.get(
+                "artifacts_key",
+                os.getenv("ARTIFACTS_KEY", "v1/artifacts/pipeline_model.json"),
+            )
+        )
         self._spec = ModelSpec(framework=framework, model_key=model_key, artifacts_key=artifacts_key)
 
         self._store = S3Store(bucket=bucket)
