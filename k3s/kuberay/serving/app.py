@@ -13,8 +13,8 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from k3s.kuberay.utils import create_logger
-from k3s.kuberay.inference.modules.preprocessor import InferencePreprocessor
-from k3s.kuberay.inference.modules.xgboost import XGBoostHandler
+from k3s.kuberay.serving.modules.preprocessor import InferencePreprocessor
+from k3s.kuberay.serving.modules.xgboost import XGBoostHandler
 
 
 @dataclass(frozen=True)
