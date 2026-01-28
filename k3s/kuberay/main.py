@@ -103,7 +103,7 @@ class KubeRayTraining(BaseUtils):
                 target_file = "model.ubj"
             elif framework == "pytorch":
                 target_file = "model.pt"
-                
+
             key_in = os.path.join(prefix_in, target_file)
 
             # 3. Leer directamente de S3 a memoria
@@ -245,11 +245,15 @@ class KubeRayTraining(BaseUtils):
 
             # XGBoost specific tuned params
             if framework == "xgboost":
+                if best_params is None:
+                    best_params = dict(XGBOOST_PARAMS)
                 best_params['num_boost_round'] = XGBOOST_PARAMS['num_boost_round']
                 train_kwargs["xgboost_params"] = best_params
 
             # PyTorch specific tuned params
             if framework == "pytorch":
+                if best_params is None:
+                    best_params = dict(PYTORCH_PARAMS)
                 best_params['max_epochs'] = PYTORCH_PARAMS['max_epochs']
                 train_kwargs["pytorch_params"] = best_params
 
