@@ -10,7 +10,7 @@ import ray
 from ray import tune
 from ray.train.torch import TorchTrainer
 from ray.train import ScalingConfig
-from ray.tune import RunConfig
+from ray.train import RunConfig
 from ray.tune.schedulers import ASHAScheduler, ResourceChangingScheduler
 from typing import Dict
 
