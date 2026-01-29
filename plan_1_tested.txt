@@ -1,0 +1,70 @@
+Plan 1 — Tested (steps I executed, from TCP ConfigMap to verifying docker logs)
+
+1) Create TCP ConfigMap (maps external port 9094 -> kafka bootstrap:9092)
+
+kubectl apply -f k3s/ingress/tcp-configmap.yaml
+
+(File content used in my run:)
+# TCP ConfigMap for NGINX Ingress Controller
+# Exposes Kafka bootstrap service on port 9094
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+data:
+  "9094": "kafka/my-kafka-cluster-kafka-plain-bootstrap:9092"
+
+2) Add tcp-services-configmap arg to ingress controller (patch)
+
+kubectl patch deployment ingress-nginx-controller -n ingress-nginx \
+  --type='json' \
+  -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--tcp-services-configmap=$(POD_NAMESPACE)/tcp-services"}]'
+
+3) Add port 9094 to ingress controller container and service (patches)
+
+kubectl patch deployment ingress-nginx-controller -n ingress-nginx \
+  --type='json' \
+  -p='[{"op":"add","path":"/spec/template/spec/containers/0/ports/-","value":{"containerPort":9094,"name":"kafka","protocol":"TCP"}}]'
+
+kubectl patch service ingress-nginx-controller -n ingress-nginx \
+  --type='json' \
+  -p='[{"op":"add","path":"/spec/ports/-","value":{"name":"kafka","port":9094,"targetPort":9094,"protocol":"TCP"}}]'
+
+4) Wait for rollout
+
+kubectl rollout status deployment ingress-nginx-controller -n ingress-nginx --timeout=120s
+
+5) Verify service exposes 9094
+
+kubectl get svc ingress-nginx-controller -n ingress-nginx
+# Expect a PORT entry with 9094 and an EXTERNAL-IP (LoadBalancer or localhost)
+
+6) Update local .env to use ingress endpoint (I left NodePort line commented)
+
+# NodePort directo (funciona desde Docker containers):
+# KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:32088
+# Ingress TCP (localhost:9094 expuesto via NGINX Ingress Controller):
+KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9094
+KAFKA_USERNAME=ml-platform
+KAFKA_PASSWORD=password
+KAFKA_TOPIC=topic-traffic
+
+7) Re-deploy producer image (build if needed) and run with .env
+
+# build (if needed)
+docker build -t k3s-kafka-producer ./producer
+
+# stop old container and run new one
+docker stop producer || true
+docker rm producer || true
+docker run -d --name producer --env-file .env --cpus="2" --memory="1g" k3s-kafka-producer
+
+8) Check logs to confirm messages delivered
+
+docker logs producer --tail 50 -f
+# look for lines like: "Message delivered to topic-traffic [x]"
+
+Notes / why patches were used in this run:
+- I created the ConfigMap first, then patched the controller to add the flag and expose the port (no Helm values file was supplied at install time). This required the ingress controller to rollout to pick up the new arg and port.
+- The above is minimal and works for development/local testing.

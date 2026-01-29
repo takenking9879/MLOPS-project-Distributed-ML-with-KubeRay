@@ -1,0 +1,101 @@
+Plan 2 — Proposal (configure ingress-nginx at install time — avoid later patches/rollout)
+
+Goal: install ingress-nginx with TCP proxy configured from the start so no manual `kubectl patch` nor rollout is required.
+
+A) Create a TCP ConfigMap BEFORE installing the chart (so the chart can reference it immediately)
+
+kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
+kubectl create configmap tcp-services -n ingress-nginx \
+  --from-literal="9094=kafka/my-kafka-cluster-kafka-plain-bootstrap:9092"
+
+B) Provide a values file to Helm that tells the controller to use that ConfigMap and to expose port 9094 on the controller Service/container.
+
+Create `ingress-values.yaml` with (example):
+
+controller:
+  extraArgs:
+    # reference the ConfigMap created above: <namespace>/tcp-services
+    tcp-services-configmap: "ingress-nginx/tcp-services"
+  service:
+    # Ensure port 9094 is created on the controller Service
+    ports:
+      - name: http
+        port: 80
+      - name: https
+        port: 443
+      - name: kafka
+        port: 9094
+        targetPort: 9094
+  # expose the container port so the pod spec has the port defined
+  containerPorts:
+    kafka: 9094
+
+C) Install ingress-nginx referencing the values file
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  -f ingress-values.yaml
+
+D) Verify controller is ready and 9094 is exposed (no need to patch or rollout)
+
+kubectl get pods -n ingress-nginx
+kubectl get svc ingress-nginx-controller -n ingress-nginx
+# Look for PORT 9094 and EXTERNAL-IP
+
+E) Deploy Strimzi and Kafka resources (in parallel or after ingress ready)
+
+helm repo add strimzi https://strimzi.io/charts
+kubectl create namespace kafka
+helm upgrade --install my-strimzi-kafka-operator strimzi/strimzi-kafka-operator --version 0.49.1 -n kafka
+kubectl apply -f k3s/kafka/kafka-cluster.yaml
+kubectl apply -f k3s/kafka/kafka-topics.yaml
+kubectl apply -f k3s/kafka/kafka-user.yaml
+
+F) Update `.env` (keep NodePort note as comment) and run producer
+
+# in .env (example)
+# NodePort directo (funciona desde Docker containers):
+# KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:32088
+# Ingress TCP (localhost:9094 expuesto via NGINX Ingress Controller):
+KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9094
+
+# Build and run producer
+docker build -t k3s-kafka-producer ./producer
+docker run -d --name producer --env-file .env --cpus="2" --memory="1g" k3s-kafka-producer
+
+G) Confirm
+
+docker logs producer --tail 50 -f
+# look for: "Message delivered to topic-traffic [x]"
+
+Notes and alternatives:
+- Some ingress-nginx chart versions provide a `controller.tcp`/`tcp` value to populate the tcp-configmap automatically. If your chart supports `controller.tcp` you can instead put the mapping into the values file and avoid creating the ConfigMap separately.
+- For production, consider using Strimzi's native `ingress` listener (type: ingress) with TLS passthrough (requires TLS and controller configured with --enable-ssl-passthrough). That is more complex but integrates better with Strimzi (use `spec.kafka.listeners` with `type: ingress`).
+- If you prefer not to expose cluster LoadBalancer ports on the host, you can use `kubectl port-forward` from the bootstrap service locally, but that is only local and not reachable from Docker containers unless you use host networking or other tricks.
+
+If you want, I can generate `ingress-values.yaml` and the `kubectl create` commands as an executable script (`bootstrap_kafka_ingress.sh`) to automate these steps.
+
+
+AQUI ABAJO PONGO YA EL PLAN MÁS RESUMIDO, MAÑANA LO PRUEBO
+
+# Precreate namespace and ConfigMap so the Helm chart can reference it immediately
+kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
+kubectl apply -f k3s/ingress/tcp-configmap.yaml
+
+# Install ingress-nginx with the prepared values file
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  -f k3s/ingress/ingress-values.yaml
+
+# Install Strimzi and Kafka (same as before)
+helm repo add strimzi https://strimzi.io/charts
+kubectl create namespace kafka
+helm upgrade --install my-strimzi-kafka-operator strimzi/strimzi-kafka-operator --version 0.49.1 -n kafka
+
+kubectl apply -f k3s/kafka/kafka-cluster.yaml
+kubectl apply -f k3s/kafka/kafka-topics.yaml
+kubectl apply -f k3s/kafka/kafka-user.yaml

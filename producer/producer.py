@@ -80,31 +80,14 @@ class KafkaProducer:
 
         # Apply security settings based on environment
         if self.kafka_username and self.kafka_password:
-            # Use provided security.protocol if set, otherwise default to SASL_SSL
-            self.producer_config['security.protocol'] = self.kafka_security_protocol or 'SASL_SSL'
+            # Use provided security.protocol if set, otherwise default to SASL_PLAINTEXT
+            self.producer_config['security.protocol'] = self.kafka_security_protocol or 'SASL_PLAINTEXT'
             # SASL mechanism from env (e.g. PLAIN, SCRAM-SHA-512)
             self.producer_config['sasl.mechanism'] = self.kafka_sasl_mechanism
             self.producer_config['sasl.username'] = self.kafka_username
             self.producer_config['sasl.password'] = self.kafka_password
 
-            # If using SSL-based protocol and a truststore is provided as BASE64, write it to a temp file
-            if 'SSL' in self.producer_config['security.protocol']:
-                trust_path = None
-                if self.kafka_truststore_path:
-                    trust_path = self.kafka_truststore_path
-                elif self.kafka_truststore_base64:
-                    # decode to a temp file
-                    trust_path = '/tmp/kafka_truststore.pem'
-                    try:
-                        decoded = base64.b64decode(self.kafka_truststore_base64)
-                        Path(trust_path).write_bytes(decoded)
-                    except Exception as e:
-                        logger.error(f'Failed to write truststore file: {e}')
-                        trust_path = None
-
-                if trust_path:
-                    # confluent-kafka uses ssl.ca.location for CA cert file
-                    self.producer_config['ssl.ca.location'] = trust_path
+            
         else:
             self.producer_config['security.protocol'] = self.kafka_security_protocol or 'PLAINTEXT'
         
@@ -177,4 +160,4 @@ class KafkaProducer:
 
 if __name__ == "__main__":
     producer = KafkaProducer(start_ts="2026-01-12 18:00:00")
-    producer.run_continuous_production(trend='normal')
+    producer.run_continuous_production(trend='normal', interval=0.2)

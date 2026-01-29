@@ -1,0 +1,13 @@
+controller:
+  ingressClassResource:
+    enabled: true
+    name: nginx
+  service:
+    type: LoadBalancer
+    ports:
+      http: 80
+      https: 443
+
+# Configuración TCP - Helm maneja todo automáticamente
+tcp:
+  9094: "kafka/my-kafka-cluster-kafka-plain-bootstrap:9092"

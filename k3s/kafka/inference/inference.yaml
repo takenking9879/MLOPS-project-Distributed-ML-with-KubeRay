@@ -8,7 +8,7 @@ spec:
   
   # Para streaming continuo, queremos que el job corra indefinidamente
   shutdownAfterJobFinishes: false
-  ttlSecondsAfterFinished: 10000  # 24h después de que termine (si llega a terminar)
+  # Note: when shutdownAfterJobFinishes=false, ttlSecondsAfterFinished is not allowed.
   
   runtimeEnvYAML: |
     env_vars:

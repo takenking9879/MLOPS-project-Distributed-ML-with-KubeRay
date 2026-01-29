@@ -2,6 +2,7 @@ apiVersion: access.strimzi.io/v1alpha1
 kind: KafkaAccess
 metadata:
   name: my-kafka-access
+  namespace: strimzi-access-operator
 spec:
   kafka:
     name: my-kafka-cluster

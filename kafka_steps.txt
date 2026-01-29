@@ -30,11 +30,8 @@ kubectl get kafkausers ml-platform -o yaml -n strimzi-access-operator
 kubectl create -f k3s/kafka/./install/access-operator
 
 #Create Access
-kubectl apply -f k3s/kafka/kafka-access.yaml -n strimzi-access-operator
+kubectl apply -f k3s/kafka/kafka-access.yaml
 kubectl get kafkaaccess my-kafka-access -o yaml -n strimzi-access-operator
-
-kubectl get secret my-kafka-access -o yaml -n strimzi-access-operator
-#Importante: Pasar de 64 a normal y checar kafka UI
 
 
 # Generar y Correr el producer
@@ -49,4 +46,5 @@ docker run -d \
   --memory="1g" \
   k3s-kafka-producer 
 
+# UI de kafka
 kubectl apply -f k3s/kafka/kafka-ui.yaml

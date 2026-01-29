@@ -3,3 +3,12 @@
 # Instalar el controller ingress
 helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
 helm upgrade --install platform-ingress ./k3s/ingress -f k3s/ingress/values.yaml
+
+
+#New steps for adding ingress to kafka (for receiving external messages):
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  -f k3s/ingress-controller/ingress-values.yaml
+
+helm upgrade --install platform-ingress ./k3s/ingress -f k3s/ingress/values.yaml
